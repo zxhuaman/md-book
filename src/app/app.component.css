@@ -38,13 +38,13 @@
 }
 
 .render::-webkit-scrollbar, .edit::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
   background-color: #e5e5e5;
 }
 
 .render::-webkit-scrollbar-thumb, .edit::-webkit-scrollbar-thumb {
   background-color: #b7b7b7;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 .render::-webkit-scrollbar-thumb:hover, .edit::-webkit-scrollbar-thumb:hover {
