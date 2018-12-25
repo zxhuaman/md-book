@@ -1,0 +1,19 @@
+.book-panel {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.edit,
+.render {
+  flex: 1;
+  height: 100%;
+}
+
+.edit {
+  border: none;
+  outline: none;
+}
+
+
+
