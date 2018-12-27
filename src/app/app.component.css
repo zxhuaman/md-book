@@ -1,10 +1,10 @@
 .tool-bar {
   height: 3em;
   width: 100%;
-  background-color: #b7b7b7;
   position: absolute;
   top: 0;
   left: 0;
+  padding: 3px;
 }
 
 .tool-item {
@@ -13,21 +13,18 @@
   background: none;
   border: none;
   height: 100%;
+  outline: none;
+  text-align: center;
 }
 
-/*
-.italic {
-  font-style: italic;
+.tool-item:hover {
+  background-color: #e5e5e5;
+  border-radius: 2px;
 }
 
-.underline {
-  text-decoration: underline;
+.tool-item > img {
+  height: 45%;
 }
-
-.line-through {
-  text-decoration: line-through;
-}
-*/
 
 .book-panel {
   display: flex;
