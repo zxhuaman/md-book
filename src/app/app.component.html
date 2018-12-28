@@ -1,68 +1,11 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 <div class="tool-bar">
-  <button class="tool-item" *ngFor="let tool of tools" title="{{tool.title}}">
+  <button class="tool-item" *ngFor="let tool of tools" title="{{tool.title}}" (click)="onClickTool(tool)">
     <img src="../assets/{{tool.operation}}.png" alt="{{tool.title}}">
   </button>
-  <!--<button class="tool-item" title="斜体">
-    <img src="../assets/italic.png" alt="斜体">
-  </button>
-  <button class="tool-item" title="标题">
-    <img src="../assets/header.png" alt="标题">
-  </button>
-  <button class="tool-item" title="下划线">
-    <img src="../assets/underline.png" alt="下划线">
-  </button>
-  <button class="tool-item" title="中划线">
-    <img src="../assets/strikethrough.png" alt="中划线">
-  </button>
-  <button class="tool-item" title="标记">
-    <img src="../assets/mark.png" alt="标记">
-  </button>
-  <button class="tool-item" title="无序列表">
-    <img src="../assets/unordered_list.png" alt="无序列表">
-  </button>
-  <button class="tool-item" title="有序列表">
-    <img src="../assets/ordered_list.png" alt="有序列表">
-  </button>
-  <button class="tool-item" title="引号">
-    <img src="../assets/quote.png" alt="引号">
-  </button>
-  <button class="tool-item" title="表格">
-    <img src="../assets/table.png" alt="表格">
-  </button>
-  <button class="tool-item" title="居中">
-    <img src="../assets/align_center.png" alt="居中">
-  </button>
-  <button class="tool-item" title="左边对齐">
-    <img src="../assets/align_left.png" alt="左边对齐">
-  </button>
-  <button class="tool-item" title="右边对齐">
-    <img src="../assets/align_right.png" alt="右边对齐">
-  </button>
-  <button class="tool-item" title="删除">
-    <img src="../assets/delete.png" alt="删除">
-  </button>
-  <button class="tool-item" title="链接">
-    <img src="../assets/link.png" alt="链接">
-  </button>
-  <button class="tool-item" title="图片">
-    <img src="../assets/image.png" alt="图片">
-  </button>
-  <button class="tool-item" title="代码块">
-    <img src="../assets/code.png" alt="代码块">
-  </button>
-  <button class="tool-item" title="上一步">
-    <img src="../assets/next.png" alt="下一步">
-  </button>
-  <button class="tool-item" title="下一步">
-    <img src="../assets/previous.png" alt="下一步">
-  </button>
-  <button class="tool-item" title="帮助">
-    <img src="../assets/help.png" alt="帮助">
-  </button>-->
 </div>
 <div class="book-panel">
-  <textarea class="edit" (input)="onInput($event)"></textarea>
+  <textarea class="edit" (change)="onChange($event.target.value)"></textarea>
   <div class="render" [innerHTML]="renderHtml"></div>
 </div>

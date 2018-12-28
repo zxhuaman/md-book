@@ -1,12 +1,13 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Tool} from './tool';
+import {insertText} from './utils';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   readonly tools = [
     new Tool('粗体', 'bold'),
     new Tool('斜体', 'italic'),
@@ -35,8 +36,33 @@ export class AppComponent {
   // @ts-ignore
   private md = window.markdownit();
   renderHtml = '';
+  textarea: HTMLTextAreaElement;
 
-  onInput(ev: any): void {
+  ngOnInit(): void {
+    // @ts-ignore
+    this.textarea = document.getElementsByClassName('edit')[0];
+  }
+
+  /*onInput(ev: any): void {
     this.renderHtml = this.md.render(ev.target.value);
+  }*/
+
+  onChange(text: string) {
+    this.renderHtml = this.md.render(text);
+  }
+
+  onClickTool(tool: Tool): void {
+    let text: string;
+    switch (tool.operation) {
+      case 'bold':
+        text = '**粗体**';
+        break;
+      default:
+        break;
+    }
+
+    if (text) {
+      insertText(this.textarea, '**', '粗体', '**');
+    }
   }
 }
