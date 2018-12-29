@@ -1,8 +1,8 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 <div class="tool-bar">
-  <button class="tool-item" *ngFor="let tool of tools" title="{{tool.title}}" (click)="onClickTool(tool)">
-    <img src="../assets/{{tool.operation}}.png" alt="{{tool.title}}">
+  <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}" (click)="onClickTool(tool)">
+    <img src="../assets/{{tool.operation}}.png" i18n-alt alt="{{tool.title}}">
   </button>
 </div>
 <div class="book-panel">

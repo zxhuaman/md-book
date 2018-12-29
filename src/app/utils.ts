@@ -1,19 +1,24 @@
-export function insertText(textarea: HTMLTextAreaElement, prefix = '', text = '', suffix = '') {
+import {Insertion} from './insertion';
+
+export function insertText(textarea: HTMLTextAreaElement, insertion: Insertion) {
   textarea.focus();
   if (typeof textarea.selectionStart !== 'number' || typeof textarea.selectionEnd !== 'number') {
     alert('浏览器版本过低');
     return;
   }
 
+  const start = textarea.selectionStart;
   if (textarea.selectionStart === textarea.selectionEnd) {
-    const tmpValue = textarea.value;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    textarea.value = tmpValue.substring(0, start) + prefix + text + suffix + tmpValue.substring(end, tmpValue.length);
-    textarea.selectionStart = start + prefix.length;
-    textarea.selectionEnd = textarea.selectionStart + text.length;
+    insert(textarea, start, insertion.prefix + insertion.text + insertion.suffix);
+    textarea.selectionStart = start + insertion.prefix.length;
+    textarea.selectionEnd = textarea.selectionStart + insertion.text.length;
   } else {
-    // todo
+    let end = textarea.selectionEnd;
+    insert(textarea, start, insertion.prefix);
+    textarea.selectionStart = start + insertion.prefix.length;
+    end = end + insertion.prefix.length;
+    insert(textarea, end, insertion.suffix);
+    textarea.selectionEnd = end;
   }
   textarea.focus();
 }

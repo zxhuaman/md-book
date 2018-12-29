@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Tool} from './tool';
 import {insertText} from './utils';
+import {Insertion} from './insertion';
 
 @Component({
   selector: 'app-root',
@@ -43,26 +44,25 @@ export class AppComponent implements OnInit {
     this.textarea = document.getElementsByClassName('edit')[0];
   }
 
-  /*onInput(ev: any): void {
-    this.renderHtml = this.md.render(ev.target.value);
-  }*/
-
   onChange(text: string) {
     this.renderHtml = this.md.render(text);
   }
 
   onClickTool(tool: Tool): void {
-    let text: string;
+    let insertion: Insertion;
     switch (tool.operation) {
       case 'bold':
-        text = '**粗体**';
+        insertion = new Insertion('**', '粗体', '**');
+        break;
+      case 'italic':
+        insertion = new Insertion('*','斜体', '*');
         break;
       default:
         break;
     }
 
-    if (text) {
-      insertText(this.textarea, '**', '粗体', '**');
+    if (insertion) {
+      insertText(this.textarea, insertion);
     }
   }
 }
