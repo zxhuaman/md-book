@@ -26,7 +26,19 @@
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/markdown-it/dist/markdown-it.js",
+              "./node_modules/markdown-it-abbr/dist/markdown-it-abbr.js",
+              "./node_modules/markdown-it-container/dist/markdown-it-container.js",
+              "./node_modules/markdown-it-deflist/dist/markdown-it-deflist.js",
+              "./node_modules/markdown-it-emoji/dist/markdown-it-emoji.js",
+              "./node_modules/markdown-it-footnote/dist/markdown-it-footnote.js",
+              "./node_modules/markdown-it-ins/dist/markdown-it-ins.js",
+              "./node_modules/markdown-it-mark/dist/markdown-it-mark.js",
+              "./node_modules/markdown-it-sub/dist/markdown-it-sub.js",
+              "./node_modules/markdown-it-sup/dist/markdown-it-sup.js",
+              "./node_modules/markdown-it-task-lists/dist/markdown-it-task-lists.js"
+            ]
           },
           "configurations": {
             "production": {
