@@ -6,6 +6,7 @@
   left: 0;
   padding: 3px;
   box-shadow: 0 0 4px;
+  background-color: white;
 }
 
 .tool-item {
@@ -66,6 +67,24 @@
 .render::-webkit-scrollbar-thumb:active, .edit::-webkit-scrollbar-thumb:active {
   background-color: #a1a1a1;
 }
+
+.hljs {
+  border-radius: 4px;
+  padding: .5em;
+}
+
+.hljs-left {
+  text-align: left;
+}
+
+.hljs-right {
+  text-align: right;
+}
+
+.hljs-center {
+  text-align: center;
+}
+
 
 
 
