@@ -1,11 +1,20 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-<header class="tool-bar">
-  <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}" (click)="onClickTool(tool)">
-    <img src="../assets/{{tool.operation}}.png" i18n-alt alt="{{tool.title}}">
-  </button>
-</header>
-<div class="book-panel">
-  <textarea class="edit" (change)="onChange($event.target.value)"></textarea>
-  <div class="render" [innerHTML]="renderHtml"></div>
+
+<div class="page">
+  <nav>
+    <button class="more">
+      <img src="../assets/more.png" alt="">
+    </button>
+    <p class="name">Markdown Book</p>
+  </nav>
+  <header class="tool-bar">
+    <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}" (click)="onClickTool(tool)">
+      <img src="../assets/{{tool.operation}}.png" i18n-alt alt="{{tool.title}}">
+    </button>
+  </header>
+  <div class="book-panel">
+    <textarea class="edit" (change)="onChange($event.target.value)"></textarea>
+    <div class="render" [innerHTML]="renderHtml"></div>
+  </div>
 </div>

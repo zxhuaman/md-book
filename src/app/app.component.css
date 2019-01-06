@@ -1,10 +1,41 @@
+.page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  height: 50px;
+  background-color: #3c3f41;
+}
+
+.more {
+  height: 100%;
+  width: 2.3em;
+  text-align: center;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.more > img {
+  width: 100%;
+  margin-left: 1em;
+}
+
+.name {
+  text-align: center;
+  height: 100%;
+  display: inline;
+  color: white;
+  margin-left: 1em;
+}
+
 .tool-bar {
   height: 3em;
   width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
   padding: 3px;
+  margin-bottom: 4px;
   box-shadow: 0 0 4px;
   background-color: white;
 }
@@ -41,8 +72,9 @@
   flex: 1;
   height: 100%;
   overflow-y: auto;
-  margin-top: 4em;
-  margin-left: 1.5em;
+  padding: 0 1em;
+  font-size: 1.2rem;
+  font-family: Georgia, Cambria, serif;
 }
 
 .edit {
