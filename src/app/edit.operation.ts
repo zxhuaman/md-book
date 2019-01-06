@@ -35,16 +35,16 @@ export const EDIT_TOOLS = new Array(
   new Tool(Operation.MARK, '标记', '==', '标记', '=='),
   new Tool(Operation.SUPERSCRIPT, '上标', '^', '上标', '^'),
   new Tool(Operation.SUBSCRIPT, '下标', '~', '下标', '~'),
-  new Tool(Operation.ALIGN_LEFT, '左对齐', '\n\n::: hljs-left\n', '居左', '\n:::'),
-  new Tool(Operation.ALIGN_RIGHT, '右对齐', '\n\n::: hljs-right\n', '居右', '\n:::'),
-  new Tool(Operation.ALIGN_CENTER, '居中', '\n\n::: hljs-center\n', '居中', '\n:::'),
+  new Tool(Operation.ALIGN_LEFT, '左对齐', '\n::: hljs-left\n', '居左', '\n:::'),
+  new Tool(Operation.ALIGN_RIGHT, '右对齐', '\n::: hljs-right\n', '居右', '\n:::'),
+  new Tool(Operation.ALIGN_CENTER, '居中', '\n::: hljs-center\n', '居中', '\n:::'),
   new Tool(Operation.QUOTE, '引用', '>', '引用', ''),
   new Tool(Operation.ORDERED_LIST, '有序列表', '1.', '', ''),
   new Tool(Operation.UNORDERED_LIST, '无序列表', '- ', '', ''),
   new Tool(Operation.LINK, '链接', '', '', ''),
   new Tool(Operation.IMAGE, '图片', '', '', ''),
   new Tool(Operation.CODE, '代码块', '', '', ''),
-  new Tool(Operation.TABLE, '表格', '|column1|column2|column3|\n' +
+  new Tool(Operation.TABLE, '表格', '\n|column1|column2|column3|\n' +
     '|-|-|-|\n' +
     '|content1|content2|content3|\n', '', ''),
   new Tool(Operation.PREVIOUS, '上一步', '', '', ''),
