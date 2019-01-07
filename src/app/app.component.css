@@ -28,7 +28,7 @@ nav {
   height: 100%;
   color: white;
   margin-left: 1em;
-  font-family: Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif;;
+  font-family: Ubuntu Mono,Monaco;
 }
 
 .tool-bar {
@@ -73,8 +73,8 @@ nav {
   height: 100%;
   overflow-y: auto;
   padding: .5em 1em;
-  font-size: 1.2rem;
-  font-family: Georgia, Cambria, serif;
+  font-size: 1rem;
+  font-family: Ubuntu Mono,Monaco;
 }
 
 .edit {
