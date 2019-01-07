@@ -25,12 +25,23 @@ export class AppComponent implements OnInit {
     this.textarea = document.getElementsByClassName('edit')[0];
   }
 
-  onChange(text: string) {
+  render(text: string) {
     this.renderHtml = this.service.render(text);
+    console.log(text, this.renderHtml);
+  }
+
+  onInput(ev: any) {
+    if (ev.inputType !== 'insertCompositionText') {
+      this.render(ev.target.value);
+    }
+  }
+
+  onCompositionend(ev: any) {
+    this.render(ev.target.value);
   }
 
   onClickTool(tool: Tool): void {
     insertText(this.textarea, tool.prefix, tool.text, tool.suffix);
-    this.onChange(this.textarea.value);
+    this.render(this.textarea.value);
   }
 }

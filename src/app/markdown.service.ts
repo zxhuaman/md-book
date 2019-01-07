@@ -24,7 +24,7 @@ export class MarkdownService {
         } catch (__) {
         }
       }
-      return '<pre class="hljs"><code>' + this.md.utils.escapeHtml(str) + '</code></pre>';
+      return '<pre class="hljs"><code>' + str + '</code></pre>';
     }
   };
 

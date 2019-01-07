@@ -41,9 +41,9 @@ export const EDIT_TOOLS = new Array(
   new Tool(Operation.QUOTE, '引用', '>', '引用', ''),
   new Tool(Operation.ORDERED_LIST, '有序列表', '1.', '', ''),
   new Tool(Operation.UNORDERED_LIST, '无序列表', '- ', '', ''),
-  new Tool(Operation.LINK, '链接', '', '', ''),
-  new Tool(Operation.IMAGE, '图片', '', '', ''),
-  new Tool(Operation.CODE, '代码块', '', '', ''),
+  new Tool(Operation.LINK, '链接', '[](', '链接', ')'),
+  new Tool(Operation.IMAGE, '图片', '![](', '图片', ')'),
+  new Tool(Operation.CODE, '代码块', '```', 'language', '\n\n```\n'),
   new Tool(Operation.TABLE, '表格', '\n|column1|column2|column3|\n' +
     '|-|-|-|\n' +
     '|content1|content2|content3|\n', '', ''),

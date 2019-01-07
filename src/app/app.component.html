@@ -14,7 +14,9 @@
     </button>
   </header>
   <div class="book-panel">
-    <textarea class="edit" (change)="onChange($event.target.value)"></textarea>
+    <textarea class="edit"
+              (input)="onInput($event)"
+              (compositionend)="onCompositionend($event)"></textarea>
     <div class="render" [innerHTML]="renderHtml"></div>
   </div>
 </div>

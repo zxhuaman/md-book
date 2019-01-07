@@ -28,6 +28,7 @@ nav {
   height: 100%;
   color: white;
   margin-left: 1em;
+  font-family: Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif;;
 }
 
 .tool-bar {
@@ -82,9 +83,9 @@ nav {
   overflow: scroll;
 }
 
-.render > p {
+/*.render *:nth-child(1) {
   margin: 0;
-}
+}*/
 
 .render::-webkit-scrollbar, .edit::-webkit-scrollbar {
   width: 8px;
@@ -96,17 +97,31 @@ nav {
   border-radius: 4px;
 }
 
-.render::-webkit-scrollbar-thumb:hover, .edit::-webkit-scrollbar-thumb:hover {
+.hljs::-webkit-scrollbar {
+  height: 6px;
+  background-color: #e5e5e5;
+}
+
+.hljs::-webkit-scrollbar-thumb {
+  background-color: #b7b7b7;
+  border-radius: 3px;
+}
+
+.render::-webkit-scrollbar-thumb:hover,
+.edit::-webkit-scrollbar-thumb:hover,
+.hljs::-webkit-scrollbar-thumb:hover {
   background-color: #a1a1a1;
 }
 
-.render::-webkit-scrollbar-thumb:active, .edit::-webkit-scrollbar-thumb:active {
+.render::-webkit-scrollbar-thumb:active,
+.edit::-webkit-scrollbar-thumb:active,
+.hljs::-webkit-scrollbar-thumb:active {
   background-color: #a1a1a1;
 }
 
 .hljs {
-  border-radius: 4px;
-  padding: .5em;
+  border-radius: 2px;
+  padding: 1em;
 }
 
 .hljs-left {
