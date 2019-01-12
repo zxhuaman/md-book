@@ -1,4 +1,4 @@
-export function insertText(textarea: HTMLTextAreaElement, prefix = '', text = '', suffix = '') {
+export function insertText(textarea: HTMLTextAreaElement, prefix = '', text = '', suffix = ''): void {
   textarea.focus();
   if (typeof textarea.selectionStart !== 'number' || typeof textarea.selectionEnd !== 'number') {
     alert('浏览器版本过低');
@@ -25,3 +25,43 @@ const insert = (textarea: HTMLTextAreaElement, index: number, text: string) => {
   const tmpValue = textarea.value;
   textarea.value = tmpValue.substring(0, index) + text + tmpValue.substring(index, tmpValue.length);
 };
+
+export function toggleFullScreen(): void {
+  // @ts-ignore
+  if (!document.fullscreenElement &&
+    // @ts-ignore
+    !document.mozFullScreenElement && !document.webkitFullscreenElement) {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+      // @ts-ignore
+    } else if (document.documentElement.mozRequestFullScreen) {
+      // @ts-ignore
+      document.documentElement.mozRequestFullScreen();
+      // @ts-ignore
+    } else if (document.documentElement.webkitRequestFullscreen) {
+      // @ts-ignore
+      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+  } else {
+    // @ts-ignore
+    if (document.cancelFullScreen) {
+      // @ts-ignore
+      document.cancelFullScreen();
+      // @ts-ignore
+    } else if (document.mozCancelFullScreen) {
+      // @ts-ignore
+      document.mozCancelFullScreen();
+      // @ts-ignore
+    } else if (document.webkitCancelFullScreen) {
+      // @ts-ignore
+      document.webkitCancelFullScreen();
+    }
+  }
+}
+
+export function isFullScreen(): boolean {
+  // @ts-ignore
+  return !document.fullscreenElement &&
+    // @ts-ignore
+    !document.mozFullScreenElement && !document.webkitFullscreenElement;
+}

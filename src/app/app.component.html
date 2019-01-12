@@ -10,7 +10,7 @@
   </nav>
   <header class="tool-bar">
     <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}" (click)="onClickTool(tool)">
-      <img src="../assets/{{tool.operation}}.png" i18n-alt alt="{{tool.title}}">
+      <img src="../assets/{{tool.operation}}.png">
     </button>
   </header>
   <div class="book-panel">

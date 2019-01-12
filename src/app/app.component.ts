@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tool} from './tool';
-import {insertText} from './utils';
-import {EDIT_TOOLS} from './edit.operation';
+import {insertText, isFullScreen, toggleFullScreen} from './utils';
+import {EDIT_TOOLS, Operation} from './edit.operation';
 import {MarkdownService} from './markdown.service';
 
 
@@ -41,7 +41,32 @@ export class AppComponent implements OnInit {
   }
 
   onClickTool(tool: Tool): void {
-    insertText(this.textarea, tool.prefix, tool.text, tool.suffix);
-    this.render(this.textarea.value);
+    switch (tool.operation) {
+      case Operation.PREVIOUS:
+        break;
+      case Operation.NEXT:
+        break;
+      case Operation.DELETE:
+        this.textarea.value = '';
+        this.textarea.focus();
+        this.render(this.textarea.value);
+        break;
+      case Operation.FULLSCREEN:
+        toggleFullScreen();
+        if (isFullScreen()) {
+          tool.text = '全屏';
+          tool.title = '全屏';
+        } else {
+          tool.text = '退出全屏';
+          tool.title = '退出全屏';
+        }
+        break;
+      case Operation.PREVIEW:
+        break;
+      default:
+        insertText(this.textarea, tool.prefix, tool.text, tool.suffix);
+        this.render(this.textarea.value);
+        break;
+    }
   }
 }
