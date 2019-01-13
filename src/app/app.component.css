@@ -28,7 +28,7 @@ nav {
   height: 100%;
   color: white;
   margin-left: 1em;
-  font-family: Ubuntu Mono,Monaco;
+  font-family: Ubuntu Mono, Monaco;
 }
 
 .tool-bar {
@@ -38,6 +38,16 @@ nav {
   box-shadow: 0 0 4px;
   background-color: white;
   z-index: 1;
+  display: flex;
+}
+
+.left-bar {
+  flex: 1;
+}
+
+.right-bar {
+  flex: 1;
+  text-align: right;
 }
 
 .tool-item {
@@ -74,7 +84,7 @@ nav {
   overflow-y: auto;
   padding: .5em 1em;
   font-size: 1rem;
-  font-family: Ubuntu Mono,Monaco;
+  font-family: Ubuntu Mono, Monaco;
 }
 
 .edit {

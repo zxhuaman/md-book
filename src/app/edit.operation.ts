@@ -23,7 +23,9 @@ export enum Operation {
   NEXT = 'next',
   DELETE = 'delete',
   FULLSCREEN = 'fullscreen',
-  PREVIEW = 'preview'
+  FULLSCREEN_EXIT = 'fullscreen_exit',
+  PREVIEW = 'preview',
+  NO_PREVIEW = 'no_preview'
 }
 
 export const EDIT_TOOLS = new Array(
@@ -49,7 +51,10 @@ export const EDIT_TOOLS = new Array(
     '|content1|content2|content3|\n', '', ''),
   new Tool(Operation.PREVIOUS, '上一步', '', '', ''),
   new Tool(Operation.NEXT, '下一步', '', '', ''),
-  new Tool(Operation.DELETE, '删除', '', '', ''),
-  new Tool(Operation.FULLSCREEN, '全屏', '', '', ''),
-  new Tool(Operation.PREVIEW, '预览', '', '', '')
+  new Tool(Operation.DELETE, '删除', '', '', '')
 );
+
+export const FULLSCREEN_TOOL = new Tool(Operation.FULLSCREEN, '全屏', '', '', '');
+export const PREVIEW_TOOL = new Tool(Operation.PREVIEW, '预览', '', '', '');
+export const NO_PREVIEW_TOOL = new Tool(Operation.NO_PREVIEW, '取消预览', '', '', '');
+export const FULLSCREEN_EXIT_TOOL = new Tool(Operation.FULLSCREEN_EXIT, '退出全屏', '', '', '');

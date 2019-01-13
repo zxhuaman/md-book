@@ -61,7 +61,7 @@ export function toggleFullScreen(): void {
 
 export function isFullScreen(): boolean {
   // @ts-ignore
-  return !document.fullscreenElement &&
+  return document.fullscreenElement ||
     // @ts-ignore
-    !document.mozFullScreenElement && !document.webkitFullscreenElement;
+    document.mozFullScreenElement || document.webkitFullscreenElement;
 }

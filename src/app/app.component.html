@@ -9,9 +9,22 @@
     <span class="name">Markdown Book</span>
   </nav>
   <header class="tool-bar">
-    <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}" (click)="onClickTool(tool)">
-      <img src="../assets/{{tool.operation}}.png">
-    </button>
+    <div class="left-bar">
+      <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}"
+              (click)="onClickTool(tool)">
+        <img src="../assets/{{tool.operation}}.png">
+      </button>
+    </div>
+    <div class="right-bar">
+      <button class="tool-item" i18n-title title="{{fullscreenTool.title}}"
+              (click)="onClickTool(fullscreenTool)">
+        <img src="../assets/{{fullscreenTool.operation}}.png">
+      </button>
+      <button class="tool-item" i18n-title title="{{previewTool.title}}"
+              (click)="onClickTool(previewTool)">
+        <img src="../assets/{{previewTool.operation}}.png">
+      </button>
+    </div>
   </header>
   <div class="book-panel">
     <textarea class="edit"

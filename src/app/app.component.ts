@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tool} from './tool';
 import {insertText, isFullScreen, toggleFullScreen} from './utils';
-import {EDIT_TOOLS, Operation} from './edit.operation';
+import {EDIT_TOOLS, FULLSCREEN_EXIT_TOOL, FULLSCREEN_TOOL, NO_PREVIEW_TOOL, Operation, PREVIEW_TOOL} from './edit.operation';
 import {MarkdownService} from './markdown.service';
 
 
@@ -15,8 +15,10 @@ export class AppComponent implements OnInit {
   renderHtml = '';
   textarea: HTMLTextAreaElement;
   tools: Array<Tool> = EDIT_TOOLS;
+  fullscreenTool: Tool = FULLSCREEN_TOOL;
+  previewTool: Tool = PREVIEW_TOOL;
 
-  constructor(private service: MarkdownService) {
+  constructor(private service: MarkdownService,) {
   }
 
 
@@ -52,16 +54,15 @@ export class AppComponent implements OnInit {
         this.render(this.textarea.value);
         break;
       case Operation.FULLSCREEN:
+      case Operation.FULLSCREEN_EXIT:
         toggleFullScreen();
-        if (isFullScreen()) {
-          tool.text = '全屏';
-          tool.title = '全屏';
-        } else {
-          tool.text = '退出全屏';
-          tool.title = '退出全屏';
-        }
+        this.fullscreenTool = isFullScreen() ? FULLSCREEN_TOOL : FULLSCREEN_EXIT_TOOL;
+        break;
+      case Operation.NO_PREVIEW:
+        this.previewTool = PREVIEW_TOOL;
         break;
       case Operation.PREVIEW:
+        this.previewTool = NO_PREVIEW_TOOL;
         break;
       default:
         insertText(this.textarea, tool.prefix, tool.text, tool.suffix);
