@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tool} from './tool';
-import {insertText, isFullScreen, toggleFullScreen} from './utils';
+import {insert, insertText, isFullScreen, toggleFullScreen} from './utils';
 import {EDIT_TOOLS, FULLSCREEN_EXIT_TOOL, FULLSCREEN_TOOL, NO_PREVIEW_TOOL, Operation, PREVIEW_TOOL} from './edit.operation';
 import {MarkdownService} from './markdown.service';
 import {trigger, state, style, transition, animate} from '@angular/animations';
@@ -26,21 +26,14 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
   ]
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
   renderHtml = '';
-  textarea: HTMLTextAreaElement;
   tools: Array<Tool> = EDIT_TOOLS;
   fullscreenTool: Tool = FULLSCREEN_TOOL;
   previewTool: Tool = PREVIEW_TOOL;
   isOpen = true;
 
   constructor(private service: MarkdownService,) {
-  }
-
-
-  ngOnInit(): void {
-    // @ts-ignore
-    this.textarea = document.getElementsByClassName('edit')[0];
   }
 
   render(text: string) {
@@ -53,20 +46,20 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onCompositionend(ev: any) {
-    this.render(ev.target.value);
+  onCompositionend(text: string) {
+    this.render(text);
   }
 
-  onClickTool(tool: Tool): void {
+  onClickTool(editor: HTMLTextAreaElement, tool: Tool): void {
     switch (tool.operation) {
       case Operation.PREVIOUS:
         break;
       case Operation.NEXT:
         break;
       case Operation.DELETE:
-        this.textarea.value = '';
-        this.textarea.focus();
-        this.render(this.textarea.value);
+        editor.value = '';
+        editor.focus();
+        this.render(editor.value);
         break;
       case Operation.FULLSCREEN:
       case Operation.FULLSCREEN_EXIT:
@@ -74,22 +67,17 @@ export class AppComponent implements OnInit {
         this.fullscreenTool = isFullScreen() ? FULLSCREEN_TOOL : FULLSCREEN_EXIT_TOOL;
         break;
       case Operation.NO_PREVIEW:
-        this.previewTool = PREVIEW_TOOL;
-        this.toggle();
-        break;
       case Operation.PREVIEW:
-        this.previewTool = NO_PREVIEW_TOOL;
-        this.toggle();
+        this.previewTool = this.isOpen ? NO_PREVIEW_TOOL : PREVIEW_TOOL;
+        this.isOpen = !this.isOpen;
         break;
       default:
-        insertText(this.textarea, tool.prefix, tool.text, tool.suffix);
-        this.render(this.textarea.value);
+        insertText(editor, tool.prefix, tool.text, tool.suffix);
+        this.render(editor.value);
         break;
     }
   }
 
-  toggle() {
-    console.log(this.isOpen);
-    this.isOpen = !this.isOpen;
+  onEnter(editor: HTMLTextAreaElement) {
   }
 }

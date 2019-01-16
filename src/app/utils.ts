@@ -21,7 +21,7 @@ export function insertText(textarea: HTMLTextAreaElement, prefix = '', text = ''
   textarea.focus();
 }
 
-const insert = (textarea: HTMLTextAreaElement, index: number, text: string) => {
+export const insert = (textarea: HTMLTextAreaElement, index: number, text: string) => {
   const tmpValue = textarea.value;
   textarea.value = tmpValue.substring(0, index) + text + tmpValue.substring(index, tmpValue.length);
 };
