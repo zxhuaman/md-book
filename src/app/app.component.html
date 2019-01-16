@@ -4,7 +4,7 @@
 <div class="page">
   <nav>
     <button class="more">
-      <img src="../assets/more.png" alt="">
+      <img src="assets/more.png" alt="">
     </button>
     <span class="name">Markdown Book</span>
   </nav>
@@ -12,17 +12,17 @@
     <div class="left-bar">
       <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}"
               (click)="onClickTool(tool)">
-        <img src="../assets/{{tool.operation}}.png">
+        <img src="assets/{{tool.operation}}.png">
       </button>
     </div>
     <div class="right-bar">
       <button class="tool-item" i18n-title title="{{fullscreenTool.title}}"
               (click)="onClickTool(fullscreenTool)">
-        <img src="../assets/{{fullscreenTool.operation}}.png">
+        <img src="assets/{{fullscreenTool.operation}}.png">
       </button>
       <button class="tool-item" i18n-title title="{{previewTool.title}}"
               (click)="onClickTool(previewTool)">
-        <img src="../assets/{{previewTool.operation}}.png">
+        <img src="assets/{{previewTool.operation}}.png">
       </button>
     </div>
   </header>

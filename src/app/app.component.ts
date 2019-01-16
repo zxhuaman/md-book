@@ -29,7 +29,6 @@ export class AppComponent implements OnInit {
 
   render(text: string) {
     this.renderHtml = this.service.render(text);
-    console.log(text, this.renderHtml);
   }
 
   onInput(ev: any) {

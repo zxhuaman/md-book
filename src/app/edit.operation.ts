@@ -31,7 +31,7 @@ export enum Operation {
 export const EDIT_TOOLS = new Array(
   new Tool(Operation.BOLD, '粗体', '**', '粗体', '**'),
   new Tool(Operation.ITALIC, '斜体', '*', '斜体', '*'),
-  new Tool(Operation.HEADER, '标题', '', '', ''),
+  new Tool(Operation.HEADER, '标题', '# ', '', ''),
   new Tool(Operation.UNDERLINE, '下划线', '++', '下划线', '++'),
   new Tool(Operation.STRIKETHROUGH, '中划线', '~~', '中划线', '~~'),
   new Tool(Operation.MARK, '标记', '==', '标记', '=='),
