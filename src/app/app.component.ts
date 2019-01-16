@@ -3,20 +3,36 @@ import {Tool} from './tool';
 import {insertText, isFullScreen, toggleFullScreen} from './utils';
 import {EDIT_TOOLS, FULLSCREEN_EXIT_TOOL, FULLSCREEN_TOOL, NO_PREVIEW_TOOL, Operation, PREVIEW_TOOL} from './edit.operation';
 import {MarkdownService} from './markdown.service';
-
+import {trigger, state, style, transition, animate} from '@angular/animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
+  animations: [
+    trigger('openClose', [
+      state('open', style({
+          flex: 1
+        }
+      )),
+      state('closed', style({
+        flex: 0,
+        padding: 0
+      })),
+      transition('open => closed', [animate('0.3s')]),
+      transition('closed => open', [animate('0.3s')])
+    ])
+  ]
 })
+
 export class AppComponent implements OnInit {
   renderHtml = '';
   textarea: HTMLTextAreaElement;
   tools: Array<Tool> = EDIT_TOOLS;
   fullscreenTool: Tool = FULLSCREEN_TOOL;
   previewTool: Tool = PREVIEW_TOOL;
+  isOpen = true;
 
   constructor(private service: MarkdownService,) {
   }
@@ -59,14 +75,21 @@ export class AppComponent implements OnInit {
         break;
       case Operation.NO_PREVIEW:
         this.previewTool = PREVIEW_TOOL;
+        this.toggle();
         break;
       case Operation.PREVIEW:
         this.previewTool = NO_PREVIEW_TOOL;
+        this.toggle();
         break;
       default:
         insertText(this.textarea, tool.prefix, tool.text, tool.suffix);
         this.render(this.textarea.value);
         break;
     }
+  }
+
+  toggle() {
+    console.log(this.isOpen);
+    this.isOpen = !this.isOpen;
   }
 }

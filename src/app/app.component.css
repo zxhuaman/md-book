@@ -93,10 +93,6 @@ nav {
   overflow: scroll;
 }
 
-/*.render *:nth-child(1) {
-  margin: 0;
-}*/
-
 .render::-webkit-scrollbar, .edit::-webkit-scrollbar {
   width: 8px;
   background-color: #e5e5e5;

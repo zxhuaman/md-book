@@ -30,6 +30,6 @@
     <textarea class="edit"
               (input)="onInput($event)"
               (compositionend)="onCompositionend($event)"></textarea>
-    <div class="render" [innerHTML]="renderHtml"></div>
+    <div class="render" [innerHTML]="renderHtml" [@openClose]="isOpen ? 'open':'closed'"></div>
   </div>
 </div>

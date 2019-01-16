@@ -12,7 +12,8 @@ import {MatIconModule} from '@angular/material';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    BrowserAnimationsModule
   ],
   exports: [
     MatIconModule
