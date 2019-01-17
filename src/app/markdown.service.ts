@@ -60,4 +60,19 @@ export class MarkdownService {
   render(text: string): string {
     return this.md.render(text);
   }
+
+  switchHighLightStyle(styleName: string): void {
+    let link = document.getElementById('highlight-style');
+    if (!link) {
+      link = document.createElement('link');
+      link.id = 'highlight-style';
+      // @ts-ignore
+      link.rel = 'stylesheet';
+      // @ts-ignore
+      link.type = 'text/css';
+      document.getElementsByTagName('head')[0].append(link);
+    }
+    // @ts-ignore
+    link.href = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/${styleName}.min.css`;
+  }
 }
