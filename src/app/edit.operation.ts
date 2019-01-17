@@ -24,8 +24,9 @@ export enum Operation {
   DELETE = 'delete',
   FULLSCREEN = 'fullscreen',
   FULLSCREEN_EXIT = 'fullscreen_exit',
+  EDIT = 'edit',
   PREVIEW = 'preview',
-  NO_PREVIEW = 'no_preview',
+  READ = 'read',
   THEME = 'theme'
 }
 
@@ -50,13 +51,14 @@ export const EDIT_TOOLS = new Array(
   new Tool(Operation.TABLE, '表格', '\n|column1|column2|column3|\n' +
     '|-|-|-|\n' +
     '|content1|content2|content3|\n', '', ''),
-/*  new Tool(Operation.PREVIOUS, '上一步', '', '', ''),
-  new Tool(Operation.NEXT, '下一步', '', '', ''),*/
+  /*  new Tool(Operation.PREVIOUS, '上一步', '', '', ''),
+    new Tool(Operation.NEXT, '下一步', '', '', ''),*/
   new Tool(Operation.DELETE, '删除', '', '', '')
 );
 
 export const FULLSCREEN_TOOL = new Tool(Operation.FULLSCREEN, '全屏', '', '', '');
-export const PREVIEW_TOOL = new Tool(Operation.PREVIEW, '预览', '', '', '');
-export const NO_PREVIEW_TOOL = new Tool(Operation.NO_PREVIEW, '取消预览', '', '', '');
+export const EDIT_TOOL = new Tool(Operation.EDIT, '编辑模式', '', '', '');
+export const PREVIEW_TOOL = new Tool(Operation.PREVIEW, '预览模式', '', '', '');
+export const READ_TOOL = new Tool(Operation.READ, '阅读模式', '', '', '');
 export const FULLSCREEN_EXIT_TOOL = new Tool(Operation.FULLSCREEN_EXIT, '退出全屏', '', '', '');
-export const THEME_TOOL = new Tool(Operation.THEME, '主题', '', '', '');
+export const THEME_TOOL = new Tool(Operation.THEME, '代码主题', '', '', '');

@@ -1,7 +1,16 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tool} from './tool';
 import {insert, insertText, isFullScreen, toggleFullScreen} from './utils';
-import {EDIT_TOOLS, FULLSCREEN_EXIT_TOOL, FULLSCREEN_TOOL, NO_PREVIEW_TOOL, Operation, PREVIEW_TOOL, THEME_TOOL} from './edit.operation';
+import {
+  EDIT_TOOL,
+  EDIT_TOOLS,
+  FULLSCREEN_EXIT_TOOL,
+  FULLSCREEN_TOOL,
+  Operation,
+  PREVIEW_TOOL,
+  READ_TOOL,
+  THEME_TOOL
+} from './edit.operation';
 import {MarkdownService} from './markdown.service';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 
@@ -11,18 +20,42 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
   animations: [
-    trigger('openClose', [
-      state('open', style({
+    trigger('editPreview', [
+      state('edit', style({
+          flex: 0,
+          padding: 0
+        }
+      )),
+      state('preview', style({
+        flex: 1,
+      })),
+      transition('edit => preview', [animate('0.3s')]),
+      transition('preview => edit', [animate('0.3s')])
+    ]),
+    trigger('previewRead', [
+      state('preview', style({
           flex: 1
         }
       )),
-      state('closed', style({
+      state('read', style({
         flex: 0,
         padding: 0
       })),
-      transition('open => closed', [animate('0.3s')]),
-      transition('closed => open', [animate('0.3s')])
-    ])
+      transition('preview => read', [animate('0.3s')]),
+      transition('read => preview', [animate('0.3s')])
+    ]),
+    trigger('readEdit', [
+      state('read', style({
+          flex: 0,
+          padding: 0
+        }
+      )),
+      state('edit', style({
+        flex: 1,
+      })),
+      transition('read => edit', [animate('0.3s')]),
+      transition('edit => read', [animate('0.3s')])
+    ]),
   ]
 })
 
@@ -30,7 +63,7 @@ export class AppComponent implements OnInit {
   renderHtml = '';
   tools: Array<Tool> = EDIT_TOOLS;
   fullscreenTool: Tool = FULLSCREEN_TOOL;
-  previewTool: Tool = PREVIEW_TOOL;
+  modeTool: Tool = PREVIEW_TOOL;
   themeTool: Tool = THEME_TOOL;
   isOpen = true;
   styles: string[];
@@ -73,10 +106,14 @@ export class AppComponent implements OnInit {
         toggleFullScreen();
         this.fullscreenTool = isFullScreen() ? FULLSCREEN_TOOL : FULLSCREEN_EXIT_TOOL;
         break;
-      case Operation.NO_PREVIEW:
+      case Operation.EDIT:
+        this.modeTool = PREVIEW_TOOL;
+        break;
       case Operation.PREVIEW:
-        this.previewTool = this.isOpen ? NO_PREVIEW_TOOL : PREVIEW_TOOL;
-        this.isOpen = !this.isOpen;
+        this.modeTool = READ_TOOL;
+        break;
+      case Operation.READ:
+        this.modeTool = EDIT_TOOL;
         break;
       default:
         insertText(editor, tool.prefix, tool.text, tool.suffix);

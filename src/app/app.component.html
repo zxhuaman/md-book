@@ -20,9 +20,9 @@
               (click)="onClickTool(edit, fullscreenTool)">
         <img src="assets/{{fullscreenTool.operation}}.png">
       </button>
-      <button class="tool-item" i18n-title title="{{previewTool.title}}"
-              (click)="onClickTool(edit, previewTool)">
-        <img src="assets/{{previewTool.operation}}.png">
+      <button class="tool-item" i18n-title title="{{modeTool.title}}"
+              (click)="onClickTool(edit, modeTool)">
+        <img src="assets/{{modeTool.operation}}.png">
       </button>
       <button class="tool-item" i18n-title title="{{themeTool.title}}"
               [matMenuTriggerFor]="menu">
@@ -40,7 +40,10 @@
               (compositionend)="onCompositionend(edit.value)"
               (keyup.enter)="onEnter(edit)"
               spellcheck="false"
+              [@previewRead]="modeTool.operation"
+              [@readEdit]="modeTool.operation"
     ></textarea>
-    <div class="render" [innerHTML]="renderHtml" [@openClose]="isOpen ? 'open':'closed'"></div>
+    <div class="render" [innerHTML]="renderHtml"
+         [@editPreview]="modeTool.operation"></div>
   </div>
 </div>
