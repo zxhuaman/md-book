@@ -17,11 +17,11 @@
     </div>
     <div class="right-bar">
       <button class="tool-item" i18n-title title="{{fullscreenTool.title}}"
-              (click)="onClickTool(fullscreenTool)">
+              (click)="onClickTool(edit, fullscreenTool)">
         <img src="assets/{{fullscreenTool.operation}}.png">
       </button>
       <button class="tool-item" i18n-title title="{{previewTool.title}}"
-              (click)="onClickTool(previewTool)">
+              (click)="onClickTool(edit, previewTool)">
         <img src="assets/{{previewTool.operation}}.png">
       </button>
     </div>
