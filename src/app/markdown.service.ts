@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import hljs from 'highlight.js';
+import {Observable} from 'rxjs';
+import {HIGHLIGHT_STYLES} from './highlight.styles';
 
 @Injectable({
   providedIn: 'root'
@@ -74,5 +76,9 @@ export class MarkdownService {
     }
     // @ts-ignore
     link.href = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/${styleName}.min.css`;
+  }
+
+  getHighLightSytles(): string[] {
+    return HIGHLIGHT_STYLES;
   }
 }

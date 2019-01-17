@@ -41,7 +41,7 @@ export const EDIT_TOOLS = new Array(
   new Tool(Operation.ALIGN_RIGHT, '右对齐', '\n::: hljs-right\n', '居右', '\n:::'),
   new Tool(Operation.ALIGN_CENTER, '居中', '\n::: hljs-center\n', '居中', '\n:::'),
   new Tool(Operation.QUOTE, '引用', '>', '引用', ''),
-  new Tool(Operation.ORDERED_LIST, '有序列表', '1.', '', ''),
+  new Tool(Operation.ORDERED_LIST, '有序列表', '1. ', '', ''),
   new Tool(Operation.UNORDERED_LIST, '无序列表', '- ', '', ''),
   new Tool(Operation.LINK, '链接', '[](', '链接', ')'),
   new Tool(Operation.IMAGE, '图片', '![](', '图片', ')'),
@@ -49,8 +49,8 @@ export const EDIT_TOOLS = new Array(
   new Tool(Operation.TABLE, '表格', '\n|column1|column2|column3|\n' +
     '|-|-|-|\n' +
     '|content1|content2|content3|\n', '', ''),
-  new Tool(Operation.PREVIOUS, '上一步', '', '', ''),
-  new Tool(Operation.NEXT, '下一步', '', '', ''),
+/*  new Tool(Operation.PREVIOUS, '上一步', '', '', ''),
+  new Tool(Operation.NEXT, '下一步', '', '', ''),*/
   new Tool(Operation.DELETE, '删除', '', '', '')
 );
 

@@ -33,7 +33,7 @@ export class AppComponent {
   previewTool: Tool = PREVIEW_TOOL;
   isOpen = true;
 
-  constructor(private service: MarkdownService,) {
+  constructor(private service: MarkdownService) {
   }
 
   render(text: string) {
@@ -79,5 +79,24 @@ export class AppComponent {
   }
 
   onEnter(editor: HTMLTextAreaElement) {
+    const textLines = editor.value.substr(0, editor.selectionStart).split('\n');
+    const currentLineNumber = textLines.length;
+    if (currentLineNumber > 1) {
+      const previousLine = editor.value.split('\n')[currentLineNumber - 2];
+      let insertion: string;
+      if (previousLine.startsWith('- ')) {
+        if (previousLine.length > '- '.length) {
+          insertion = '- ';
+        }
+      } else if (/^([0-9]{1,10}\.)/.test(previousLine)) {
+        insertion = Number(previousLine.substr(0, previousLine.indexOf('.'))) + 1 + '. ';
+      }
+      if (insertion) {
+        const start = editor.selectionStart;
+        insert(editor, start, insertion);
+        editor.selectionStart = start + insertion.length;
+        editor.selectionEnd = editor.selectionStart;
+      }
+    }
   }
 }
