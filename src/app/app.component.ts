@@ -67,6 +67,8 @@ export class AppComponent implements OnInit {
   themeTool: Tool = THEME_TOOL;
   isOpen = true;
   styles: string[];
+  favoriteSeason: string;
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
 
   constructor(private service: MarkdownService) {
     this.styles = this.service.getHighLightStyles();
