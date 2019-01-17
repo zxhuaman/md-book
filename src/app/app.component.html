@@ -24,6 +24,13 @@
               (click)="onClickTool(edit, previewTool)">
         <img src="assets/{{previewTool.operation}}.png">
       </button>
+      <button class="tool-item" i18n-title title="{{themeTool.title}}"
+              [matMenuTriggerFor]="menu">
+        <img src="assets/{{themeTool.operation}}.png">
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item *ngFor="let style of styles" (click)="switchHighLightStyle(style)">{{style}}</button>
+      </mat-menu>
     </div>
   </header>
   <div class="book-panel">
@@ -32,6 +39,7 @@
               (input)="onInput($event)"
               (compositionend)="onCompositionend(edit.value)"
               (keyup.enter)="onEnter(edit)"
+              spellcheck="false"
     ></textarea>
     <div class="render" [innerHTML]="renderHtml" [@openClose]="isOpen ? 'open':'closed'"></div>
   </div>

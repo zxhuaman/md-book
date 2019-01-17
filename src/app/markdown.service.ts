@@ -78,7 +78,7 @@ export class MarkdownService {
     link.href = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/${styleName}.min.css`;
   }
 
-  getHighLightSytles(): string[] {
+  getHighLightStyles(): string[] {
     return HIGHLIGHT_STYLES;
   }
 }

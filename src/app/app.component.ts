@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tool} from './tool';
 import {insert, insertText, isFullScreen, toggleFullScreen} from './utils';
-import {EDIT_TOOLS, FULLSCREEN_EXIT_TOOL, FULLSCREEN_TOOL, NO_PREVIEW_TOOL, Operation, PREVIEW_TOOL} from './edit.operation';
+import {EDIT_TOOLS, FULLSCREEN_EXIT_TOOL, FULLSCREEN_TOOL, NO_PREVIEW_TOOL, Operation, PREVIEW_TOOL, THEME_TOOL} from './edit.operation';
 import {MarkdownService} from './markdown.service';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 
@@ -26,14 +26,21 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
   ]
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   renderHtml = '';
   tools: Array<Tool> = EDIT_TOOLS;
   fullscreenTool: Tool = FULLSCREEN_TOOL;
   previewTool: Tool = PREVIEW_TOOL;
+  themeTool: Tool = THEME_TOOL;
   isOpen = true;
+  styles: string[];
 
   constructor(private service: MarkdownService) {
+    this.styles = this.service.getHighLightStyles();
+  }
+
+  ngOnInit(): void {
+    this.switchHighLightStyle('atom-one-dark');
   }
 
   render(text: string) {
@@ -98,5 +105,9 @@ export class AppComponent {
         editor.selectionEnd = editor.selectionStart;
       }
     }
+  }
+
+  switchHighLightStyle(styleName: string) {
+    this.service.switchHighLightStyle(styleName);
   }
 }

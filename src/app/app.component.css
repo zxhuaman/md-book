@@ -48,6 +48,7 @@ nav {
 .right-bar {
   flex: 1;
   text-align: right;
+  padding-right: .5em;
 }
 
 .tool-item {
@@ -91,6 +92,7 @@ nav {
   border: none;
   outline: none;
   overflow: scroll;
+  text-decoration: none;
 }
 
 .render::-webkit-scrollbar, .edit::-webkit-scrollbar {

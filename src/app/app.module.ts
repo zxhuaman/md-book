@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatIconModule} from '@angular/material';
+import {MatIconModule, MatMenuModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -13,10 +13,12 @@ import {MatIconModule} from '@angular/material';
     BrowserModule,
     BrowserAnimationsModule,
     MatIconModule,
+    MatMenuModule,
     BrowserAnimationsModule
   ],
   exports: [
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

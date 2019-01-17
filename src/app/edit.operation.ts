@@ -25,7 +25,8 @@ export enum Operation {
   FULLSCREEN = 'fullscreen',
   FULLSCREEN_EXIT = 'fullscreen_exit',
   PREVIEW = 'preview',
-  NO_PREVIEW = 'no_preview'
+  NO_PREVIEW = 'no_preview',
+  THEME = 'theme'
 }
 
 export const EDIT_TOOLS = new Array(
@@ -58,3 +59,4 @@ export const FULLSCREEN_TOOL = new Tool(Operation.FULLSCREEN, '全屏', '', '', 
 export const PREVIEW_TOOL = new Tool(Operation.PREVIEW, '预览', '', '', '');
 export const NO_PREVIEW_TOOL = new Tool(Operation.NO_PREVIEW, '取消预览', '', '', '');
 export const FULLSCREEN_EXIT_TOOL = new Tool(Operation.FULLSCREEN_EXIT, '退出全屏', '', '', '');
+export const THEME_TOOL = new Tool(Operation.THEME, '主题', '', '', '');
