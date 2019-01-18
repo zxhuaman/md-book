@@ -64,18 +64,17 @@ export class AppComponent implements OnInit {
   tools: Array<Tool> = EDIT_TOOLS;
   fullscreenTool: Tool = FULLSCREEN_TOOL;
   modeTool: Tool = PREVIEW_TOOL;
+  modes: Tool[] = [PREVIEW_TOOL, READ_TOOL, EDIT_TOOL];
   themeTool: Tool = THEME_TOOL;
-  isOpen = true;
   styles: string[];
-  favoriteSeason: string;
-  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+  currentStyle = 'atom-one-dark';
 
   constructor(private service: MarkdownService) {
     this.styles = this.service.getHighLightStyles();
   }
 
   ngOnInit(): void {
-    this.switchHighLightStyle('atom-one-dark');
+    this.switchHighLightStyle(this.currentStyle);
   }
 
   render(text: string) {
@@ -109,13 +108,13 @@ export class AppComponent implements OnInit {
         this.fullscreenTool = isFullScreen() ? FULLSCREEN_TOOL : FULLSCREEN_EXIT_TOOL;
         break;
       case Operation.EDIT:
-        this.modeTool = PREVIEW_TOOL;
+        this.modeTool = EDIT_TOOL;
         break;
       case Operation.PREVIEW:
-        this.modeTool = READ_TOOL;
+        this.modeTool = PREVIEW_TOOL;
         break;
       case Operation.READ:
-        this.modeTool = EDIT_TOOL;
+        this.modeTool = READ_TOOL;
         break;
       default:
         insertText(editor, tool.prefix, tool.text, tool.suffix);
@@ -147,6 +146,7 @@ export class AppComponent implements OnInit {
   }
 
   switchHighLightStyle(styleName: string) {
+    this.currentStyle = styleName;
     this.service.switchHighLightStyle(styleName);
   }
 }

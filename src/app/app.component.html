@@ -20,16 +20,23 @@
               (click)="onClickTool(edit, fullscreenTool)">
         <img src="assets/{{fullscreenTool.operation}}.png">
       </button>
-      <button class="tool-item" i18n-title title="{{modeTool.title}}"
-              (click)="onClickTool(edit, modeTool)">
+      <button class="tool-item" [matMenuTriggerFor]="modeMenu">
         <img src="assets/{{modeTool.operation}}.png">
       </button>
+      <mat-menu #modeMenu="matMenu">
+        <button class="mode-item" mat-menu-item *ngFor="let mode of modes" (click)="onClickTool(edit, mode)"
+                [disabled]="modeTool.title === mode.title">
+          <img src="assets/{{mode.operation+(modeTool.title === mode.title ? '_disabled':'')}}.png">
+          {{mode.title}}
+        </button>
+      </mat-menu>
       <button class="tool-item" i18n-title title="{{themeTool.title}}"
               [matMenuTriggerFor]="menu">
         <img src="assets/{{themeTool.operation}}.png">
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item *ngFor="let style of styles" (click)="switchHighLightStyle(style)">{{style}}</button>
+        <button mat-menu-item [disabled]="currentStyle === style" *ngFor="let style of styles"
+                (click)="switchHighLightStyle(style)">{{style}}</button>
       </mat-menu>
     </div>
   </header>
