@@ -41,7 +41,7 @@
     </div>
   </header>
   <div class="book-panel">
-    <textarea class="edit"
+    <textarea [class]="isEditMode ? 'edit-fullscreen':'edit'"
               #edit
               (input)="onInput($event)"
               (compositionend)="onCompositionend(edit.value)"
@@ -50,7 +50,7 @@
               [@previewRead]="modeTool.operation"
               [@readEdit]="modeTool.operation"
     ></textarea>
-    <div class="render" [innerHTML]="renderHtml"
+    <div [class]="isReadMode ? 'render-fullscreen':'render'" [innerHTML]="renderHtml"
          [@editPreview]="modeTool.operation"></div>
   </div>
 </div>

@@ -23,7 +23,6 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
     trigger('editPreview', [
       state('edit', style({
           flex: 0,
-          padding: 0
         }
       )),
       state('preview', style({
@@ -39,7 +38,6 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
       )),
       state('read', style({
         flex: 0,
-        padding: 0
       })),
       transition('preview => read', [animate('0.3s')]),
       transition('read => preview', [animate('0.3s')])
@@ -47,7 +45,6 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
     trigger('readEdit', [
       state('read', style({
           flex: 0,
-          padding: 0
         }
       )),
       state('edit', style({
@@ -69,6 +66,7 @@ export class AppComponent implements OnInit {
   styles: string[];
   currentStyle = 'atom-one-dark';
   isReadMode = false;
+  isEditMode = false;
 
   constructor(private service: MarkdownService) {
     this.styles = this.service.getHighLightStyles();
@@ -113,6 +111,7 @@ export class AppComponent implements OnInit {
       case Operation.READ:
         this.modeTool = tool;
         this.isReadMode = tool.operation === Operation.READ;
+        this.isEditMode = tool.operation === Operation.EDIT;
         break;
       default:
         insertText(editor, tool.prefix, tool.text, tool.suffix);
