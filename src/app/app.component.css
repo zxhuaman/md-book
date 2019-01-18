@@ -101,23 +101,23 @@ nav {
 }
 
 .render::-webkit-scrollbar, .edit::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
   background-color: #e5e5e5;
 }
 
 .render::-webkit-scrollbar-thumb, .edit::-webkit-scrollbar-thumb {
   background-color: #b7b7b7;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 .hljs::-webkit-scrollbar {
-  height: 6px;
+  height: 4px;
   background-color: #e5e5e5;
 }
 
 .hljs::-webkit-scrollbar-thumb {
   background-color: #b7b7b7;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .render::-webkit-scrollbar-thumb:hover,

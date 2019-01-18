@@ -68,6 +68,7 @@ export class AppComponent implements OnInit {
   themeTool: Tool = THEME_TOOL;
   styles: string[];
   currentStyle = 'atom-one-dark';
+  isReadMode = false;
 
   constructor(private service: MarkdownService) {
     this.styles = this.service.getHighLightStyles();
@@ -108,13 +109,10 @@ export class AppComponent implements OnInit {
         this.fullscreenTool = isFullScreen() ? FULLSCREEN_TOOL : FULLSCREEN_EXIT_TOOL;
         break;
       case Operation.EDIT:
-        this.modeTool = EDIT_TOOL;
-        break;
       case Operation.PREVIEW:
-        this.modeTool = PREVIEW_TOOL;
-        break;
       case Operation.READ:
-        this.modeTool = READ_TOOL;
+        this.modeTool = tool;
+        this.isReadMode = tool.operation === Operation.READ;
         break;
       default:
         insertText(editor, tool.prefix, tool.text, tool.suffix);

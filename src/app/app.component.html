@@ -9,7 +9,7 @@
     <span class="name">Markdown Book</span>
   </nav>
   <header class="tool-bar">
-    <div class="left-bar">
+    <div class="left-bar" *ngIf="!isReadMode">
       <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}"
               (click)="onClickTool(edit,tool)">
         <img src="assets/{{tool.operation}}.png">
@@ -20,7 +20,7 @@
               (click)="onClickTool(edit, fullscreenTool)">
         <img src="assets/{{fullscreenTool.operation}}.png">
       </button>
-      <button class="tool-item" [matMenuTriggerFor]="modeMenu">
+      <button class="tool-item" [matMenuTriggerFor]="modeMenu" title="{{modeTool.title}}">
         <img src="assets/{{modeTool.operation}}.png">
       </button>
       <mat-menu #modeMenu="matMenu">
