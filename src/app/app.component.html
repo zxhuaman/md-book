@@ -41,16 +41,16 @@
     </div>
   </header>
   <div class="book-panel">
-    <textarea [class]="isEditMode ? 'edit-fullscreen':'edit'"
+    <textarea class="editor"
+              [@editorAnimation]="modeTool.operation"
               #edit
               (input)="onInput($event)"
               (compositionend)="onCompositionend(edit.value)"
               (keyup.enter)="onEnter(edit)"
               spellcheck="false"
-              [@previewRead]="modeTool.operation"
-              [@readEdit]="modeTool.operation"
     ></textarea>
-    <div [class]="isReadMode ? 'render-fullscreen':'render'" [innerHTML]="renderHtml"
-         [@editPreview]="modeTool.operation"></div>
+    <div class="{{modeTool.operation === 'edit' ? 'render-none' :'render'}}"
+         [@renderAnimation]="modeTool.operation"
+         [innerHTML]="renderHtml"></div>
   </div>
 </div>

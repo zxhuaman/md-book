@@ -20,38 +20,45 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
   animations: [
-    trigger('editPreview', [
+    trigger('editorAnimation', [
       state('edit', style({
-          flex: 0,
+          flex: 1,
+          padding: '.5em 25%'
         }
       )),
       state('preview', style({
         flex: 1,
       })),
-      transition('edit => preview', [animate('0.3s')]),
-      transition('preview => edit', [animate('0.3s')])
-    ]),
-    trigger('previewRead', [
-      state('preview', style({
-          flex: 1
-        }
-      )),
       state('read', style({
         flex: 0,
+        display: 'none'
       })),
-      transition('preview => read', [animate('0.3s')]),
-      transition('read => preview', [animate('0.3s')])
+      transition('edit => preview', [animate('0.3s')]),
+      transition('preview => edit', [animate('0.3s')]),
+      transition('edit => read', [animate('0s')]),
+      transition('read => edit', [animate('0.3s')]),
+      transition('preview => read', [animate('0s')]),
+      transition('read => preview', [animate('0.3s')]),
     ]),
-    trigger('readEdit', [
-      state('read', style({
+    trigger('renderAnimation', [
+      state('edit', style({
           flex: 0,
+          display: 'none'
         }
       )),
-      state('edit', style({
+      state('preview', style({
         flex: 1,
       })),
+      state('read', style({
+        flex: 1,
+        padding: '.5em 25%'
+      })),
+      transition('edit => preview', [animate('0.3s')]),
+      transition('preview => edit', [animate('0.3s')]),
+      transition('edit => read', [animate('0.3s')]),
       transition('read => edit', [animate('0.3s')]),
-      transition('edit => read', [animate('0.3s')])
+      transition('preview => read', [animate('0.3s')]),
+      transition('read => preview', [animate('0.3s')]),
     ]),
   ]
 })
