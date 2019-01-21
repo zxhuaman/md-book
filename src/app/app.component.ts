@@ -22,15 +22,10 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
   animations: [
     trigger('editorAnimation', [
       state('edit', style({
-          flex: 1,
           padding: '.5em 25%'
         }
       )),
-      state('preview', style({
-        flex: 1,
-      })),
       state('read', style({
-        flex: 0,
         display: 'none'
       })),
       transition('edit => preview', [animate('0.3s')]),
@@ -42,15 +37,10 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
     ]),
     trigger('renderAnimation', [
       state('edit', style({
-          flex: 0,
           display: 'none'
         }
       )),
-      state('preview', style({
-        flex: 1,
-      })),
       state('read', style({
-        flex: 1,
         padding: '.5em 25%'
       })),
       transition('edit => preview', [animate('0.3s')]),
