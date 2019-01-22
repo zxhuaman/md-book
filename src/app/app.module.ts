@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatIconModule, MatMenuModule, MatRadioModule} from '@angular/material';
+import {MatIconModule, MatMenuModule} from '@angular/material';
 
 @NgModule({
   declarations: [

@@ -1,14 +1,13 @@
 <!--The content below is only a placeholder and can be replaced.-->
-
-
 <div class="page">
   <nav>
-    <button class="more">
-      <img src="assets/more.png" alt="">
+    <button class="more" (click)="toggleSideBar()">
+      <img src="assets/{{showSideBar ? 'more':'close'}}.png" alt="">
     </button>
     <span class="name">Markdown Book</span>
   </nav>
-  <header class="tool-bar">
+  <div class="side-bar" [@sideBarAnimation]="showSideBar ? 'open':'closed'"></div>
+  <header class="tool-bar" (click)="showSideBar=false">
     <div class="left-bar" *ngIf="!isReadMode">
       <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}"
               (click)="onClickTool(edit,tool)">
@@ -40,7 +39,7 @@
       </mat-menu>
     </div>
   </header>
-  <div class="book-panel">
+  <div class="book-panel" (click)="showSideBar=false">
     <textarea class="editor"
               [@editorAnimation]="modeTool.operation"
               #edit

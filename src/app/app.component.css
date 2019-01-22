@@ -31,6 +31,17 @@ nav {
   font-family: 'Source Code Pro', monospace;
 }
 
+.side-bar {
+  position: absolute;
+  top: 2.6em;
+  left: 0;
+  width: 15%;
+  height: 100%;
+  z-index: 2;
+  box-shadow: 0 0 4px;
+  background-color: white;
+}
+
 .tool-bar {
   height: 2.3em;
   width: 100%;
@@ -100,7 +111,7 @@ nav {
 }
 
 .render {
-  word-wrap:break-word;
+  word-wrap: break-word;
 }
 
 .editor-none {

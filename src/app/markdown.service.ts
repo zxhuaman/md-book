@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import hljs from 'highlight.js';
-import {Observable} from 'rxjs';
 import {HIGHLIGHT_STYLES} from './highlight.styles';
 
 @Injectable({

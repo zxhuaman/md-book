@@ -20,6 +20,12 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
   animations: [
+    trigger('sideBarAnimation', [
+      state('closed', style({
+        display: 'none'
+      })),
+      state('open', style({}))
+    ]),
     trigger('editorAnimation', [
       state('edit', style({
           padding: '.5em 25%'
@@ -64,6 +70,7 @@ export class AppComponent implements OnInit {
   currentStyle = 'atom-one-dark';
   isReadMode = false;
   isEditMode = false;
+  showSideBar = false;
 
   constructor(private service: MarkdownService) {
     this.styles = this.service.getHighLightStyles();
@@ -142,5 +149,9 @@ export class AppComponent implements OnInit {
   switchHighLightStyle(styleName: string) {
     this.currentStyle = styleName;
     this.service.switchHighLightStyle(styleName);
+  }
+
+  toggleSideBar(): void {
+    this.showSideBar = !this.showSideBar;
   }
 }
