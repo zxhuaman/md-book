@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatIconModule, MatMenuModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatListModule, MatMenuModule, MatTreeModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -14,7 +14,9 @@ import {MatIconModule, MatMenuModule} from '@angular/material';
     BrowserAnimationsModule,
     MatIconModule,
     MatMenuModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatListModule
   ],
   exports: [
   ],

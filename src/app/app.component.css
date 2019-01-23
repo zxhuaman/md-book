@@ -27,19 +27,52 @@ nav {
   text-align: center;
   height: 100%;
   color: white;
-  margin-left: 1em;
+  margin-left: 1.5em;
   font-family: 'Source Code Pro', monospace;
+}
+
+.import {
+  width: 100%;
+  text-align: center;
+}
+
+.import input {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
 }
 
 .side-bar {
   position: absolute;
   top: 2.6em;
   left: 0;
-  width: 15%;
+  width: 250px;
   height: 100%;
   z-index: 2;
   box-shadow: 0 0 4px;
   background-color: white;
+}
+
+.markdown-file {
+  font-size: .95rem;
+  margin: 1em .5em 0 .5em;
+  width: 100%;
+  text-align: left;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.markdown-file a,
+.markdown-file a:link,
+.markdown-file a:visited,
+.markdown-file a:hover{
+  text-decoration: none;
+  color: black;
+}
+
+.markdown-file a:active{
+  color: aqua;
 }
 
 .tool-bar {
@@ -188,6 +221,7 @@ table {
 td, th {
   border: 1px solid #b7b7b7;
 }
+
 
 
 

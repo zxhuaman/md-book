@@ -12,7 +12,8 @@ import {
   THEME_TOOL
 } from './edit.operation';
 import {MarkdownService} from './markdown.service';
-import {trigger, state, style, transition, animate} from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Markdown} from './markdown';
 
 @Component({
   selector: 'app-root',
@@ -71,9 +72,13 @@ export class AppComponent implements OnInit {
   isReadMode = false;
   isEditMode = false;
   showSideBar = false;
+  markdowns: Markdown[];
+  inputText: string;
+  selectedMarkdown: Markdown;
 
   constructor(private service: MarkdownService) {
     this.styles = this.service.getHighLightStyles();
+    this.markdowns = new Array();
   }
 
   ngOnInit(): void {
@@ -153,5 +158,24 @@ export class AppComponent implements OnInit {
 
   toggleSideBar(): void {
     this.showSideBar = !this.showSideBar;
+  }
+
+  onImport(event: Event) {
+    const reader = new FileReader();
+    // @ts-ignore
+    const file = event.currentTarget.files[0];
+    const md = new Markdown(file.name);
+    reader.readAsText(file);
+    reader.onload = () => {
+      md.content = String(reader.result);
+      this.markdowns.push(md);
+      this.selectMarkdown(md);
+    };
+  }
+
+  selectMarkdown(markdown: Markdown) {
+    this.selectedMarkdown = markdown;
+    this.inputText = markdown.content;
+    this.render(markdown.content);
   }
 }

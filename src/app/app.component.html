@@ -2,11 +2,18 @@
 <div class="page">
   <nav>
     <button class="more" (click)="toggleSideBar()">
-      <img src="assets/{{showSideBar ? 'more':'close'}}.png" alt="">
+      <img src="assets/{{showSideBar ? 'close':'more'}}.png" alt="">
     </button>
     <span class="name">Markdown Book</span>
   </nav>
-  <div class="side-bar" [@sideBarAnimation]="showSideBar ? 'open':'closed'"></div>
+  <div class="side-bar" [@sideBarAnimation]="showSideBar ? 'open':'closed'">
+    <button class="import" mat-stroked-button>导入
+      <input type="file" accept=".md" (change)="onImport($event)">
+    </button>
+    <button class="markdown-file" mat-button *ngFor="let md of markdowns"
+            color="{{selectedMarkdown===md ? 'primary':''}}"
+            (click)="selectMarkdown(md)">{{md.name}}</button>
+  </div>
   <header class="tool-bar" (click)="showSideBar=false">
     <div class="left-bar" *ngIf="!isReadMode">
       <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}"
@@ -47,6 +54,7 @@
               (compositionend)="onCompositionend(edit.value)"
               (keyup.enter)="onEnter(edit)"
               spellcheck="false"
+              value="{{inputText}}"
     ></textarea>
     <div class="{{modeTool.operation === 'edit' ? 'render-none' :'render'}}"
          [@renderAnimation]="modeTool.operation"
