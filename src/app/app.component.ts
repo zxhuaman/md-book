@@ -76,6 +76,7 @@ export class AppComponent implements OnInit {
   markdowns: Markdown[];
   inputText: string;
   selectedMarkdown: Markdown;
+  repo = 'mdbook-files';
 
   constructor(private service: MarkdownService, private data: DataService) {
     this.styles = this.service.getHighLightStyles();
@@ -84,6 +85,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.switchHighLightStyle(this.currentStyle);
+    this.data.fetchTrees(this.repo).subscribe(markdowns => {
+      this.markdowns = markdowns.filter(markdown =>
+        markdown.name.toLocaleLowerCase() !== 'readme.md');
+    });
+    setInterval(() => this.data.updateFile(this.repo, this.selectedMarkdown.name,
+      this.selectedMarkdown.content,
+      this.selectedMarkdown.sha).subscribe(markdown => {
+      this.selectedMarkdown.sha = markdown.sha;
+    }), 3 * 60 * 1000);
   }
 
   render(text: string) {
@@ -92,6 +102,7 @@ export class AppComponent implements OnInit {
 
   onInput(ev: any) {
     if (ev.inputType !== 'insertCompositionText') {
+      this.selectedMarkdown.content = ev.target.value;
       this.render(ev.target.value);
     }
   }
@@ -175,8 +186,11 @@ export class AppComponent implements OnInit {
   }
 
   selectMarkdown(markdown: Markdown) {
-    this.selectedMarkdown = markdown;
-    this.inputText = markdown.content;
-    this.render(markdown.content);
+    this.data.fetchFile(this.repo, markdown.sha).subscribe(content => {
+      markdown.content = content;
+      this.selectedMarkdown = markdown;
+      this.inputText = markdown.content;
+      this.render(markdown.content);
+    });
   }
 }
