@@ -14,6 +14,7 @@ import {
 import {MarkdownService} from './markdown.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Markdown} from './markdown';
+import {DataService} from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -76,7 +77,7 @@ export class AppComponent implements OnInit {
   inputText: string;
   selectedMarkdown: Markdown;
 
-  constructor(private service: MarkdownService) {
+  constructor(private service: MarkdownService, private data: DataService) {
     this.styles = this.service.getHighLightStyles();
     this.markdowns = new Array();
   }

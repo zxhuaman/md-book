@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import hljs from 'highlight.js';
 import {HIGHLIGHT_STYLES} from './highlight.styles';
 
+const TOKENS = 'fe4aedc5d6dd7b47bf752c63083dc4d4';
+
 @Injectable({
   providedIn: 'root'
 })
