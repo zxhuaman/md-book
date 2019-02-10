@@ -82,6 +82,7 @@ export class DataService {
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
         }
-      }).pipe(map((res: any) => new Markdown(res.content.name, content, res.content.sha)));
+      }).pipe(map((res: any) => new Markdown(res.content.name, content, res.content.sha)),
+      catchError(() => of(null)));
   }
 }

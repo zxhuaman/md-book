@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tool} from './tool';
 import {insert, insertText, isFullScreen, toggleFullScreen} from './utils';
 import {
@@ -15,7 +15,7 @@ import {MarkdownService} from './markdown.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Markdown} from './markdown';
 import {DataService} from './data.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {CreateFileDialogComponent} from './create-file-dialog/create-file-dialog.component';
 
 @Component({
@@ -63,7 +63,7 @@ import {CreateFileDialogComponent} from './create-file-dialog/create-file-dialog
   ]
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   renderHtml = '';
   tools: Array<Tool> = EDIT_TOOLS;
   saveTool: Tool = SAVE_TOOL;
@@ -82,7 +82,8 @@ export class AppComponent implements OnInit {
   repo = 'mdbook-files';
   name: string;
 
-  constructor(private service: MarkdownService, private data: DataService, private dialog: MatDialog) {
+  constructor(private service: MarkdownService, private data: DataService,
+              private dialog: MatDialog, private snackBar: MatSnackBar) {
     this.styles = this.service.getHighLightStyles();
     this.markdowns = new Array();
   }
@@ -216,7 +217,21 @@ export class AppComponent implements OnInit {
     this.data.updateFile(this.repo, this.selectedMarkdown.name,
       this.selectedMarkdown.content,
       this.selectedMarkdown.sha).subscribe(markdown => {
-      this.selectedMarkdown.sha = markdown.sha;
+      if (markdown) {
+        this.selectedMarkdown.sha = markdown.sha;
+      }
+      this.openSnackBar(markdown ? '保存成功' : '保存失败');
+    });
+  }
+
+  ngOnDestroy(): void {
+    clearInterval();
+  }
+
+  openSnackBar(message) {
+    this.snackBar.open(message, null, {
+      duration: 1000,
+      horizontalPosition: 'center'
     });
   }
 }

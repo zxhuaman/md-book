@@ -9,7 +9,7 @@ import {
   MatFormFieldModule,
   MatIconModule, MatInputModule,
   MatListModule,
-  MatMenuModule,
+  MatMenuModule, MatSnackBarModule,
 } from '@angular/material';
 import {HttpClientModule} from '@angular/common/http';
 import {CreateFileDialogComponent} from './create-file-dialog/create-file-dialog.component';
@@ -21,7 +21,7 @@ import {FormsModule} from '@angular/forms';
   ],
   declarations: [
     AppComponent,
-    CreateFileDialogComponent
+    CreateFileDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +35,8 @@ import {FormsModule} from '@angular/forms';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
   ],
   exports: [],
   providers: [],
