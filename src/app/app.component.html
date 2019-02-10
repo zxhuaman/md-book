@@ -21,6 +21,7 @@
     </div>
     <div class="right-bar">
       <button class="tool-item" i18n-title title="{{saveTool.title}}"
+              *ngIf="selectedMarkdown"
               (click)="onClickTool(edit, saveTool)">
         <img src="assets/{{saveTool.operation}}.png">
       </button>

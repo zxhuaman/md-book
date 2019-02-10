@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tool} from './tool';
-import {insert, insertText, isFullScreen, toggleFullScreen} from './utils';
+import {getSearchParam, insert, insertText, isFullScreen, toggleFullScreen} from './utils';
 import {
   EDIT_TOOL,
   EDIT_TOOLS,
@@ -17,6 +17,9 @@ import {Markdown} from './markdown';
 import {DataService} from './data.service';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {CreateFileDialogComponent} from './create-file-dialog/create-file-dialog.component';
+
+const CLIENT_ID = 'cc512693abedba15c46d70c2db8fa579cf7663f740202d18e649564c95c28bbf';
+const REDIRECT_URI = 'https://sandcat.gitee.io/mdbook/';
 
 @Component({
   selector: 'app-root',
@@ -64,6 +67,7 @@ import {CreateFileDialogComponent} from './create-file-dialog/create-file-dialog
 })
 
 export class AppComponent implements OnInit, OnDestroy {
+  readonly authorize = `https://gitee.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   renderHtml = '';
   tools: Array<Tool> = EDIT_TOOLS;
   saveTool: Tool = SAVE_TOOL;
@@ -82,8 +86,10 @@ export class AppComponent implements OnInit, OnDestroy {
   repo = 'mdbook-files';
   name: string;
 
-  constructor(private service: MarkdownService, private data: DataService,
-              private dialog: MatDialog, private snackBar: MatSnackBar) {
+  constructor(private service: MarkdownService,
+              private data: DataService,
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) {
     this.styles = this.service.getHighLightStyles();
     this.markdowns = new Array();
   }
@@ -95,6 +101,7 @@ export class AppComponent implements OnInit, OnDestroy {
         markdown.name.toLocaleLowerCase() !== 'readme.md');
     });
     setInterval(() => this.saveFile(), 3 * 60 * 1000);
+    console.log(getSearchParam(location.search, 'code'));
   }
 
   render(text: string) {
@@ -214,6 +221,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   saveFile() {
+    if (!this.selectedMarkdown) {
+      return;
+    }
     this.data.updateFile(this.repo, this.selectedMarkdown.name,
       this.selectedMarkdown.content,
       this.selectedMarkdown.sha).subscribe(markdown => {
