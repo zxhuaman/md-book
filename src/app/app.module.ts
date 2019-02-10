@@ -3,12 +3,25 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatIconModule, MatListModule, MatMenuModule, MatTreeModule} from '@angular/material';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule, MatInputModule,
+  MatListModule,
+  MatMenuModule,
+} from '@angular/material';
+import {HttpClientModule} from '@angular/common/http';
+import {CreateFileDialogComponent} from './create-file-dialog/create-file-dialog.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
+  entryComponents: [
+    CreateFileDialogComponent
+  ],
   declarations: [
-    AppComponent
+    AppComponent,
+    CreateFileDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -18,10 +31,13 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
     BrowserAnimationsModule,
     MatButtonModule,
     MatListModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
-  exports: [
-  ],
+  exports: [],
   providers: [],
   bootstrap: [AppComponent]
 })

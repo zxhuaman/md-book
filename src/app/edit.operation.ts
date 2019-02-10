@@ -27,7 +27,8 @@ export enum Operation {
   EDIT = 'edit',
   PREVIEW = 'preview',
   READ = 'read',
-  THEME = 'theme'
+  THEME = 'theme',
+  SAVE = 'save'
 }
 
 export const EDIT_TOOLS = new Array(
@@ -62,3 +63,4 @@ export const PREVIEW_TOOL = new Tool(Operation.PREVIEW, '预览模式', '', '', 
 export const READ_TOOL = new Tool(Operation.READ, '阅读模式', '', '', '');
 export const FULLSCREEN_EXIT_TOOL = new Tool(Operation.FULLSCREEN_EXIT, '退出全屏', '', '', '');
 export const THEME_TOOL = new Tool(Operation.THEME, '代码主题', '', '', '');
+export const SAVE_TOOL = new Tool(Operation.SAVE, '保存', '', '', '');

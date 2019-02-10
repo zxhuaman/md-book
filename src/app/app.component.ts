@@ -8,13 +8,15 @@ import {
   FULLSCREEN_TOOL,
   Operation,
   PREVIEW_TOOL,
-  READ_TOOL,
+  READ_TOOL, SAVE_TOOL,
   THEME_TOOL
 } from './edit.operation';
 import {MarkdownService} from './markdown.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Markdown} from './markdown';
 import {DataService} from './data.service';
+import {MatDialog} from '@angular/material';
+import {CreateFileDialogComponent} from './create-file-dialog/create-file-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -64,6 +66,7 @@ import {DataService} from './data.service';
 export class AppComponent implements OnInit {
   renderHtml = '';
   tools: Array<Tool> = EDIT_TOOLS;
+  saveTool: Tool = SAVE_TOOL;
   fullscreenTool: Tool = FULLSCREEN_TOOL;
   modeTool: Tool = PREVIEW_TOOL;
   modes: Tool[] = [PREVIEW_TOOL, READ_TOOL, EDIT_TOOL];
@@ -77,8 +80,9 @@ export class AppComponent implements OnInit {
   inputText: string;
   selectedMarkdown: Markdown;
   repo = 'mdbook-files';
+  name: string;
 
-  constructor(private service: MarkdownService, private data: DataService) {
+  constructor(private service: MarkdownService, private data: DataService, private dialog: MatDialog) {
     this.styles = this.service.getHighLightStyles();
     this.markdowns = new Array();
   }
@@ -89,11 +93,7 @@ export class AppComponent implements OnInit {
       this.markdowns = markdowns.filter(markdown =>
         markdown.name.toLocaleLowerCase() !== 'readme.md');
     });
-    setInterval(() => this.data.updateFile(this.repo, this.selectedMarkdown.name,
-      this.selectedMarkdown.content,
-      this.selectedMarkdown.sha).subscribe(markdown => {
-      this.selectedMarkdown.sha = markdown.sha;
-    }), 3 * 60 * 1000);
+    setInterval(() => this.saveFile(), 3 * 60 * 1000);
   }
 
   render(text: string) {
@@ -133,6 +133,9 @@ export class AppComponent implements OnInit {
         this.modeTool = tool;
         this.isReadMode = tool.operation === Operation.READ;
         this.isEditMode = tool.operation === Operation.EDIT;
+        break;
+      case Operation.SAVE:
+        this.saveFile();
         break;
       default:
         insertText(editor, tool.prefix, tool.text, tool.suffix);
@@ -191,6 +194,29 @@ export class AppComponent implements OnInit {
       this.selectedMarkdown = markdown;
       this.inputText = markdown.content;
       this.render(markdown.content);
+    });
+  }
+
+  openCreateDialog() {
+    const dialogRef = this.dialog.open(CreateFileDialogComponent, {
+      width: '250px',
+      data: {name: this.name}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.name = result;
+      this.data.createFile(this.repo, this.name).subscribe(markdown => {
+        this.markdowns.push(markdown);
+        this.selectedMarkdown = markdown;
+      });
+    });
+  }
+
+  saveFile() {
+    this.data.updateFile(this.repo, this.selectedMarkdown.name,
+      this.selectedMarkdown.content,
+      this.selectedMarkdown.sha).subscribe(markdown => {
+      this.selectedMarkdown.sha = markdown.sha;
     });
   }
 }

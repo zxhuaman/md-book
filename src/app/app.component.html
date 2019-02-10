@@ -7,9 +7,7 @@
     <span class="name">Markdown Book</span>
   </nav>
   <div class="side-bar" [@sideBarAnimation]="showSideBar ? 'open':'closed'">
-    <button class="import" mat-stroked-button>导入
-      <input type="file" accept=".md" (change)="onImport($event)">
-    </button>
+    <button class="import" mat-stroked-button (click)="openCreateDialog()">新建文件</button>
     <button class="markdown-file" mat-button *ngFor="let md of markdowns"
             color="{{selectedMarkdown===md ? 'primary':''}}"
             (click)="selectMarkdown(md)">{{md.name}}</button>
@@ -22,6 +20,10 @@
       </button>
     </div>
     <div class="right-bar">
+      <button class="tool-item" i18n-title title="{{saveTool.title}}"
+              (click)="onClickTool(edit, saveTool)">
+        <img src="assets/{{saveTool.operation}}.png">
+      </button>
       <button class="tool-item" i18n-title title="{{fullscreenTool.title}}"
               (click)="onClickTool(edit, fullscreenTool)">
         <img src="assets/{{fullscreenTool.operation}}.png">
