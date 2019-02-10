@@ -4,6 +4,9 @@ import {catchError, map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {Markdown} from './markdown';
 
+const CLIENT_ID = 'cc512693abedba15c46d70c2db8fa579cf7663f740202d18e649564c95c28bbf';
+const REDIRECT_URI = 'https://sandcat.gitee.io/mdbook/';
+
 const BASE_URL = 'https://gitee.com/api/v5';
 const OWNER = 'sandcat';
 
@@ -12,6 +15,7 @@ const OWNER = 'sandcat';
 })
 export class DataService {
   private token: string;
+  readonly authorize = `https://gitee.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   constructor(private http: HttpClient) {
   }
@@ -92,5 +96,9 @@ export class DataService {
 
   getToken() {
     return this.token;
+  }
+
+  getAuthorize() {
+    return this.authorize;
   }
 }

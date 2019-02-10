@@ -75,5 +75,5 @@ export function getSearchParam(search: string, paramKey: string) {
       return pair[1];
     }
   }
-  return (false);
+  return null;
 }

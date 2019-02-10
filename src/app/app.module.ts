@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
-import {AppComponent} from './app.component';
+import {EditorComponent} from './editor/editor.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatButtonModule,
@@ -12,16 +12,26 @@ import {
   MatMenuModule, MatSnackBarModule,
 } from '@angular/material';
 import {HttpClientModule} from '@angular/common/http';
-import {CreateFileDialogComponent} from './create-file-dialog/create-file-dialog.component';
+import {CreateFileDialogComponent} from './dialog/create-file-dialog.component';
 import {FormsModule} from '@angular/forms';
+import {RouterModule, Routes} from '@angular/router';
+import {LoginComponent} from './login/login.component';
+import {AppComponent} from './app.component';
+
+const routes: Routes = [
+  {path: 'login', component: LoginComponent},
+  {path: 'editor', component: EditorComponent}
+];
 
 @NgModule({
   entryComponents: [
     CreateFileDialogComponent
   ],
   declarations: [
-    AppComponent,
+    EditorComponent,
     CreateFileDialogComponent,
+    LoginComponent,
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +47,7 @@ import {FormsModule} from '@angular/forms';
     MatInputModule,
     FormsModule,
     MatSnackBarModule,
+    RouterModule.forRoot(routes)
   ],
   exports: [],
   providers: [],

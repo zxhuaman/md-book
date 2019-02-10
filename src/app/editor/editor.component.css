@@ -1,0 +1,231 @@
+.page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  height: 2.6em;
+  background-color: #3c3f41;
+}
+
+.more {
+  height: 100%;
+  width: 2.4em;
+  text-align: center;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.more > img {
+  width: 100%;
+  margin-left: 1em;
+}
+
+.name {
+  text-align: center;
+  height: 100%;
+  color: white;
+  margin-left: 1.5em;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.import {
+  width: 100%;
+  text-align: center;
+}
+
+.import input {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.side-bar {
+  position: absolute;
+  top: 2.6em;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  z-index: 2;
+  box-shadow: 0 0 4px;
+  background-color: white;
+}
+
+.markdown-file {
+  font-size: .95rem;
+  margin: 1em .5em 0 .5em;
+  width: 100%;
+  text-align: left;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.markdown-file a,
+.markdown-file a:link,
+.markdown-file a:visited,
+.markdown-file a:hover{
+  text-decoration: none;
+  color: black;
+}
+
+.markdown-file a:active{
+  color: aqua;
+}
+
+.tool-bar {
+  height: 2.3em;
+  width: 100%;
+  padding: 3px;
+  box-shadow: 0 0 4px;
+  background-color: white;
+  z-index: 1;
+  display: flex;
+}
+
+.left-bar {
+  flex: 1;
+}
+
+.right-bar {
+  flex: 1;
+  text-align: right;
+  padding-right: .5em;
+}
+
+.tool-item {
+  display: inline;
+  width: 2.5em;
+  background: none;
+  border: none;
+  height: 100%;
+  outline: none;
+  text-align: center;
+}
+
+.tool-item:hover {
+  background-color: #e5e5e5;
+  border-radius: 2px;
+}
+
+.tool-item > img {
+  height: 55%;
+}
+
+.mode-item > img {
+  height: 32%;
+  margin-right: .3em;
+}
+
+.book-panel {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex-flow: row wrap;
+}
+
+.editor {
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+
+.editor,
+.render {
+  flex: 1;
+  height: 100%;
+  overflow-y: scroll;
+  padding: .5em 1em;
+  font-size: 1rem;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.render {
+  word-wrap: break-word;
+}
+
+.editor-none {
+  display: none;
+}
+
+.render-none {
+  flex: 0;
+  display: none;
+}
+
+.render::-webkit-scrollbar,
+.editor::-webkit-scrollbar {
+  width: 6px;
+  background-color: #e5e5e5;
+}
+
+.render::-webkit-scrollbar-thumb,
+.editor::-webkit-scrollbar-thumb {
+  background-color: #b7b7b7;
+  border-radius: 3px;
+}
+
+.hljs::-webkit-scrollbar {
+  height: 4px;
+  background-color: #e5e5e5;
+}
+
+.hljs::-webkit-scrollbar-thumb {
+  background-color: #b7b7b7;
+  border-radius: 2px;
+}
+
+.render::-webkit-scrollbar-thumb:hover,
+.edit::-webkit-scrollbar-thumb:hover,
+.hljs::-webkit-scrollbar-thumb:hover {
+  background-color: #a1a1a1;
+}
+
+.render::-webkit-scrollbar-thumb:active,
+.edit::-webkit-scrollbar-thumb:active,
+.hljs::-webkit-scrollbar-thumb:active {
+  background-color: #a1a1a1;
+}
+
+.hljs {
+  border-radius: 2px;
+  padding: 1em;
+}
+
+.hljs code {
+  font-family: 'Source Code Pro', monospace;
+  font-size: .8rem;
+}
+
+.hljs-left {
+  text-align: left;
+}
+
+.hljs-right {
+  text-align: right;
+}
+
+.hljs-center {
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid #b7b7b7;
+  letter-spacing: 1px;
+}
+
+td, th {
+  border: 1px solid #b7b7b7;
+}
+
+
+
+
+
+
+
+

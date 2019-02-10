@@ -1,0 +1,66 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="page">
+  <nav>
+    <button class="more" (click)="toggleSideBar()">
+      <img src="assets/{{showSideBar ? 'close':'more'}}.png" alt="">
+    </button>
+    <span class="name">Markdown Book</span>
+  </nav>
+  <div class="side-bar" [@sideBarAnimation]="showSideBar ? 'open':'closed'">
+    <button class="import" mat-stroked-button (click)="openCreateDialog()">新建文件</button>
+    <button class="markdown-file" mat-button *ngFor="let md of markdowns"
+            color="{{selectedMarkdown===md ? 'primary':''}}"
+            (click)="selectMarkdown(md)">{{md.name}}</button>
+  </div>
+  <header class="tool-bar" (click)="showSideBar=false">
+    <div class="left-bar" *ngIf="!isReadMode">
+      <button class="tool-item" *ngFor="let tool of tools" i18n-title title="{{tool.title}}"
+              (click)="onClickTool(edit,tool)">
+        <img src="assets/{{tool.operation}}.png">
+      </button>
+    </div>
+    <div class="right-bar">
+      <button class="tool-item" i18n-title title="{{saveTool.title}}"
+              *ngIf="selectedMarkdown"
+              (click)="onClickTool(edit, saveTool)">
+        <img src="assets/{{saveTool.operation}}.png">
+      </button>
+      <button class="tool-item" i18n-title title="{{fullscreenTool.title}}"
+              (click)="onClickTool(edit, fullscreenTool)">
+        <img src="assets/{{fullscreenTool.operation}}.png">
+      </button>
+      <button class="tool-item" [matMenuTriggerFor]="modeMenu" title="{{modeTool.title}}">
+        <img src="assets/{{modeTool.operation}}.png">
+      </button>
+      <mat-menu #modeMenu="matMenu">
+        <button class="mode-item" mat-menu-item *ngFor="let mode of modes" (click)="onClickTool(edit, mode)"
+                [disabled]="modeTool.title === mode.title">
+          <img src="assets/{{mode.operation+(modeTool.title === mode.title ? '_disabled':'')}}.png">
+          {{mode.title}}
+        </button>
+      </mat-menu>
+      <button class="tool-item" i18n-title title="{{themeTool.title}}"
+              [matMenuTriggerFor]="menu">
+        <img src="assets/{{themeTool.operation}}.png">
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [disabled]="currentStyle === style" *ngFor="let style of styles"
+                (click)="switchHighLightStyle(style)">{{style}}</button>
+      </mat-menu>
+    </div>
+  </header>
+  <div class="book-panel" (click)="showSideBar=false">
+    <textarea class="editor"
+              [@editorAnimation]="modeTool.operation"
+              #edit
+              (input)="onInput($event)"
+              (compositionend)="onCompositionend(edit.value)"
+              (keyup.enter)="onEnter(edit)"
+              spellcheck="false"
+              value="{{inputText}}"
+    ></textarea>
+    <div class="{{modeTool.operation === 'edit' ? 'render-none' :'render'}}"
+         [@renderAnimation]="modeTool.operation"
+         [innerHTML]="renderHtml"></div>
+  </div>
+</div>
