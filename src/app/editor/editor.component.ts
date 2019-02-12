@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tool} from '../tool';
-import {getSearchParam, insert, insertText, isFullScreen, toggleFullScreen} from '../utils';
+import {insert, insertText, isFullScreen, toggleFullScreen} from '../utils';
 import {
   EDIT_TOOL,
   EDIT_TOOLS,
@@ -8,7 +8,8 @@ import {
   FULLSCREEN_TOOL,
   Operation,
   PREVIEW_TOOL,
-  READ_TOOL, SAVE_TOOL,
+  READ_TOOL,
+  SAVE_TOOL,
   THEME_TOOL
 } from '../edit.operation';
 import {MarkdownService} from '../markdown.service';
@@ -97,7 +98,6 @@ export class EditorComponent implements OnInit, OnDestroy {
         markdown.name.toLocaleLowerCase() !== 'readme.md');
     });
     setInterval(() => this.saveFile(), 3 * 60 * 1000);
-    console.log(getSearchParam(location.search, 'code'));
   }
 
   render(text: string) {

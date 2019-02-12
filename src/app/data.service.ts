@@ -4,8 +4,10 @@ import {catchError, map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {Markdown} from './markdown';
 
-const CLIENT_ID = 'cc512693abedba15c46d70c2db8fa579cf7663f740202d18e649564c95c28bbf';
-const REDIRECT_URI = 'https://sandcat.gitee.io/mdbook/';
+// const CLIENT_ID = 'cc512693abedba15c46d70c2db8fa579cf7663f740202d18e649564c95c28bbf';
+// const REDIRECT_URI = 'https://sandcat.gitee.io/mdbook/';
+const CLIENT_ID = '41fc85380e264e0e7cb5c413b4d624d537491b735f152bbc50506d3565cabd02';
+const REDIRECT_URI = 'http://localhost:4200';
 
 const BASE_URL = 'https://gitee.com/api/v5';
 const OWNER = 'sandcat';
@@ -22,13 +24,13 @@ export class DataService {
 
   hasRepo(repo: string): Observable<boolean> {
     return this.http
-      .get(`${BASE_URL}/repos/${OWNER}/${repo}/git/gitee/trees/master?access_this.token=${this.token}`)
+      .get(`${BASE_URL}/repos/${OWNER}/${repo}/git/gitee/trees/master?access_token=${this.token}`)
       .pipe(map(() => true), catchError(() => of(false)));
   }
 
   fetchTrees(repo: string): Observable<Markdown[]> {
     return this.http
-      .get(`${BASE_URL}/repos/${OWNER}/${repo}/git/gitee/trees/master?access_this.token=${this.token}`)
+      .get(`${BASE_URL}/repos/${OWNER}/${repo}/git/gitee/trees/master?access_token=${this.token}`)
       .pipe(map((res: any) => {
         const data = [];
         res.tree.forEach(value => data.push(new Markdown(value.path, '', value.sha)));
@@ -39,7 +41,7 @@ export class DataService {
   createRepo(repo: string) {
     return this.http.post(`${BASE_URL}/user/repos`,
       {
-        'access_this.token': this.token,
+        'access_token': this.token,
         'name': repo,
         'has_issues': 'true',
         'has_wiki': 'true',
@@ -55,7 +57,7 @@ export class DataService {
   createFile(repo: string, path: string) {
     return this.http.post(`${BASE_URL}/repos/${OWNER}/${repo}/contents/${path}`,
       {
-        'access_this.token': this.token,
+        'access_token': this.token,
         'content': window.btoa(' '),
         'message': `create ${path}`,
       },
@@ -70,14 +72,14 @@ export class DataService {
   }
 
   fetchFile(repo: string, sha: string): Observable<string> {
-    return this.http.get(`${BASE_URL}/repos/${OWNER}/${repo}/git/blobs/${sha}?access_this.token=${this.token}`)
+    return this.http.get(`${BASE_URL}/repos/${OWNER}/${repo}/git/blobs/${sha}?access_token=${this.token}`)
       .pipe(map((res: any) => window.atob(res.content)));
   }
 
   updateFile(repo: string, path: string, content: string, sha: string): Observable<Markdown> {
     return this.http.put(`${BASE_URL}/repos/${OWNER}/${repo}/contents/${path}`,
       {
-        'access_this.token': this.token,
+        'access_token': this.token,
         'content': window.btoa(content),
         'sha': sha,
         'message': `update ${path}`

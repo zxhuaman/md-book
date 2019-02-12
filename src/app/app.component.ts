@@ -14,8 +14,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(location.href, location.search);
     const token = getSearchParam(location.search, 'code');
-    this.data.setToken(token);
+    this.data.setToken('214468c52069389ca670254e4719e749');
     this.router.navigate(this.data.getToken() ? ['/editor'] : ['/login']);
   }
 
