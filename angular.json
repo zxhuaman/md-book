@@ -38,7 +38,7 @@
               "./node_modules/markdown-it-sub/dist/markdown-it-sub.js",
               "./node_modules/markdown-it-sup/dist/markdown-it-sup.js",
               "./node_modules/markdown-it-task-lists/dist/markdown-it-task-lists.js",
-              "./node_modules/highlight.js/lib/highlight.js"
+              "./node_modules/highlight.js/lib/highlight.js",
             ]
           },
           "configurations": {

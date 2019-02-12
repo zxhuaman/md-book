@@ -17,6 +17,8 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {AppComponent} from './app.component';
+import {HomeComponent} from './home/home.component';
+import {TuiModule} from 'ngx-tui-editor';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -32,6 +34,7 @@ const routes: Routes = [
     CreateFileDialogComponent,
     LoginComponent,
     AppComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ const routes: Routes = [
     MatInputModule,
     FormsModule,
     MatSnackBarModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    TuiModule
   ],
   exports: [],
   providers: [],

@@ -220,6 +220,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     if (!this.selectedMarkdown) {
       return;
     }
+
     this.data.updateFile(this.repo, this.selectedMarkdown.name,
       this.selectedMarkdown.content,
       this.selectedMarkdown.sha).subscribe(markdown => {
