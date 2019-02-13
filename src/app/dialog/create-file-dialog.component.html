@@ -1,9 +1,0 @@
-<div mat-dialog-content>
-  <mat-form-field>
-    <input matInput placeholder="文件名" [(ngModel)]="data.name">
-  </mat-form-field>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">取消</button>
-  <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>创建</button>
-</div>

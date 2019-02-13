@@ -1,61 +1,33 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-import {EditorComponent} from './editor/editor.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {
-  MatButtonModule,
-  MatDialogModule,
-  MatFormFieldModule,
-  MatIconModule, MatInputModule,
-  MatListModule,
-  MatMenuModule, MatSnackBarModule,
-} from '@angular/material';
-import {HttpClientModule} from '@angular/common/http';
-import {CreateFileDialogComponent} from './dialog/create-file-dialog.component';
-import {FormsModule} from '@angular/forms';
-import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from './login/login.component';
-import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home.component';
-import {TuiModule} from 'ngx-tui-editor';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import {NgZorroAntdModule, NZ_I18N, NzLayoutModule, zh_CN} from 'ng-zorro-antd';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { registerLocaleData } from '@angular/common';
+import zh from '@angular/common/locales/zh';
+import { EditComponent } from './edit/edit.component';
 
-const routes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'editor', component: EditorComponent}
-];
+registerLocaleData(zh);
 
 @NgModule({
-  entryComponents: [
-    CreateFileDialogComponent
-  ],
   declarations: [
-    EditorComponent,
-    CreateFileDialogComponent,
-    LoginComponent,
     AppComponent,
-    HomeComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    MatIconModule,
-    MatMenuModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatListModule,
-    HttpClientModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
+    AppRoutingModule,
+    NgZorroAntdModule,
     FormsModule,
-    MatSnackBarModule,
-    RouterModule.forRoot(routes),
-    TuiModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    NzLayoutModule
   ],
-  exports: [],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }
