@@ -2,7 +2,7 @@ import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import * as Editor from 'tui-editor';
 import {FileNode} from '../entity/file-node';
 import {DataService} from '../data.service';
-import {NzMessageService} from 'ng-zorro-antd';
+import {NzDropdownContextComponent, NzDropdownService, NzMenuItemDirective, NzMessageService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-edit',
@@ -17,8 +17,11 @@ export class EditComponent implements OnInit {
   @ViewChild('trigger') customTrigger: TemplateRef<void>;
   fileNodes: FileNode[];
   openedFile: FileNode;
+  private dropdown: NzDropdownContextComponent;
 
-  constructor(private data: DataService, private message: NzMessageService) {
+  constructor(private data: DataService,
+              private message: NzMessageService,
+              private nzDropdownService: NzDropdownService) {
   }
 
   ngOnInit() {
@@ -50,5 +53,14 @@ export class EditComponent implements OnInit {
     this.data.updateFile(this.repo, file.path, this.editor.getMarkdown(), file.sha)
       .subscribe(value => this.message.create('success', '保存成功'),
         error => this.message.create('error', '保存失败'));
+  }
+
+  contextMenu($event: MouseEvent, template: TemplateRef<void>): void {
+    this.dropdown = this.nzDropdownService.create($event, template);
+  }
+
+  close(e: NzMenuItemDirective): void {
+    console.log(e);
+    this.dropdown.close();
   }
 }

@@ -16,7 +16,7 @@ const AUTHORIZE = `https://gitee.com/oauth/authorize?client_id=${CLIENT_ID}&redi
   providedIn: 'root'
 })
 export class DataService {
-  token = '214468c52069389ca670254e4719e749';
+  private token = '214468c52069389ca670254e4719e749';
 
   constructor(private http: HttpClient) {
   }
@@ -118,5 +118,9 @@ export class DataService {
         });
         return nodes;
       }));
+  }
+
+  getToken() {
+    return this.token;
   }
 }
