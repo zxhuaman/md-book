@@ -8,25 +8,11 @@
       <li nz-submenu *ngFor="let node of fileNodes" (contextmenu)="contextMenu($event,folderContextMenu)">
         <span title><i nz-icon type="folder"></i><span class="nav-text">{{node.name}}</span></span>
         <ul>
-          <li nz-menu-item *ngFor="let file of node.children" (click)="openMarkdown(file)"
-              (contextmenu)="contextMenu($event,fileContextMenu)">
+          <li nz-menu-item *ngFor="let file of node.children" (click)="openMarkdown(file)">
             <span>{{file.name}}</span>
-            <ng-template #fileContextMenu>
-              <ul nz-menu nzInDropDown (nzClick)="close($event)" >
-                <li nz-menu-item><i nz-icon type="edit"></i>编辑</li>
-                <li nz-menu-item><i nz-icon type="delete"></i>删除</li>
-                <li nz-menu-item><i nz-icon type="html5"></i>下载html</li>
-                <li nz-menu-item><i nz-icon type="file-markdown"></i>下载markdown</li>
-              </ul>
-            </ng-template>
           </li>
         </ul>
-        <ng-template #folderContextMenu>
-          <ul nz-menu nzInDropDown (nzClick)="close($event)" >
-            <li nz-menu-item><i nz-icon type="delete"></i>删除</li>
-            <li nz-menu-item><i nz-icon type="file-add"></i>创建文件</li>
-          </ul>
-        </ng-template>
+
       </li>
     </ul>
   </nz-sider>
@@ -46,3 +32,26 @@
 <ng-template #trigger>
   <i nz-icon type="up"></i>
 </ng-template>
+
+<ng-template #folderContextMenu>
+  <ul nz-menu nzInDropDown (nzClick)="close($event)">
+    <li nz-menu-item><i nz-icon type="delete"></i>删除</li>
+    <li nz-menu-item><i nz-icon type="file-add"></i>创建文件</li>
+  </ul>
+</ng-template>
+
+<!--<ng-template #fileContextMenu>
+  <ul nz-menu nzInDropDown (nzClick)="close($event)">
+    <li nz-menu-item><i nz-icon type="edit"></i>编辑</li>
+    <li nz-menu-item><i nz-icon type="delete"></i>删除</li>
+    <li nz-menu-item><i nz-icon type="html5"></i>下载html</li>
+    <li nz-menu-item><i nz-icon type="file-markdown"></i>下载markdown</li>
+  </ul>
+</ng-template>-->
+
+
+<nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="modalVisible" nzTitle="创建文件" (nzOnCancel)="handleCancelMiddle()" (nzOnOk)="handleOkMiddle()">
+  <p>some contents...</p>
+  <p>some contents...</p>
+  <p>some contents...</p>
+</nz-modal>

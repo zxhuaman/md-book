@@ -18,6 +18,7 @@ export class EditComponent implements OnInit {
   fileNodes: FileNode[];
   openedFile: FileNode;
   private dropdown: NzDropdownContextComponent;
+  modalVisible = false;
 
   constructor(private data: DataService,
               private message: NzMessageService,
@@ -49,18 +50,29 @@ export class EditComponent implements OnInit {
   }
 
   save(file: FileNode) {
-    // const content = window.btoa(unescape(encodeURIComponent(this.editor.getMarkdown())));
     this.data.updateFile(this.repo, file.path, this.editor.getMarkdown(), file.sha)
       .subscribe(value => this.message.create('success', '保存成功'),
         error => this.message.create('error', '保存失败'));
   }
 
   contextMenu($event: MouseEvent, template: TemplateRef<void>): void {
+    if (this.dropdown) {
+      this.dropdown.close();
+    }
     this.dropdown = this.nzDropdownService.create($event, template);
   }
 
+
   close(e: NzMenuItemDirective): void {
-    console.log(e);
     this.dropdown.close();
+    this.modalVisible = true;
+  }
+
+  handleCancelMiddle() {
+    this.modalVisible = false;
+  }
+
+  handleOkMiddle() {
+    this.modalVisible = false;
   }
 }
