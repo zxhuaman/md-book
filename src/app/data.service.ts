@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {FileNode, Type} from './entity/file-node';
+import {Base64} from 'js-base64';
 
 const CLIENT_ID = '41fc85380e264e0e7cb5c413b4d624d537491b735f152bbc50506d3565cabd02';
 const REDIRECT_URI = 'http://localhost:4200';
@@ -44,7 +45,7 @@ export class DataService {
     return this.http.post(`${BASE_URL}/repos/${OWNER}/${repo}/contents/${path}`,
       {
         'access_token': this.token,
-        'content': window.btoa(' '),
+        'content': Base64.encode(' '),
         'message': `create ${path}`,
       },
       {
@@ -63,14 +64,14 @@ export class DataService {
 
   fetchFile(repo: string, sha: string): Observable<string> {
     return this.http.get(`${BASE_URL}/repos/${OWNER}/${repo}/git/blobs/${sha}?access_token=${this.token}`)
-      .pipe(map((res: any) => window.atob(res.content)));
+      .pipe(map((res: any) => Base64.decode(res.content)));
   }
 
   updateFile(repo: string, path: string, content: string, sha: string): Observable<FileNode> {
     return this.http.put(`${BASE_URL}/repos/${OWNER}/${repo}/contents/${path}`,
       {
         'access_token': this.token,
-        'content': window.btoa(content),
+        'content': Base64.encode(content),
         'sha': sha,
         'message': `update ${path}`
       },
@@ -79,14 +80,13 @@ export class DataService {
           'Content-Type': 'application/json;charset=UTF-8',
         }
       }).pipe(map((res: any) => {
-        const node = new FileNode();
-        node.name = res.content.name;
-        node.content = content;
-        node.sha = res.content.sha;
-        node.type = Type.DIRECTORY;
-        return node;
-      }),
-      catchError(() => of(null)));
+      const node = new FileNode();
+      node.name = res.content.name;
+      node.content = content;
+      node.sha = res.content.sha;
+      node.type = Type.DIRECTORY;
+      return node;
+    }));
   }
 
 

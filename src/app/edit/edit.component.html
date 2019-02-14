@@ -1,0 +1,31 @@
+<nz-layout style="height: 100%;">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate">
+    <div class="logo">
+      <i nz-icon type="book" theme="fill"></i>
+      {{isCollapsed ? '' : 'Mdbook'}}
+    </div>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu *ngFor="let node of fileNodes">
+        <span title><i nz-icon type="folder"></i><span class="nav-text">{{node.name}}</span></span>
+        <ul>
+          <li nz-menu-item *ngFor="let file of node.children" (click)="openMarkdown(file)">{{file.name}}</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout style="height: 100%;overflow-y: hidden">
+    <div>
+      <i class="trigger" nz-icon [type]="isCollapsed?'menu-unfold':'menu-fold'"
+         (click)="isCollapsed=!isCollapsed"></i>
+      <span *ngIf="openedFile">{{openedFile.path}}</span>
+      <!--<span *ngIf="openedFile" style="margin-left: 1.5em;font-size: .5rem">保存于今天1:30</span>-->
+      <i class="save" *ngIf="openedFile" nz-icon type="save" style="float: right" (click)="save(openedFile)"></i>
+    </div>
+    <nz-content>
+      <div id="edit" style="height: 100%;"></div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+<ng-template #trigger>
+  <i nz-icon type="up"></i>
+</ng-template>
