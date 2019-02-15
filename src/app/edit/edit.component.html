@@ -1,5 +1,6 @@
 <nz-layout style="height: 100%;">
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate" style="background-color: white">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate"
+            style="background-color: #dee1e6">
     <div class="logo">
       <i nz-icon type="book" theme="fill"></i>
       {{isCollapsed ? '' : 'Mdbook'}}
@@ -37,7 +38,7 @@
       </ng-template>
     </nz-tree>
   </nz-sider>
-  <nz-layout style="height: 100%;overflow-y: hidden">
+  <nz-layout style="height: 100%;overflow-y: hidden;background-color: white">
     <div>
       <i class="trigger" nz-icon [type]="isCollapsed?'menu-unfold':'menu-fold'"
          (click)="isCollapsed=!isCollapsed"></i>
