@@ -41,7 +41,7 @@
     <div>
       <i class="trigger" nz-icon [type]="isCollapsed?'menu-unfold':'menu-fold'"
          (click)="isCollapsed=!isCollapsed"></i>
-      <span *ngIf="openedFile">{{openedFile.path}}</span>
+      <span *ngIf="activedNode && activedNode.isLeaf">{{activedNode.origin.key}}</span>
       <i class="save" *ngIf="activedNode && activedNode.isLeaf" nz-icon type="save" style="float: right"
          (click)="save(activedNode)"></i>
     </div>
