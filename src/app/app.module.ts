@@ -10,7 +10,7 @@ import {
   NzCheckboxModule,
   NzFormModule,
   NzInputModule,
-  NzLayoutModule,
+  NzLayoutModule, NzTreeModule,
   zh_CN
 } from 'ng-zorro-antd';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -42,7 +42,8 @@ registerLocaleData(zh);
     NzFormModule,
     NzInputModule,
     NzCheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzTreeModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]

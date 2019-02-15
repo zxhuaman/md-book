@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {FileNode, Type} from './entity/file-node';
 import {Base64} from 'js-base64';
+import {NzTreeModule, NzTreeNodeOptions} from 'ng-zorro-antd';
 
 const CLIENT_ID = '41fc85380e264e0e7cb5c413b4d624d537491b735f152bbc50506d3565cabd02';
 const REDIRECT_URI = 'http://localhost:4200';
@@ -114,6 +115,38 @@ export class DataService {
               file.sha = value.sha;
               file.type = Type.DOCUMENT;
               node.children.push(file);
+            });
+        });
+        return nodes;
+      }));
+  }
+
+  fetchNodes(repo: string): Observable<NzTreeNodeOptions[]> {
+    return this.http
+      .get(`${BASE_URL}/repos/${OWNER}/${repo}/git/gitee/trees/master?access_token=${this.token}&recursive=1`)
+      .pipe(map((res: any) => {
+        const nodes = new Array<NzTreeNodeOptions>();
+        res.tree.filter(value => value.type === 'tree')
+          .forEach(value => {
+            const node = {
+              title: value.path,
+              key: value.path,
+              sha: value.sha,
+              children: []
+            };
+            nodes.push(node);
+          });
+        nodes.forEach(node => {
+          res.tree.filter(value => value.type === 'blob' && value.path.includes(node.title)
+            && value.path.endsWith('.md'))
+            .forEach(value => {
+              const child = {
+                title: value.path.split('/')[1],
+                key: value.path,
+                sha: value.sha,
+                isLeaf: true
+              };
+              node.children.push(child);
             });
         });
         return nodes;

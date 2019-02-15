@@ -17,5 +17,39 @@
   margin: 16px;
   text-align: center;
   font-size: 1.5rem;
-  color: white;
+  color: #001529;
 }
+
+:host ::ng-deep .ant-tree {
+  overflow: hidden;
+  margin: 0 -24px;
+  padding: 0 24px;
+}
+
+:host ::ng-deep .ant-tree li {
+  padding: 4px 0 0 0;
+}
+
+.custom-node {
+  cursor: pointer;
+  line-height: 24px;
+  margin-left: 4px;
+  display: inline-block;
+  margin: 0 -1000px;
+  padding: 0 1000px;
+}
+
+.active {
+  background: #1890FF;
+  color: #fff;
+}
+
+.file-name, .folder-name {
+  margin-left: 4px;
+}
+
+ul > li > span {
+  font-size: .8rem;
+}
+
+

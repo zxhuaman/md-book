@@ -1,28 +1,49 @@
 <nz-layout style="height: 100%;">
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate" style="background-color: white">
     <div class="logo">
       <i nz-icon type="book" theme="fill"></i>
       {{isCollapsed ? '' : 'Mdbook'}}
     </div>
-    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu *ngFor="let node of fileNodes" (contextmenu)="contextMenu($event,folderContextMenu)">
-        <span title><i nz-icon type="folder"></i><span class="nav-text">{{node.name}}</span></span>
-        <ul>
-          <li nz-menu-item *ngFor="let file of node.children" (click)="openMarkdown(file)">
-            <span>{{file.name}}</span>
-          </li>
+    <nz-tree
+      #treeCom
+      [nzData]="nodes"
+      nzMultiple="true"
+      (nzClick)="activeNode($event)"
+      (nzDblClick)="openFolder($event)">
+      <ng-template #contextTemplate>
+        <ul nz-menu nzInDropDown>
+          <li nz-menu-item><span>创建文件</span></li>
+          <li nz-menu-item><span>删除</span></li>
         </ul>
-
-      </li>
-    </ul>
+      </ng-template>
+      <ng-template #contextTemplate1>
+        <ul nz-menu nzInDropDown>
+          <li nz-menu-item><span>下载markdown</span></li>
+          <li nz-menu-item><span>下载html</span></li>
+          <li nz-menu-item><span>删除</span></li>
+        </ul>
+      </ng-template>
+      <ng-template #nzTreeTemplate let-node>
+        <span class="custom-node" [class.active]="activedNode?.key===node.key">
+          <span *ngIf="!node.isLeaf" (contextmenu)="contextMenu($event,contextTemplate)">
+            <i nz-icon [type]="node.isExpanded ? 'folder-open' : 'folder'" (click)="openFolder(node)"></i>
+            <span class="folder-name">{{node.title}}</span>
+          </span>
+          <span *ngIf="node.isLeaf" (contextmenu)="contextMenu($event,contextTemplate1)">
+            <i nz-icon type="file"></i>
+            <span class="file-name">{{node.title}}</span>
+          </span>
+        </span>
+      </ng-template>
+    </nz-tree>
   </nz-sider>
   <nz-layout style="height: 100%;overflow-y: hidden">
     <div>
       <i class="trigger" nz-icon [type]="isCollapsed?'menu-unfold':'menu-fold'"
          (click)="isCollapsed=!isCollapsed"></i>
       <span *ngIf="openedFile">{{openedFile.path}}</span>
-      <!--<span *ngIf="openedFile" style="margin-left: 1.5em;font-size: .5rem">保存于今天1:30</span>-->
-      <i class="save" *ngIf="openedFile" nz-icon type="save" style="float: right" (click)="save(openedFile)"></i>
+      <i class="save" *ngIf="activedNode && activedNode.isLeaf" nz-icon type="save" style="float: right"
+         (click)="save(activedNode)"></i>
     </div>
     <nz-content>
       <div id="edit" style="height: 100%;"></div>
@@ -33,24 +54,8 @@
   <i nz-icon type="up"></i>
 </ng-template>
 
-<ng-template #folderContextMenu>
-  <ul nz-menu nzInDropDown (nzClick)="close($event)">
-    <li nz-menu-item><i nz-icon type="delete"></i>删除</li>
-    <li nz-menu-item><i nz-icon type="file-add"></i>创建文件</li>
-  </ul>
-</ng-template>
-
-<!--<ng-template #fileContextMenu>
-  <ul nz-menu nzInDropDown (nzClick)="close($event)">
-    <li nz-menu-item><i nz-icon type="edit"></i>编辑</li>
-    <li nz-menu-item><i nz-icon type="delete"></i>删除</li>
-    <li nz-menu-item><i nz-icon type="html5"></i>下载html</li>
-    <li nz-menu-item><i nz-icon type="file-markdown"></i>下载markdown</li>
-  </ul>
-</ng-template>-->
-
-
-<nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="modalVisible" nzTitle="创建文件" (nzOnCancel)="handleCancelMiddle()" (nzOnOk)="handleOkMiddle()">
+<nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="modalVisible" nzTitle="创建文件"
+          (nzOnCancel)="handleCancelMiddle()" (nzOnOk)="handleOkMiddle()">
   <p>some contents...</p>
   <p>some contents...</p>
   <p>some contents...</p>
