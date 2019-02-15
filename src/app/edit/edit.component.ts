@@ -11,6 +11,7 @@ import {
   NzTreeNodeOptions
 } from 'ng-zorro-antd';
 
+
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -19,6 +20,10 @@ import {
 export class EditComponent implements OnInit {
   @ViewChild('treeCom') treeCom: NzTreeComponent;
   readonly repo: string = 'mdbook-repo';
+  readonly createFile = 'create_file';
+  readonly delete = 'delete';
+  readonly downMarkdown = 'down_markdown';
+  readonly downHtml = 'down_html';
   private editor;
   isCollapsed = false;
   triggerTemplate = null;
@@ -85,19 +90,26 @@ export class EditComponent implements OnInit {
 
   selectDropdown(type: string): void {
     this.dropdown.close();
+    switch (type) {
+      case this.createFile:
+
+        break;
+      case this.delete:
+        break;
+      case this.downMarkdown:
+        break;
+      case this.downHtml:
+        break;
+      default:
+        break;
+    }
   }
 
-
-  close(e: NzMenuItemDirective): void {
-    this.dropdown.close();
-    this.modalVisible = true;
-  }
-
-  handleCancelMiddle() {
+  handleCancel() {
     this.modalVisible = false;
   }
 
-  handleOkMiddle() {
+  handleOk() {
     this.modalVisible = false;
   }
 }

@@ -90,37 +90,6 @@ export class DataService {
     }));
   }
 
-
-  fetchFileNode(repo: string): Observable<FileNode[]> {
-    return this.http
-      .get(`${BASE_URL}/repos/${OWNER}/${repo}/git/gitee/trees/master?access_token=${this.token}&recursive=1`)
-      .pipe(map((res: any) => {
-        const nodes = new Array<FileNode>();
-        res.tree.filter(value => value.type === 'tree')
-          .forEach(value => {
-            const node = new FileNode();
-            node.path = value.path;
-            node.name = value.path;
-            node.sha = value.sha;
-            node.type = Type.DIRECTORY;
-            nodes.push(node);
-          });
-        nodes.forEach(node => {
-          res.tree.filter(value => value.type === 'blob' && value.path.includes(node.name)
-            && value.path.endsWith('.md'))
-            .forEach(value => {
-              const file = new FileNode();
-              file.path = value.path;
-              file.name = value.path.split('/')[1];
-              file.sha = value.sha;
-              file.type = Type.DOCUMENT;
-              node.children.push(file);
-            });
-        });
-        return nodes;
-      }));
-  }
-
   fetchNodes(repo: string): Observable<NzTreeNodeOptions[]> {
     return this.http
       .get(`${BASE_URL}/repos/${OWNER}/${repo}/git/gitee/trees/master?access_token=${this.token}&recursive=1`)

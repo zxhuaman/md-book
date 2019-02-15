@@ -12,15 +12,15 @@
       (nzDblClick)="openFolder($event)">
       <ng-template #contextTemplate>
         <ul nz-menu nzInDropDown>
-          <li nz-menu-item><span>创建文件</span></li>
-          <li nz-menu-item><span>删除</span></li>
+          <li nz-menu-item (click)="selectDropdown(createFile)"><span>创建文件</span></li>
+          <li nz-menu-item (click)="selectDropdown(delete)"><span>删除</span></li>
         </ul>
       </ng-template>
       <ng-template #contextTemplate1>
         <ul nz-menu nzInDropDown>
-          <li nz-menu-item><span>下载markdown</span></li>
-          <li nz-menu-item><span>下载html</span></li>
-          <li nz-menu-item><span>删除</span></li>
+          <li nz-menu-item (click)="selectDropdown(downMarkdown)"><span>下载markdown</span></li>
+          <li nz-menu-item (click)="selectDropdown(downHtml)"><span>下载html</span></li>
+          <li nz-menu-item (click)="selectDropdown(delete)"><span>删除</span></li>
         </ul>
       </ng-template>
       <ng-template #nzTreeTemplate let-node>
@@ -55,7 +55,7 @@
 </ng-template>
 
 <nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="modalVisible" nzTitle="创建文件"
-          (nzOnCancel)="handleCancelMiddle()" (nzOnOk)="handleOkMiddle()">
+          (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <p>some contents...</p>
   <p>some contents...</p>
   <p>some contents...</p>
