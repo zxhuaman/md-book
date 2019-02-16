@@ -22,7 +22,11 @@ export class DataService {
   constructor(private http: HttpClient) {
   }
 
-  createRepo(repo: string) {
+  /**
+   * 创建仓库
+   * @param repo 仓库名
+   */
+  createRepo(repo: string): Observable<any> {
     return this.http.post(`${BASE_URL}/user/repos`,
       {
         'access_token': this.token,
@@ -38,10 +42,20 @@ export class DataService {
       });
   }
 
-  creatFolder(repo: string, path: string) {
+  /**
+   * 创建文件夹
+   * @param repo 仓库
+   * @param path 文件夹路径
+   */
+  creatFolder(repo: string, path: string):Observable<any> {
     return this.createFile(repo, `${path}/.keep`);
   }
 
+  /**
+   * 创建文件
+   * @param repo 仓库名
+   * @param path 文件路径
+   */
   createFile(repo: string, path: string): Observable<FileNode> {
     return this.http.post(`${BASE_URL}/repos/${OWNER}/${repo}/contents/${path}`,
       {
@@ -63,11 +77,23 @@ export class DataService {
       }));
   }
 
+  /**
+   * 获取文件内容
+   * @param repo 仓库
+   * @param sha 文件的sha值
+   */
   fetchFile(repo: string, sha: string): Observable<string> {
     return this.http.get(`${BASE_URL}/repos/${OWNER}/${repo}/git/blobs/${sha}?access_token=${this.token}`)
       .pipe(map((res: any) => Base64.decode(res.content)));
   }
 
+  /**
+   * 更新文件内容
+   * @param repo 仓库
+   * @param path 文件路径
+   * @param content 文件内容
+   * @param sha 文件sha值
+   */
   updateFile(repo: string, path: string, content: string, sha: string): Observable<FileNode> {
     return this.http.put(`${BASE_URL}/repos/${OWNER}/${repo}/contents/${path}`,
       {
