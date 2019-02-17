@@ -92,7 +92,7 @@ export class EditComponent implements OnInit {
     this.dropdown.close();
     switch (type) {
       case this.createFile:
-
+        this.modalVisible = true;
         break;
       case this.delete:
         break;
@@ -109,7 +109,7 @@ export class EditComponent implements OnInit {
     this.modalVisible = false;
   }
 
-  handleOk() {
+  handleOk(name) {
     this.modalVisible = false;
   }
 }

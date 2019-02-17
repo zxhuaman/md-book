@@ -1,6 +1,5 @@
 <nz-layout style="height: 100%;">
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate"
-            style="background-color: #dee1e6">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate">
     <div class="logo">
       <i nz-icon type="book" theme="fill"></i>
       {{isCollapsed ? '' : 'Mdbook'}}
@@ -27,11 +26,11 @@
       <ng-template #nzTreeTemplate let-node>
         <span class="custom-node" [class.active]="activedNode?.key===node.key">
           <span *ngIf="!node.isLeaf" (contextmenu)="contextMenu($event,contextTemplate)">
-            <i nz-icon [type]="node.isExpanded ? 'folder-open' : 'folder'" (click)="openFolder(node)"></i>
+            <i class="node-icon" nz-icon [type]="node.isExpanded ? 'folder-open' : 'folder'" (click)="openFolder(node)"></i>
             <span class="folder-name">{{node.title}}</span>
           </span>
           <span *ngIf="node.isLeaf" (contextmenu)="contextMenu($event,contextTemplate1)">
-            <i nz-icon type="file"></i>
+            <i class="node-icon" nz-icon type="file"></i>
             <span class="file-name">{{node.title}}</span>
           </span>
         </span>
@@ -56,8 +55,6 @@
 </ng-template>
 
 <nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="modalVisible" nzTitle="创建文件"
-          (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-  <p>some contents...</p>
-  <p>some contents...</p>
-  <p>some contents...</p>
+          (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk(name.value)">
+  <input nz-input type="text" #name>
 </nz-modal>

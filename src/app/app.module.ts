@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import {
   NgZorroAntdModule,
   NZ_I18N,
-  NzButtonModule,
-  NzCheckboxModule,
+  NzButtonModule, NzCardModule,
+  NzCheckboxModule, NzDividerModule,
   NzFormModule,
   NzInputModule,
   NzLayoutModule, NzTreeModule,
@@ -43,7 +43,8 @@ registerLocaleData(zh);
     NzInputModule,
     NzCheckboxModule,
     ReactiveFormsModule,
-    NzTreeModule
+    NzTreeModule,
+    NzCardModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]

@@ -17,7 +17,7 @@ const AUTHORIZE = `https://gitee.com/oauth/authorize?client_id=${CLIENT_ID}&redi
   providedIn: 'root'
 })
 export class DataService {
-  private token = '214468c52069389ca670254e4719e749';
+  private token/* = '214468c52069389ca670254e4719e749'*/;
 
   constructor(private http: HttpClient) {
   }
@@ -47,7 +47,7 @@ export class DataService {
    * @param repo 仓库
    * @param path 文件夹路径
    */
-  creatFolder(repo: string, path: string):Observable<any> {
+  creatFolder(repo: string, path: string): Observable<any> {
     return this.createFile(repo, `${path}/.keep`);
   }
 
