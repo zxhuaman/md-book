@@ -4,20 +4,18 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {FileNode, Type} from './entity/file-node';
 import {Base64} from 'js-base64';
-import {NzTreeModule, NzTreeNodeOptions} from 'ng-zorro-antd';
-
-const CLIENT_ID = '41fc85380e264e0e7cb5c413b4d624d537491b735f152bbc50506d3565cabd02';
-const REDIRECT_URI = 'http://localhost:4200';
+import {NzTreeNodeOptions} from 'ng-zorro-antd';
 
 const BASE_URL = 'https://gitee.com/api/v5';
-const OWNER = 'sandcat';
-const AUTHORIZE = `https://gitee.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+const OWNER = 'mdbook';
+export const PERSONAL_ACCESS_TOKENS = '30766817b6d14cbc125ec605077d1687';
+const DOCUMENTS_REPO = 'documents';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  private token/* = '214468c52069389ca670254e4719e749'*/;
+  private token;
 
   constructor(private http: HttpClient) {
   }
@@ -47,8 +45,8 @@ export class DataService {
    * @param repo 仓库
    * @param path 文件夹路径
    */
-  creatFolder(repo: string, path: string): Observable<any> {
-    return this.createFile(repo, `${path}/.keep`);
+  creatFolder(path: string): Observable<any> {
+    return this.createFile(`${path}/.keep`);
   }
 
   /**
@@ -56,8 +54,8 @@ export class DataService {
    * @param repo 仓库名
    * @param path 文件路径
    */
-  createFile(repo: string, path: string): Observable<FileNode> {
-    return this.http.post(`${BASE_URL}/repos/${OWNER}/${repo}/contents/${path}`,
+  createFile(path: string): Observable<FileNode> {
+    return this.http.post(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/contents/${path}`,
       {
         'access_token': this.token,
         'content': Base64.encode(' '),
@@ -68,13 +66,7 @@ export class DataService {
           'Content-Type': 'application/json;charset=UTF-8',
         }
       })
-      .pipe(map((res: any) => {
-        const node = new FileNode();
-        node.path = path;
-        node.name = res.content.name;
-        node.sha = res.content.sha;
-        return node;
-      }));
+      .pipe(map((res: any) => new FileNode(res.content.name, res.content.path, Type.DOCUMENT, [], res.content.sha, '')));
   }
 
   /**
@@ -82,8 +74,8 @@ export class DataService {
    * @param repo 仓库
    * @param sha 文件的sha值
    */
-  fetchFile(repo: string, sha: string): Observable<string> {
-    return this.http.get(`${BASE_URL}/repos/${OWNER}/${repo}/git/blobs/${sha}?access_token=${this.token}`)
+  fetchFile(sha: string): Observable<string> {
+    return this.http.get(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/git/blobs/${sha}?access_token=${this.token}`)
       .pipe(map((res: any) => Base64.decode(res.content)));
   }
 
@@ -94,8 +86,8 @@ export class DataService {
    * @param content 文件内容
    * @param sha 文件sha值
    */
-  updateFile(repo: string, path: string, content: string, sha: string): Observable<FileNode> {
-    return this.http.put(`${BASE_URL}/repos/${OWNER}/${repo}/contents/${path}`,
+  updateFile(path: string, content: string, sha: string): Observable<FileNode> {
+    return this.http.put(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/contents/${path}`,
       {
         'access_token': this.token,
         'content': Base64.encode(content),
@@ -106,19 +98,13 @@ export class DataService {
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
         }
-      }).pipe(map((res: any) => {
-      const node = new FileNode();
-      node.name = res.content.name;
-      node.content = content;
-      node.sha = res.content.sha;
-      node.type = Type.DIRECTORY;
-      return node;
-    }));
+      }).pipe(map((res: any) =>
+      new FileNode(res.content.name, res.content.path, Type.DOCUMENT, [], res.content.sha, content)));
   }
 
-  fetchNodes(repo: string): Observable<NzTreeNodeOptions[]> {
+  fetchNodes(): Observable<NzTreeNodeOptions[]> {
     return this.http
-      .get(`${BASE_URL}/repos/${OWNER}/${repo}/git/gitee/trees/master?access_token=${this.token}&recursive=1`)
+      .get(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/git/gitee/trees/master?access_token=${this.token}&recursive=1`)
       .pipe(map((res: any) => {
         const nodes = new Array<NzTreeNodeOptions>();
         res.tree.filter(value => value.type === 'tree')
@@ -146,6 +132,28 @@ export class DataService {
         });
         return nodes;
       }));
+  }
+
+  fetchTree(): Observable<FileNode[]> {
+    return this.http
+      .get(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/git/gitee/trees/master?access_token=${this.token}&recursive=1`)
+      .pipe(map((res: any) => {
+        const nodes = new Array<FileNode>();
+        res.tree.filter(value => value.type === 'tree')
+          .forEach(value =>
+            nodes.push(new FileNode(value.path, value.path, Type.DIRECTORY, [], value.sha, null)));
+        nodes.forEach(node => {
+          res.tree.filter(value => value.type === 'blob' && value.path.includes(node.path)
+            && value.path.endsWith('.md'))
+            .forEach(value => node.children.push(new FileNode(value.path.split('/')[1], value.path, Type.DOCUMENT, [], value.sha, ''))
+            );
+        });
+        return nodes;
+      }));
+  }
+
+  setToken(token: string) {
+    return this.token = token;
   }
 
   getToken() {

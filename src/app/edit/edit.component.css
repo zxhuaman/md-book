@@ -20,43 +20,13 @@
   color: white;
 }
 
-:host ::ng-deep .ant-tree {
-  overflow: hidden;
-  margin: 0 -24px;
-  padding: 0 24px;
+
+.documents span {
+  font-size: .75rem;
 }
 
-:host ::ng-deep .ant-tree li {
-  padding: 4px 0 0 0;
-}
-
-.custom-node {
-  cursor: pointer;
-  line-height: 24px;
-  display: inline-block;
-  margin: 0 -1000px;
-  padding: 0 1000px;
-}
-
-.active {
-  background: #1890FF;
-  color: #fff;
-}
-
-.file-name,
-.folder-name {
-  margin-left: 3px;
-  margin-right: 3px;
-  font-size: .8rem;
-  color: white;
-}
-
-.node-icon {
-  color: white;
-}
-
-ul > li > span {
-  font-size: .8rem;
+.context-menu li {
+  font-size: .7rem;
 }
 
 
