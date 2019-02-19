@@ -14,7 +14,7 @@
         </span>
             <ul>
               <li nz-menu-item *ngFor="let child of node.children" (click)="selectFile(child)">
-            <span title (contextmenu)="contextMenu($event, fileTemplate)">
+              <span title (contextmenu)="contextMenu($event, fileTemplate)">
               <i nz-icon type="file-markdown"></i>{{child.name}}
             </span>
               </li>
