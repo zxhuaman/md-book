@@ -39,16 +39,17 @@ export class EditComponent implements OnInit {
 
     this.editor.addHook('change', () => {
       this.selectedFile.content = this.editor.getMarkdown();
+      this.selectedFile = this.selectedFile;
     });
 
     this.data.fetchTree().subscribe(nodes => this.nodes = nodes);
   }
 
   save(node: FileNode, notify: boolean = true) {
-    node = this.getNode(node.path);
+    node.sha = this.getNode(node.path).sha;
     this.data.updateFile(node.path, node.content, node.sha)
-      .subscribe(value => {
-          log('after save ' + value.sha);
+      .subscribe(
+        value => {
           this.setNode(value);
           if (notify) {
             this.message.create('success', '保存成功');
