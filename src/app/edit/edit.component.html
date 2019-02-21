@@ -6,17 +6,17 @@
     </div>
     <ul class="documents" nz-menu nzMode="inline" nzTheme="dark" nzInlineIndent="12">
       <li nz-submenu>
-        <span title>文档</span>
+        <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">文档</span>
         <ul>
           <li nz-submenu *ngFor="let node of nodes">
-        <span title (contextmenu)="contextMenu($event, folderTemplate)">
+        <span title (contextmenu)="contextMenu($event, folderTemplate, node)" style="display: block">
           <i nz-icon type="folder"></i>{{node.name}}
         </span>
             <ul>
               <li nz-menu-item *ngFor="let child of node.children" (click)="selectFile(child)">
-              <span title (contextmenu)="contextMenu($event, fileTemplate)">
-              <i nz-icon type="file-markdown"></i>{{child.name}}
-            </span>
+                <span title (contextmenu)="contextMenu($event, fileTemplate, child)" style="display: block">
+                  <i nz-icon type="file-markdown"></i>{{child.name}}
+                </span>
               </li>
             </ul>
           </li>
@@ -42,20 +42,20 @@
   <i nz-icon type="up"></i>
 </ng-template>
 
+<ng-template #rootTemplate>
+  <ul class="context-menu" nz-menu nzInDropDown>
+    <li nz-menu-item (click)="close('create_folder')">创建文件夹</li>
+  </ul>
+</ng-template>
 <ng-template #folderTemplate>
-  <ul class="context-menu" nz-menu nzInDropDown (nzClick)="close($event)">
-    <li nz-menu-item>创建文件</li>
+  <ul class="context-menu" nz-menu nzInDropDown>
+    <li nz-menu-item (click)="close('create_file')">创建文件</li>
   </ul>
 </ng-template>
 <ng-template #fileTemplate>
-  <ul class="context-menu" nz-menu nzInDropDown (nzClick)="close($event)">
-    <li nz-menu-item>删除</li>
-    <li nz-menu-item>下载markdown</li>
-    <li nz-menu-item>下载html</li>
+  <ul class="context-menu" nz-menu nzInDropDown>
+    <li nz-menu-item (click)="close('delete_file')">删除</li>
+    <li nz-menu-item (click)="close('download_markdown')">下载markdown</li>
+    <li nz-menu-item (click)="close('download_html')">下载html</li>
   </ul>
 </ng-template>
-
-<nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="modalVisible" nzTitle="创建文件"
-          (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk(name.value)">
-  <input nz-input type="text" #name>
-</nz-modal>

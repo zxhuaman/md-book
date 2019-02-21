@@ -4,7 +4,6 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {FileNode, Type} from './entity/file-node';
 import {Base64} from 'js-base64';
-import {NzTreeNodeOptions} from 'ng-zorro-antd';
 
 const BASE_URL = 'https://gitee.com/api/v5';
 const OWNER = 'mdbook';
@@ -69,6 +68,24 @@ export class DataService {
       .pipe(map((res: any) => new FileNode(res.content.name, res.content.path, Type.DOCUMENT, [], res.content.sha, '')));
   }
 
+  fetchTree(): Observable<FileNode[]> {
+    return this.http
+      .get(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/git/gitee/trees/master?access_token=${this.token}&recursive=1`)
+      .pipe(map((res: any) => {
+        const nodes = new Array<FileNode>();
+        res.tree.filter(value => value.type === 'tree')
+          .forEach(value =>
+            nodes.push(new FileNode(value.path, value.path, Type.DIRECTORY, [], value.sha, null)));
+        nodes.forEach(node => {
+          res.tree.filter(value => value.type === 'blob' && value.path.includes(node.path)
+            && value.path.endsWith('.md'))
+            .forEach(value => node.children.push(new FileNode(value.path.split('/')[1], value.path, Type.DOCUMENT, [], value.sha, ''))
+            );
+        });
+        return nodes;
+      }));
+  }
+
   /**
    * 获取文件内容
    * @param repo 仓库
@@ -102,22 +119,14 @@ export class DataService {
       new FileNode(res.content.name, res.content.path, Type.DOCUMENT, [], res.content.sha, content)));
   }
 
-  fetchTree(): Observable<FileNode[]> {
-    return this.http
-      .get(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/git/gitee/trees/master?access_token=${this.token}&recursive=1`)
-      .pipe(map((res: any) => {
-        const nodes = new Array<FileNode>();
-        res.tree.filter(value => value.type === 'tree')
-          .forEach(value =>
-            nodes.push(new FileNode(value.path, value.path, Type.DIRECTORY, [], value.sha, null)));
-        nodes.forEach(node => {
-          res.tree.filter(value => value.type === 'blob' && value.path.includes(node.path)
-            && value.path.endsWith('.md'))
-            .forEach(value => node.children.push(new FileNode(value.path.split('/')[1], value.path, Type.DOCUMENT, [], value.sha, ''))
-            );
-        });
-        return nodes;
-      }));
+  deleteFile(file: FileNode): Observable<boolean> {
+    return this.http.delete(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/contents/${file.path}`, {
+      params: {
+        'access_token': this.token,
+        'sha': file.sha,
+        'message': `delete ${file.name}`
+      }
+    }).pipe(map(() => true));
   }
 
   setToken(token: string) {

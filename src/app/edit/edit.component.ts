@@ -2,9 +2,17 @@ import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import * as Editor from 'tui-editor';
 import {FileNode} from '../entity/file-node';
 import {DataService} from '../data.service';
-import {NzDropdownContextComponent, NzDropdownService, NzMenuItemDirective, NzMessageService, NzTreeComponent} from 'ng-zorro-antd';
+import {NzDropdownContextComponent, NzDropdownService, NzMessageService, NzModalService, NzTreeComponent} from 'ng-zorro-antd';
+import download from '../util';
 import {log} from 'util';
 
+export enum OperationType {
+  CREATE_FOLDER = 'create_folder',
+  CREATE_FILE = 'create_file',
+  DOWNLOAD_HTML = 'download_html',
+  DOWNLOAD_MARKDOWN = 'download_markdown',
+  DELETE_FILE = 'delete_file'
+}
 
 @Component({
   selector: 'app-edit',
@@ -19,12 +27,13 @@ export class EditComponent implements OnInit {
   @ViewChild('trigger') customTrigger: TemplateRef<void>;
   selectedFile: FileNode;
   private dropdown: NzDropdownContextComponent;
-  modalVisible = false;
   nodes: FileNode[] = [];
+  curNode: FileNode;
 
   constructor(private data: DataService,
               private message: NzMessageService,
-              private nzDropdownService: NzDropdownService) {
+              private nzDropdownService: NzDropdownService,
+              private nzModalService: NzModalService) {
   }
 
   ngOnInit() {
@@ -62,20 +71,39 @@ export class EditComponent implements OnInit {
         });
   }
 
-  contextMenu($event: MouseEvent, template: TemplateRef<void>): void {
+  contextMenu($event: MouseEvent, template: TemplateRef<void>, node: FileNode): void {
     this.dropdown = this.nzDropdownService.create($event, template);
+    this.curNode = node;
   }
 
-  handleCancel() {
-    this.modalVisible = false;
-  }
-
-  handleOk(name) {
-    this.modalVisible = false;
-  }
-
-  close($event: NzMenuItemDirective) {
+  close(type: string) {
     this.dropdown.close();
+    switch (type) {
+      case OperationType.CREATE_FOLDER:
+        break;
+      case OperationType.CREATE_FILE:
+        this.nzModalService.create({
+          nzTitle: '<i>创建文件</i>',
+          nzContent: '<b>Some descriptions</b>',
+          nzOnOk: () => console.log('create')
+        });
+        break;
+      case OperationType.DELETE_FILE:
+        this.nzModalService.create({
+          nzTitle: '<i>确定删除文件吗?</i>',
+          nzContent: '<b>Some descriptions</b>',
+          nzOnOk: () => this.deleteFile(this.curNode)
+        });
+        break;
+      case OperationType.DOWNLOAD_HTML:
+        this.downHtml(this.curNode);
+        break;
+      case OperationType.DOWNLOAD_MARKDOWN:
+        this.downMarkdown(this.curNode);
+        break;
+      default:
+        break;
+    }
   }
 
   selectFile(file: FileNode) {
@@ -87,7 +115,10 @@ export class EditComponent implements OnInit {
       this.save(this.selectedFile, false);
     }
     this.selectedFile = this.getNode(file.path);
-    this.data.fetchFile(this.selectedFile.sha).subscribe(content => this.editor.setMarkdown(content));
+    this.data.fetchFile(this.selectedFile.sha).subscribe(content => {
+      this.editor.setMarkdown(content);
+      this.selectedFile.content = content;
+    });
   }
 
   getNode(path): FileNode {
@@ -113,5 +144,29 @@ export class EditComponent implements OnInit {
         }
       }
     }
+  }
+
+  createFolder() {
+    // todo
+  }
+
+  createFile() {
+    // todo
+  }
+
+  deleteFile(file: FileNode) {
+    this.data.deleteFile(file).subscribe(res => {
+      // todo
+    });
+  }
+
+  downMarkdown(file: FileNode) {
+    this.data.fetchFile(file.sha).subscribe(content => {
+      download(content, 'text/plain', file.name);
+    });
+  }
+
+  downHtml(file: FileNode) {
+    // todo
   }
 }
