@@ -4,9 +4,8 @@ import {FileNode} from '../entity/file-node';
 import {DataService} from '../data.service';
 import {NzDropdownContextComponent, NzDropdownService, NzMessageService, NzModalService, NzTreeComponent} from 'ng-zorro-antd';
 import download from '../util';
-import {log} from 'util';
 
-export enum OperationType {
+export enum Operation {
   CREATE_FOLDER = 'create_folder',
   CREATE_FILE = 'create_file',
   DOWNLOAD_HTML = 'download_html',
@@ -81,23 +80,23 @@ export class EditComponent implements OnInit {
   close(type: string) {
     this.dropdown.close();
     switch (type) {
-      case OperationType.CREATE_FOLDER:
+      case Operation.CREATE_FOLDER:
         this.isFolderModalVisible = true;
         break;
-      case OperationType.CREATE_FILE:
+      case Operation.CREATE_FILE:
         this.isFileModalVisible = true;
         break;
-      case OperationType.DELETE_FILE:
+      case Operation.DELETE_FILE:
         this.nzModalService.create({
           nzTitle: '<i>确定删除文件吗?</i>',
           nzContent: '<b>Some descriptions</b>',
           nzOnOk: () => this.deleteFile(this.curNode)
         });
         break;
-      case OperationType.DOWNLOAD_HTML:
+      case Operation.DOWNLOAD_HTML:
         this.downHtml(this.curNode);
         break;
-      case OperationType.DOWNLOAD_MARKDOWN:
+      case Operation.DOWNLOAD_MARKDOWN:
         this.downMarkdown(this.curNode);
         break;
       default:
@@ -158,9 +157,7 @@ export class EditComponent implements OnInit {
   }
 
   deleteFile(file: FileNode) {
-    this.data.deleteFile(file).subscribe(res => {
-      // todo
-    });
+    this.data.deleteFile(file).subscribe(res => {});
   }
 
   downMarkdown(file: FileNode) {
