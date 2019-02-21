@@ -29,6 +29,7 @@ export class EditComponent implements OnInit {
   private dropdown: NzDropdownContextComponent;
   nodes: FileNode[] = [];
   curNode: FileNode;
+  isFolderModalVisible: boolean;
   isFileModalVisible: boolean;
 
   constructor(private data: DataService,
@@ -81,6 +82,7 @@ export class EditComponent implements OnInit {
     this.dropdown.close();
     switch (type) {
       case OperationType.CREATE_FOLDER:
+        this.isFolderModalVisible = true;
         break;
       case OperationType.CREATE_FILE:
         this.isFileModalVisible = true;
@@ -143,7 +145,10 @@ export class EditComponent implements OnInit {
     }
   }
 
-  createFolder() {
+  createFolder(folderName: string) {
+    this.isFolderModalVisible = false;
+    this.data.creatFolder(folderName).subscribe(() =>
+      this.data.fetchTree().subscribe(nodes => this.nodes = nodes));
   }
 
   createFile(fileName: string) {

@@ -65,3 +65,8 @@
           (nzOnOk)="createFile(fileInput.value)">
   <input #fileInput type="text" placeholder="文件名" style="border: none;outline: none;color: black">
 </nz-modal>
+<nz-modal [(nzVisible)]="isFolderModalVisible" nzTitle="创建文件"
+          (nzOnCancel)="isFolderModalVisible=false"
+          (nzOnOk)="createFolder(folderInput.value)">
+  <input #folderInput type="text" placeholder="文件夹" style="border: none;outline: none;color: black">
+</nz-modal>
