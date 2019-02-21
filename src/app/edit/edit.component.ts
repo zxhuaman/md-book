@@ -29,6 +29,7 @@ export class EditComponent implements OnInit {
   private dropdown: NzDropdownContextComponent;
   nodes: FileNode[] = [];
   curNode: FileNode;
+  isFileModalVisible: boolean;
 
   constructor(private data: DataService,
               private message: NzMessageService,
@@ -82,11 +83,7 @@ export class EditComponent implements OnInit {
       case OperationType.CREATE_FOLDER:
         break;
       case OperationType.CREATE_FILE:
-        this.nzModalService.create({
-          nzTitle: '<i>创建文件</i>',
-          nzContent: '<b>Some descriptions</b>',
-          nzOnOk: () => console.log('create')
-        });
+        this.isFileModalVisible = true;
         break;
       case OperationType.DELETE_FILE:
         this.nzModalService.create({
@@ -147,11 +144,12 @@ export class EditComponent implements OnInit {
   }
 
   createFolder() {
-    // todo
   }
 
-  createFile() {
-    // todo
+  createFile(fileName: string) {
+    this.isFileModalVisible = false;
+    this.data.createFile(this.curNode.path + '/' + fileName).subscribe(() =>
+      this.data.fetchTree().subscribe(nodes => this.nodes = nodes));
   }
 
   deleteFile(file: FileNode) {

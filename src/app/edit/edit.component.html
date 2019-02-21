@@ -59,3 +59,9 @@
     <li nz-menu-item (click)="close('download_html')">下载html</li>
   </ul>
 </ng-template>
+
+<nz-modal [(nzVisible)]="isFileModalVisible" nzTitle="创建文件"
+          (nzOnCancel)="isFileModalVisible=false"
+          (nzOnOk)="createFile(fileInput.value)">
+  <input #fileInput type="text" placeholder="文件名" style="border: none;outline: none;color: black">
+</nz-modal>
