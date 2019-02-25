@@ -6,9 +6,9 @@
     </div>
     <ul class="documents" nz-menu nzMode="inline" nzTheme="dark" nzInlineIndent="12">
       <li nz-submenu>
-        <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">文档</span>
+        <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">{{rootNode.name}}</span>
         <ul>
-          <li nz-submenu *ngFor="let node of nodes">
+          <li nz-submenu *ngFor="let node of rootNode.children">
         <span title (contextmenu)="contextMenu($event, folderTemplate, node)" style="display: block">
           <i nz-icon type="folder"></i>{{node.name}}
         </span>

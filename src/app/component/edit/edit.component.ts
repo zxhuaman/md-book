@@ -1,9 +1,9 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import * as Editor from 'tui-editor';
-import {FileNode} from '../entity/file-node';
-import {DataService} from '../data.service';
+import {FileNode, Type} from '../../model/entity/file-node';
+import {DataService} from '../../model/data.service';
 import {NzDropdownContextComponent, NzDropdownService, NzMessageService, NzModalService, NzTreeComponent} from 'ng-zorro-antd';
-import download from '../util';
+import download from '../../util';
 
 export enum Operation {
   CREATE_FOLDER = 'create_folder',
@@ -30,11 +30,14 @@ export class EditComponent implements OnInit {
   curNode: FileNode;
   isFolderModalVisible: boolean;
   isFileModalVisible: boolean;
+  rootNode: FileNode;
 
   constructor(private data: DataService,
               private message: NzMessageService,
               private nzDropdownService: NzDropdownService,
-              private nzModalService: NzModalService) {
+              private nzModalService: NzModalService,
+              private ref: ChangeDetectorRef) {
+    this.rootNode = new FileNode('文档', '', Type.DIRECTORY, [], '', '');
   }
 
   ngOnInit() {
@@ -42,7 +45,7 @@ export class EditComponent implements OnInit {
     this.editor = new Editor({
       el: document.querySelector('#edit'),
       initialEditType: 'markdown',
-      previewStyle: 'vertical',
+      previewStyle: 'tab',
       height: `${window.innerHeight - 48}px`,
       width: `${window.innerWidth - 100}px`
     });
@@ -52,7 +55,10 @@ export class EditComponent implements OnInit {
       this.selectedFile = this.selectedFile;
     });
 
-    this.data.fetchTree().subscribe(nodes => this.nodes = nodes);
+    this.data.fetchTree().subscribe(nodes => {
+      this.nodes = nodes;
+      this.rootNode.children = nodes;
+    });
   }
 
   save(node: FileNode, notify: boolean = true) {
@@ -146,18 +152,24 @@ export class EditComponent implements OnInit {
 
   createFolder(folderName: string) {
     this.isFolderModalVisible = false;
-    this.data.creatFolder(folderName).subscribe(() =>
-      this.data.fetchTree().subscribe(nodes => this.nodes = nodes));
+    this.data.creatFolder(folderName).subscribe(node => {
+      this.nodes.push(node);
+      this.rootNode.add(node);
+    });
   }
 
   createFile(fileName: string) {
     this.isFileModalVisible = false;
-    this.data.createFile(this.curNode.path + '/' + fileName).subscribe(() =>
-      this.data.fetchTree().subscribe(nodes => this.nodes = nodes));
+    this.data.createFile(this.curNode.path + '/' + fileName).subscribe(node => {
+      this.setNode(node);
+      this.rootNode.add(node);
+      this.ref.markForCheck();
+    });
   }
 
   deleteFile(file: FileNode) {
-    this.data.deleteFile(file).subscribe(res => {});
+    this.data.deleteFile(file).subscribe(res => {
+    });
   }
 
   downMarkdown(file: FileNode) {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DataService, PERSONAL_ACCESS_TOKENS} from './data.service';
+import {DataService, PERSONAL_ACCESS_TOKENS} from './model/data.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.router.navigate([this.data.getToken() ? 'edit' : 'login']);
+    // this.router.navigate([this.model.getToken() ? 'edit' : 'login']);
     this.data.setToken(PERSONAL_ACCESS_TOKENS);
     this.router.navigate(['edit']);
   }

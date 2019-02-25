@@ -44,8 +44,13 @@ export class DataService {
    * @param repo 仓库
    * @param path 文件夹路径
    */
-  creatFolder(path: string): Observable<any> {
-    return this.createFile(`${path}/.keep`);
+  creatFolder(path: string): Observable<FileNode> {
+    return this.createFile(`${path}/.keep`).pipe(map(node => {
+      node.name = path;
+      node.path = path;
+      node.sha = '';
+      return node;
+    }));
   }
 
   /**
@@ -84,6 +89,11 @@ export class DataService {
         });
         return nodes;
       }));
+  }
+
+  tree(): Observable<any> {
+    return this.http
+      .get(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/git/gitee/trees/master?access_token=${this.token}&recursive=1`);
   }
 
   /**

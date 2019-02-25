@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DataService, PERSONAL_ACCESS_TOKENS} from '../data.service';
+import {DataService, PERSONAL_ACCESS_TOKENS} from '../../model/data.service';
 import {Router} from '@angular/router';
 
 @Component({
