@@ -4,7 +4,7 @@
       <i nz-icon type="book" theme="fill"></i>
       <span>Mdbook</span>
     </div>
-    <form class="login-form" nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+    <form class="login-form" nz-form [formGroup]="loginForm" (ngSubmit)="submitForm($event)">
       <nz-form-item>
         <nz-form-control>
           <nz-input-group [nzPrefix]="prefixEmail" [nzSize]="'large'">
@@ -34,7 +34,7 @@
     </form>
     <div style="text-align: center">
       <a href="{{giteeCodeAction}}">
-        <button class="login-by-gitee" nz-button [nzType]="'primary'" [nzSize]="'large'">码云登陆</button>
+        <button class="login-by-gitee" nz-button [nzType]="'primary'" type="submit" [nzSize]="'large'">码云登陆</button>
       </a>
     </div>
   </nz-card>

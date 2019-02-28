@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {client_id, client_secret, DataService, gitee_code_action, redirect_uri, token_action} from '../../model/data.service';
+import {DataService, gitee_code_action} from '../../model/data.service';
 import {Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -20,21 +19,21 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      userName: ['test@mdbook.com', [Validators.required]],
-      password: ['123456', [Validators.required]],
+      userName: ['', [Validators.required]],
+      password: ['', [Validators.required]],
       remember: [false]
     });
   }
 
-  submitForm(): void {
+  submitForm($event: Event) {
     for (const i in this.loginForm.controls) {
       this.loginForm.controls[i].markAsDirty();
       this.loginForm.controls[i].updateValueAndValidity();
     }
-    if (this.loginForm.get('userName').value === 'test@mdbook.com' &&
-      this.loginForm.get('password').value === '123456') {
-      // this.data.setToken(PERSONAL_ACCESS_TOKENS);
-      this.router.navigate(['edit']);
+    if (this.loginForm.get('userName').value &&
+      this.loginForm.get('password').value) {
+      this.data.login(null, this.loginForm.get('userName').value, this.loginForm.get('password').value);
     }
+    $event.preventDefault();
   }
 }

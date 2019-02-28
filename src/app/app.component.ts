@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.data.getToken1().subscribe(token => this.router.navigate([token ? 'edit' : 'login']));
+    this.data.getToken().subscribe(token => this.router.navigate([token ? 'edit' : 'login']));
     const code = location.href.split('=')[1];
     if (code) {
       this.data.login(code);

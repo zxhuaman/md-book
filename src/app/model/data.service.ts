@@ -154,29 +154,39 @@ export class DataService {
     this.token = token;
   }
 
-  login(code: string, email?: string, password?: string): void {
-    const params = new HttpParams();
-    params
-      .append('client_id', client_id)
-      .append('client_secret', client_secret);
+  login(code: string, mail?: string, password?: string): void {
+    let body = null;
+    let params = null;
+    let headers = null;
     if (code) {
-      params
-        .append('grant_type', 'authorization_code')
-        .append('code', code)
-        .append('redirect_uri', redirect_uri);
+      params = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'client_id': client_id,
+        'redirect_uri': redirect_uri,
+        'client_secret': client_secret
+      };
     } else {
-      params
-        .append('grant_type', 'password')
-        .append('username', email)
-        .append('password', password)
-        .append('scope', 'projects user_info issues notes');
+      body = {
+        'grant_type': 'password',
+        'username': mail,
+        'password': password,
+        'client_id': client_id,
+        'client_secret': client_secret,
+        'scope': 'projects user_info issues notes'
+      };
+      headers = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      };
     }
-    this.http.post(token_action, null, {params: params}).subscribe((res: any) => {
+
+    this.http.post(token_action, body, {headers: headers, params: params}).subscribe((res: any) => {
+      console.log(res.access_token);
       this.setToken(res.access_token);
-    });
+    }, error => console.log(error));
   }
 
-  getToken1(): Observable<string> {
+  getToken(): Observable<string> {
     return this.tokenSubject;
   }
 }
