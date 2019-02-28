@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {DataService, PERSONAL_ACCESS_TOKENS} from './model/data.service';
+import {DataService} from './model/data.service';
 import {Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +9,14 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private data: DataService, private router: Router) {
+  constructor(private data: DataService, private router: Router, private http: HttpClient) {
   }
 
   ngOnInit(): void {
-    // this.router.navigate([this.model.getToken() ? 'edit' : 'login']);
-    this.data.setToken(PERSONAL_ACCESS_TOKENS);
-    this.router.navigate(['edit']);
+    this.data.getToken1().subscribe(token => this.router.navigate([token ? 'edit' : 'login']));
+    const code = location.href.split('=')[1];
+    if (code) {
+      this.data.login(code);
+    }
   }
 }

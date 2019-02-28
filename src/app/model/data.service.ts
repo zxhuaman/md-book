@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {Observable, of, Subject} from 'rxjs';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {FileNode, Type} from './entity/file-node';
 import {Base64} from 'js-base64';
@@ -10,13 +10,23 @@ const OWNER = 'mdbook';
 export const PERSONAL_ACCESS_TOKENS = '30766817b6d14cbc125ec605077d1687';
 const DOCUMENTS_REPO = 'documents';
 
+export const client_secret = '700d432b6b9bc3a73d9259413e3cf4e6da74162e67c3fb764587cd0059a131a9';
+export const client_id = 'b6ea926cc73d8647bb9b0ecdb35c06f4e6be691cd82c094dcf180d1e025202b2';
+export const redirect_uri = 'http://localhost:4200/login';
+export const response_type = 'code';
+export const action = 'https://gitee.com/oauth/authorize';
+export const token_action = 'http://zxhuaman.gz01.bdysite.com/token';
+export const gitee_code_action = `https://gitee.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
+
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   private token;
+  private tokenSubject: Subject<string>;
 
   constructor(private http: HttpClient) {
+    this.tokenSubject = new Subject();
   }
 
   /**
@@ -140,10 +150,33 @@ export class DataService {
   }
 
   setToken(token: string) {
-    return this.token = token;
+    this.tokenSubject.next(token);
+    this.token = token;
   }
 
-  getToken() {
-    return this.token;
+  login(code: string, email?: string, password?: string): void {
+    const params = new HttpParams();
+    params
+      .append('client_id', client_id)
+      .append('client_secret', client_secret);
+    if (code) {
+      params
+        .append('grant_type', 'authorization_code')
+        .append('code', code)
+        .append('redirect_uri', redirect_uri);
+    } else {
+      params
+        .append('grant_type', 'password')
+        .append('username', email)
+        .append('password', password)
+        .append('scope', 'projects user_info issues notes');
+    }
+    this.http.post(token_action, null, {params: params}).subscribe((res: any) => {
+      this.setToken(res.access_token);
+    });
+  }
+
+  getToken1(): Observable<string> {
+    return this.tokenSubject;
   }
 }
