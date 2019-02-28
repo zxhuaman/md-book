@@ -65,7 +65,9 @@ export class DataService {
           'Content-Type': 'application/json;charset=UTF-8',
         }
       })
-      .pipe(map((res: any) => new FileNode(res.content.name, res.content.path, Type.DOCUMENT, [], res.content.sha, '')));
+      .pipe(map((res: any) =>
+        new FileNode(res.content.path.split('/')[0], res.content.name, res.content.path,
+          Type.DOCUMENT, [], res.content.sha, '')));
   }
 
   fetchTree(): Observable<FileNode[]> {
@@ -75,15 +77,21 @@ export class DataService {
         const nodes = new Array<FileNode>();
         res.tree.filter(value => value.type === 'tree')
           .forEach(value =>
-            nodes.push(new FileNode(value.path, value.path, Type.DIRECTORY, [], value.sha, null)));
+            nodes.push(new FileNode(null, value.path, value.path, Type.DIRECTORY, [], value.sha, null)));
         nodes.forEach(node => {
-          res.tree.filter(value => value.type === 'blob' && value.path.includes(node.path)
+          res.tree.filter(value => value.type === 'blob'
+            && value.path.includes(node.path)
             && value.path.endsWith('.md'))
-            .forEach(value => node.children.push(new FileNode(value.path.split('/')[1], value.path, Type.DOCUMENT, [], value.sha, ''))
+            .forEach(value => node.children.push(new FileNode(node.path, value.path.split('/')[1],
+              value.path, Type.DOCUMENT, [], value.sha, ''))
             );
         });
         return nodes;
       }));
+  }
+
+  tree(): Observable<any> {
+    return this.http.get(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/git/gitee/trees/master?access_token=${this.token}&recursive=1`);
   }
 
   /**
@@ -116,7 +124,8 @@ export class DataService {
           'Content-Type': 'application/json;charset=UTF-8',
         }
       }).pipe(map((res: any) =>
-      new FileNode(res.content.name, res.content.path, Type.DOCUMENT, [], res.content.sha, content)));
+      new FileNode(res.content.path.split('/')[0], res.content.name,
+        res.content.path, Type.DOCUMENT, [], res.content.sha, content)));
   }
 
   deleteFile(file: FileNode): Observable<boolean> {

@@ -1,4 +1,5 @@
 export class FileNode {
+  public parent: string;
   public name: string;
   public path: string;
   public type: Type;
@@ -7,7 +8,8 @@ export class FileNode {
   public content: string;
 
 
-  constructor(name: string, path: string, type: Type, children: FileNode[], sha: string, content: string) {
+  constructor(parent: string, name: string, path: string, type: Type, children: FileNode[], sha: string, content: string) {
+    this.parent = parent;
     this.name = name;
     this.path = path;
     this.type = type;
