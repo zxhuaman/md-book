@@ -1,9 +1,9 @@
-import {ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import * as Editor from 'tui-editor';
-import {FileNode, Type} from '../../model/entity/file-node';
-import {DataService} from '../../model/data.service';
+import {FileNode} from '../entity/file-node';
+import {DataService} from '../data.service';
 import {NzDropdownContextComponent, NzDropdownService, NzMessageService, NzModalService, NzTreeComponent} from 'ng-zorro-antd';
-import download from '../../util';
+import download from '../util';
 
 export enum Operation {
   CREATE_FOLDER = 'create_folder',
@@ -30,14 +30,15 @@ export class EditComponent implements OnInit {
   curNode: FileNode;
   isFolderModalVisible: boolean;
   isFileModalVisible: boolean;
-  rootNode: FileNode;
+  nodeMap: Map<string, FileNode>;
+  folders: FileNode[];
+  files: FileNode[];
 
   constructor(private data: DataService,
               private message: NzMessageService,
               private nzDropdownService: NzDropdownService,
-              private nzModalService: NzModalService,
-              private ref: ChangeDetectorRef) {
-    this.rootNode = new FileNode('文档', '', Type.DIRECTORY, [], '', '');
+              private nzModalService: NzModalService) {
+    this.nodeMap = new Map();
   }
 
   ngOnInit() {
@@ -55,9 +56,18 @@ export class EditComponent implements OnInit {
       this.selectedFile = this.selectedFile;
     });
 
-    this.data.fetchTree().subscribe(nodes => {
-      this.nodes = nodes;
-      this.rootNode.children = nodes;
+    this.data.fetchTree().subscribe(nodes => this.nodes = nodes);
+    this.data.tree().subscribe(res => {
+      res.tree.forEach(value => {
+        if (value.type === 'tree') {
+          this.nodeMap.set(value.path, new FileNode(null, value.path, value.path, Type.DIRECTORY, [], value.sha, ''));
+        } else if (value.path.endsWith('.md')) {
+          const pathArray = value.path.split('/');
+          this.nodeMap.set(value.path, new FileNode(pathArray[0], pathArray[1], value.path, Type.DOCUMENT, [], value.sha, ''));
+        }
+      });
+      // this.folders = Array.from(this.nodeMap.values()).filter(value => value.type === Type.DIRECTORY);
+      this.files = Array.from(this.nodeMap.values()).filter(value => value.type === Type.DOCUMENT);
     });
   }
 
@@ -152,19 +162,14 @@ export class EditComponent implements OnInit {
 
   createFolder(folderName: string) {
     this.isFolderModalVisible = false;
-    this.data.creatFolder(folderName).subscribe(node => {
-      this.nodes.push(node);
-      this.rootNode.add(node);
-    });
+    this.data.creatFolder(folderName).subscribe(() =>
+      this.data.fetchTree().subscribe(nodes => this.nodes = nodes));
   }
 
   createFile(fileName: string) {
     this.isFileModalVisible = false;
-    this.data.createFile(this.curNode.path + '/' + fileName).subscribe(node => {
-      this.setNode(node);
-      this.rootNode.add(node);
-      this.ref.markForCheck();
-    });
+    this.data.createFile(this.curNode.path + '/' + fileName).subscribe(() =>
+      this.data.fetchTree().subscribe(nodes => this.nodes = nodes));
   }
 
   deleteFile(file: FileNode) {
@@ -180,5 +185,13 @@ export class EditComponent implements OnInit {
 
   downHtml(file: FileNode) {
     // todo
+  }
+
+  getFolders(map: Map<string, FileNode>): Array<FileNode> {
+    return Array.from(map.values()).filter(node => node.type === Type.DIRECTORY);
+  }
+
+  getFilesByParent(parent: FileNode): Array<FileNode> {
+    return Array.from(this.nodeMap.values()).filter(node => node.parent === parent.path);
   }
 }

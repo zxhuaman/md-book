@@ -6,14 +6,15 @@
     </div>
     <ul class="documents" nz-menu nzMode="inline" nzTheme="dark" nzInlineIndent="12">
       <li nz-submenu>
-        <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">{{rootNode.name}}</span>
+        <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">文档</span>
         <ul>
-          <li nz-submenu *ngFor="let node of rootNode.children">
+          <li nz-submenu *ngFor="let node of getFolders(nodeMap)">
         <span title (contextmenu)="contextMenu($event, folderTemplate, node)" style="display: block">
           <i nz-icon type="folder"></i>{{node.name}}
         </span>
             <ul>
-              <li nz-menu-item *ngFor="let child of node.children" (click)="selectFile(child)">
+              <li nz-menu-item *ngFor="let child of getFilesByParent(node)"
+                  (click)="selectFile(child)">
                 <span title (contextmenu)="contextMenu($event, fileTemplate, child)" style="display: block">
                   <i nz-icon type="file-markdown"></i>{{child.name}}
                 </span>

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Observable, of, Subject} from 'rxjs';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {FileNode, Type} from './entity/file-node';
 import {Base64} from 'js-base64';
@@ -80,7 +80,9 @@ export class DataService {
           'Content-Type': 'application/json;charset=UTF-8',
         }
       })
-      .pipe(map((res: any) => new FileNode(res.content.name, res.content.path, Type.DOCUMENT, [], res.content.sha, '')));
+      .pipe(map((res: any) =>
+        new FileNode(res.content.path.split('/')[0], res.content.name, res.content.path,
+          Type.DOCUMENT, [], res.content.sha, '')));
   }
 
   fetchTree(): Observable<FileNode[]> {
@@ -102,8 +104,7 @@ export class DataService {
   }
 
   tree(): Observable<any> {
-    return this.http
-      .get(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/git/gitee/trees/master?access_token=${this.token}&recursive=1`);
+    return this.http.get(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/git/gitee/trees/master?access_token=${this.token}&recursive=1`);
   }
 
   /**
@@ -136,7 +137,8 @@ export class DataService {
           'Content-Type': 'application/json;charset=UTF-8',
         }
       }).pipe(map((res: any) =>
-      new FileNode(res.content.name, res.content.path, Type.DOCUMENT, [], res.content.sha, content)));
+      new FileNode(res.content.path.split('/')[0], res.content.name,
+        res.content.path, Type.DOCUMENT, [], res.content.sha, content)));
   }
 
   deleteFile(file: FileNode): Observable<boolean> {
@@ -186,7 +188,7 @@ export class DataService {
     }, error => console.log(error));
   }
 
-  getToken(): Observable<string> {
-    return this.tokenSubject;
+  getToken() {
+    return this.token;
   }
 }
