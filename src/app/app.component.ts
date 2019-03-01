@@ -13,14 +13,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.data.getToken().subscribe(token => {
+    /*this.data.getToken().subscribe(token => {
       this.router.navigate([token ? 'edit' : 'login']);
     });
     const code = location.href.split('=')[1];
     if (code) {
       this.data.login(code);
-    }
+    }*/
 
-    // this.router.navigate(['edit']);
+    this.router.navigate(['edit']);
   }
 }

@@ -4,6 +4,7 @@ import {NzDropdownContextComponent, NzDropdownService, NzMessageService, NzModal
 import {FileNode, Type} from '../../model/entity/file-node';
 import {DataService} from '../../model/data.service';
 import download from '../../util';
+import {log} from 'util';
 
 export enum Operation {
   CREATE_FOLDER = 'create_folder',
@@ -30,6 +31,7 @@ export class EditComponent implements OnInit {
   isFolderModalVisible: boolean;
   isFileModalVisible: boolean;
   nodeMap: Map<string, FileNode>;
+  drawerVisible = true;
 
   constructor(private data: DataService,
               private message: NzMessageService,
@@ -158,5 +160,14 @@ export class EditComponent implements OnInit {
 
   getFilesByParent(parent: FileNode): Array<FileNode> {
     return Array.from(this.nodeMap.values()).filter(node => node.parent === parent.path);
+  }
+
+  toggleDrawer() {
+    log('fds')
+    this.drawerVisible = !this.drawerVisible;
+  }
+
+  closeDrawer(): void {
+    this.drawerVisible = false;
   }
 }

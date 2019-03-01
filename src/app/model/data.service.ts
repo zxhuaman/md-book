@@ -7,7 +7,7 @@ import {Base64} from 'js-base64';
 
 const BASE_URL = 'https://gitee.com/api/v5';
 const OWNER = 'mdbook';
-// export const PERSONAL_ACCESS_TOKENS = '30766817b6d14cbc125ec605077d1687';
+export const PERSONAL_ACCESS_TOKENS = '30766817b6d14cbc125ec605077d1687';
 const DOCUMENTS_REPO = 'documents';
 
 export const client_secret = '700d432b6b9bc3a73d9259413e3cf4e6da74162e67c3fb764587cd0059a131a9';
@@ -22,7 +22,7 @@ export const gitee_code_action = `https://gitee.com/oauth/authorize?client_id=${
   providedIn: 'root'
 })
 export class DataService {
-  private token;
+  private token = PERSONAL_ACCESS_TOKENS;
   private tokenSubject: Subject<string>;
 
   constructor(private http: HttpClient) {
