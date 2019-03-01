@@ -26,7 +26,6 @@ export class EditComponent implements OnInit {
   @ViewChild('trigger') customTrigger: TemplateRef<void>;
   selectedFile: FileNode;
   private dropdown: NzDropdownContextComponent;
-  nodes: FileNode[] = [];
   curNode: FileNode;
   isFolderModalVisible: boolean;
   isFileModalVisible: boolean;
@@ -54,14 +53,15 @@ export class EditComponent implements OnInit {
       this.nodeMap.get(this.selectedFile.path).content = this.selectedFile.content;
     });
 
-    this.data.fetchTree().subscribe(nodes => this.nodes = nodes);
     this.data.tree().subscribe(res => {
       res.tree.forEach(value => {
         if (value.type === 'tree') {
-          this.nodeMap.set(value.path, new FileNode(null, value.path, value.path, Type.DIRECTORY, [], value.sha, ''));
+          this.nodeMap.set(value.path,
+            new FileNode(null, value.path, value.path, Type.DIRECTORY, [], value.sha, ''));
         } else if (value.path.endsWith('.md')) {
           const pathArray = value.path.split('/');
-          this.nodeMap.set(value.path, new FileNode(pathArray[0], pathArray[1], value.path, Type.DOCUMENT, [], value.sha, ''));
+          this.nodeMap.set(value.path,
+            new FileNode(pathArray[0], pathArray[1], value.path, Type.DOCUMENT, [], value.sha, ''));
         }
       });
     });

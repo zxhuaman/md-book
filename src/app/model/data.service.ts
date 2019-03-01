@@ -7,12 +7,12 @@ import {Base64} from 'js-base64';
 
 const BASE_URL = 'https://gitee.com/api/v5';
 const OWNER = 'mdbook';
-export const PERSONAL_ACCESS_TOKENS = '30766817b6d14cbc125ec605077d1687';
+// export const PERSONAL_ACCESS_TOKENS = '30766817b6d14cbc125ec605077d1687';
 const DOCUMENTS_REPO = 'documents';
 
 export const client_secret = '700d432b6b9bc3a73d9259413e3cf4e6da74162e67c3fb764587cd0059a131a9';
 export const client_id = 'b6ea926cc73d8647bb9b0ecdb35c06f4e6be691cd82c094dcf180d1e025202b2';
-export const redirect_uri = 'http://localhost:4200';
+export const redirect_uri = 'https://sandcat.gitee.io/mdbook';
 export const response_type = 'code';
 export const action = 'https://gitee.com/oauth/authorize';
 export const token_action = 'http://zxhuaman.gz01.bdysite.com/token';
@@ -22,7 +22,7 @@ export const gitee_code_action = `https://gitee.com/oauth/authorize?client_id=${
   providedIn: 'root'
 })
 export class DataService {
-  private token = PERSONAL_ACCESS_TOKENS;
+  private token;
   private tokenSubject: Subject<string>;
 
   constructor(private http: HttpClient) {
@@ -83,24 +83,6 @@ export class DataService {
       .pipe(map((res: any) =>
         new FileNode(res.content.path.split('/')[0], res.content.name, res.content.path,
           Type.DOCUMENT, [], res.content.sha, '')));
-  }
-
-  fetchTree(): Observable<FileNode[]> {
-    return this.http
-      .get(`${BASE_URL}/repos/${OWNER}/${DOCUMENTS_REPO}/git/gitee/trees/master?access_token=${this.token}&recursive=1`)
-      .pipe(map((res: any) => {
-        const nodes = new Array<FileNode>();
-        res.tree.filter(value => value.type === 'tree')
-          .forEach(value =>
-            nodes.push(new FileNode('', value.path, value.path, Type.DIRECTORY, [], value.sha, null)));
-        nodes.forEach(node => {
-          res.tree.filter(value => value.type === 'blob' && value.path.includes(node.path)
-            && value.path.endsWith('.md'))
-            .forEach(value => node.children.push(new FileNode('', value.path.split('/')[1], value.path, Type.DOCUMENT, [], value.sha, ''))
-            );
-        });
-        return nodes;
-      }));
   }
 
   tree(): Observable<any> {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DataService, PERSONAL_ACCESS_TOKENS} from './model/data.service';
+import {DataService} from './model/data.service';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 
@@ -13,15 +13,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*this.data.getToken().subscribe(token => {
-      console.log('token:' + token);
+    this.data.getToken().subscribe(token => {
       this.router.navigate([token ? 'edit' : 'login']);
     });
     const code = location.href.split('=')[1];
     if (code) {
       this.data.login(code);
-    }*/
+    }
 
-    this.router.navigate(['edit']);
+    // this.router.navigate(['edit']);
   }
 }
