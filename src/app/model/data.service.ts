@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {FileNode, Type} from './entity/file-node';
@@ -92,11 +92,11 @@ export class DataService {
         const nodes = new Array<FileNode>();
         res.tree.filter(value => value.type === 'tree')
           .forEach(value =>
-            nodes.push(new FileNode(value.path, value.path, Type.DIRECTORY, [], value.sha, null)));
+            nodes.push(new FileNode('', value.path, value.path, Type.DIRECTORY, [], value.sha, null)));
         nodes.forEach(node => {
           res.tree.filter(value => value.type === 'blob' && value.path.includes(node.path)
             && value.path.endsWith('.md'))
-            .forEach(value => node.children.push(new FileNode(value.path.split('/')[1], value.path, Type.DOCUMENT, [], value.sha, ''))
+            .forEach(value => node.children.push(new FileNode('', value.path.split('/')[1], value.path, Type.DOCUMENT, [], value.sha, ''))
             );
         });
         return nodes;

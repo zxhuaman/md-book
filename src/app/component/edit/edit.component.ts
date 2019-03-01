@@ -1,9 +1,9 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import * as Editor from 'tui-editor';
-import {FileNode} from '../entity/file-node';
-import {DataService} from '../data.service';
 import {NzDropdownContextComponent, NzDropdownService, NzMessageService, NzModalService, NzTreeComponent} from 'ng-zorro-antd';
-import download from '../util';
+import {FileNode, Type} from '../../model/entity/file-node';
+import {DataService} from '../../model/data.service';
+import download from '../../util';
 
 export enum Operation {
   CREATE_FOLDER = 'create_folder',
