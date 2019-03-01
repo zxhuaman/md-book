@@ -14,19 +14,17 @@
 
 :host ::ng-deep .logo {
   height: 32px;
-  margin: 16px;
-  text-align: center;
+  text-align: left;
   font-size: 1.5rem;
   color: white;
 }
 
-
 .documents span {
-  font-size: .75rem;
+  font-size: .9rem;
 }
 
 .context-menu li {
-  font-size: .7rem;
+  font-size: .8rem;
 }
 
 

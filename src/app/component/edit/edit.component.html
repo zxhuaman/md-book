@@ -1,63 +1,45 @@
-<nz-layout style="height: 100%;">
-  <!--<nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate">
+<nz-layout style="height: 100%;overflow-y: hidden">
+  <nz-header>
     <div class="logo">
       <i nz-icon type="book" theme="fill"></i>
       {{isCollapsed ? '' : 'Mdbook'}}
     </div>
-    <ul class="documents" nz-menu nzMode="inline" nzTheme="dark" nzInlineIndent="12">
-      <li nz-submenu>
-        <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">文档</span>
-        <ul>
-          <li nz-submenu *ngFor="let node of getFolders(nodeMap)">
+  </nz-header>
+  <nz-layout>
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate"
+              style="overflow-y: auto;background-color: white">
+      <ul class="documents" nz-menu nzMode="inline" nzInlineIndent="12">
+        <li nz-submenu>
+          <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">文档</span>
+          <ul>
+            <li nz-submenu *ngFor="let node of getFolders(nodeMap)">
         <span title (contextmenu)="contextMenu($event, folderTemplate, node)" style="display: block">
           <i nz-icon type="folder"></i>{{node.name}}
         </span>
-            <ul>
-              <li nz-menu-item *ngFor="let child of getFilesByParent(node)"
-                  (click)="selectFile(child)">
+              <ul>
+                <li nz-menu-item *ngFor="let child of getFilesByParent(node)"
+                    (click)="selectFile(child)">
                 <span title (contextmenu)="contextMenu($event, fileTemplate, child)" style="display: block">
                   <i nz-icon type="file-markdown"></i>{{child.name}}
                 </span>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </nz-sider>-->
-  <nz-drawer [nzClosable]="false" [nzVisible]="drawerVisible" nzPlacement="left" nzTitle="Mdbook"
-             (nzOnClose)="toggleDrawer()">
-    <ul class="documents" nz-menu nzMode="inline" nzInlineIndent="12">
-      <li nz-submenu>
-        <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">文档</span>
-        <ul>
-          <li nz-submenu *ngFor="let node of getFolders(nodeMap)">
-        <span title (contextmenu)="contextMenu($event, folderTemplate, node)" style="display: block">
-          <i nz-icon type="folder"></i>{{node.name}}
-        </span>
-            <ul>
-              <li nz-menu-item *ngFor="let child of getFilesByParent(node)"
-                  (click)="selectFile(child)">
-                <span title (contextmenu)="contextMenu($event, fileTemplate, child)" style="display: block">
-                  <i nz-icon type="file-markdown"></i>{{child.name}}
-                </span>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </nz-drawer>
-  <nz-layout style="height: 100%;overflow-y: hidden;background-color: white">
-    <div>
-      <i class="trigger" nz-icon [type]="isCollapsed?'menu-unfold':'menu-fold'"
-         (click)="isCollapsed=!isCollapsed"></i>
-      <i class="save" *ngIf="selectedFile" nz-icon type="save" style="float: right"
-         (click)="save(selectedFile)"></i>
-    </div>
-    <nz-content>
-      <div id="edit" style="height: 100%;"></div>
-    </nz-content>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-layout style="height: 100%;overflow-y: hidden;background-color: white">
+      <!--<div>-->
+      <!--<i class="trigger" nz-icon [type]="isCollapsed?'menu-unfold':'menu-fold'"-->
+      <!--(click)="isCollapsed=!isCollapsed"></i>-->
+      <!--<i class="save" *ngIf="selectedFile" nz-icon type="save" style="float: right"-->
+      <!--(click)="save(selectedFile)"></i>-->
+      <!--</div>-->
+      <nz-content>
+        <div id="edit" style="height: 100%;"></div>
+      </nz-content>
+    </nz-layout>
   </nz-layout>
 </nz-layout>
 
