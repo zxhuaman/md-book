@@ -31,8 +31,6 @@ export class EditComponent implements OnInit {
   isFolderModalVisible: boolean;
   isFileModalVisible: boolean;
   nodeMap: Map<string, FileNode>;
-  folders: FileNode[];
-  files: FileNode[];
 
   constructor(private data: DataService,
               private message: NzMessageService,
@@ -53,7 +51,7 @@ export class EditComponent implements OnInit {
 
     this.editor.addHook('change', () => {
       this.selectedFile.content = this.editor.getMarkdown();
-      this.selectedFile = this.selectedFile;
+      this.nodeMap.get(this.selectedFile.path).content = this.selectedFile.content;
     });
 
     this.data.fetchTree().subscribe(nodes => this.nodes = nodes);
@@ -66,17 +64,15 @@ export class EditComponent implements OnInit {
           this.nodeMap.set(value.path, new FileNode(pathArray[0], pathArray[1], value.path, Type.DOCUMENT, [], value.sha, ''));
         }
       });
-      // this.folders = Array.from(this.nodeMap.values()).filter(value => value.type === Type.DIRECTORY);
-      this.files = Array.from(this.nodeMap.values()).filter(value => value.type === Type.DOCUMENT);
     });
   }
 
   save(node: FileNode, notify: boolean = true) {
-    node.sha = this.getNode(node.path).sha;
+    node = this.nodeMap.get(node.path);
     this.data.updateFile(node.path, node.content, node.sha)
       .subscribe(
         value => {
-          this.setNode(value);
+          this.nodeMap.set(value.path, value);
           if (notify) {
             this.message.create('success', '保存成功');
           }
@@ -121,60 +117,29 @@ export class EditComponent implements OnInit {
   }
 
   selectFile(file: FileNode) {
-    if (this.selectedFile && this.selectedFile.path === file.path) {
-      return;
-    }
-
     if (this.selectedFile) {
       this.save(this.selectedFile, false);
     }
-    this.selectedFile = this.getNode(file.path);
+    this.selectedFile = this.nodeMap.get(file.path);
     this.data.fetchFile(this.selectedFile.sha).subscribe(content => {
       this.editor.setMarkdown(content);
       this.selectedFile.content = content;
     });
   }
 
-  getNode(path): FileNode {
-    const nodes = this.nodes.filter(node => path.includes(node.path));
-    for (let i = 0; i < nodes.length; i++) {
-      const children = nodes[i].children;
-      for (let j = 0; j < children.length; j++) {
-        if (children[j].path === path) {
-          return children[j];
-        }
-      }
-    }
-    return null;
-  }
-
-  setNode(file: FileNode) {
-    const nodes = this.nodes.filter(node => file.path.includes(node.path));
-    for (let i = 0; i < nodes.length; i++) {
-      const children = nodes[i].children;
-      for (let j = 0; j < children.length; j++) {
-        if (children[j].path === file.path) {
-          children[j] = file;
-        }
-      }
-    }
-  }
-
   createFolder(folderName: string) {
     this.isFolderModalVisible = false;
-    this.data.creatFolder(folderName).subscribe(() =>
-      this.data.fetchTree().subscribe(nodes => this.nodes = nodes));
+    this.data.creatFolder(folderName).subscribe(node => this.nodeMap.set(node.path, node));
   }
 
   createFile(fileName: string) {
     this.isFileModalVisible = false;
-    this.data.createFile(this.curNode.path + '/' + fileName).subscribe(() =>
-      this.data.fetchTree().subscribe(nodes => this.nodes = nodes));
+    this.data.createFile(this.curNode.path + '/' + fileName)
+      .subscribe(node => this.nodeMap.set(node.path, node));
   }
 
   deleteFile(file: FileNode) {
-    this.data.deleteFile(file).subscribe(res => {
-    });
+    this.data.deleteFile(file).subscribe(() => this.nodeMap.delete(file.path));
   }
 
   downMarkdown(file: FileNode) {

@@ -12,7 +12,7 @@ const DOCUMENTS_REPO = 'documents';
 
 export const client_secret = '700d432b6b9bc3a73d9259413e3cf4e6da74162e67c3fb764587cd0059a131a9';
 export const client_id = 'b6ea926cc73d8647bb9b0ecdb35c06f4e6be691cd82c094dcf180d1e025202b2';
-export const redirect_uri = 'http://localhost:4200/login';
+export const redirect_uri = 'http://localhost:4200';
 export const response_type = 'code';
 export const action = 'https://gitee.com/oauth/authorize';
 export const token_action = 'http://zxhuaman.gz01.bdysite.com/token';
@@ -22,7 +22,7 @@ export const gitee_code_action = `https://gitee.com/oauth/authorize?client_id=${
   providedIn: 'root'
 })
 export class DataService {
-  private token;
+  private token = PERSONAL_ACCESS_TOKENS;
   private tokenSubject: Subject<string>;
 
   constructor(private http: HttpClient) {
@@ -183,12 +183,11 @@ export class DataService {
     }
 
     this.http.post(token_action, body, {headers: headers, params: params}).subscribe((res: any) => {
-      console.log(res.access_token);
       this.setToken(res.access_token);
     }, error => console.log(error));
   }
 
   getToken() {
-    return this.token;
+    return this.tokenSubject;
   }
 }
