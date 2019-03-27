@@ -4,7 +4,6 @@ import {NzDropdownContextComponent, NzDropdownService, NzMessageService, NzModal
 import {FileNode, Type} from '../../model/entity/file-node';
 import {DataService} from '../../model/data.service';
 import download from '../../util';
-import {log} from 'util';
 
 export enum Operation {
   CREATE_FOLDER = 'create_folder',
@@ -31,7 +30,6 @@ export class EditComponent implements OnInit {
   isFolderModalVisible: boolean;
   isFileModalVisible: boolean;
   nodeMap: Map<string, FileNode>;
-  drawerVisible = true;
 
   constructor(private data: DataService,
               private message: NzMessageService,
@@ -47,7 +45,7 @@ export class EditComponent implements OnInit {
       initialEditType: 'markdown',
       previewStyle: 'tab',
       height: `${window.innerHeight - 48}px`,
-      width: `${window.innerWidth - 100}px`
+      width: `${window.innerWidth}px`
     });
 
     this.editor.addHook('change', () => {
@@ -127,6 +125,8 @@ export class EditComponent implements OnInit {
       this.editor.setMarkdown(content);
       this.selectedFile.content = content;
     });
+
+    this.isCollapsed = false;
   }
 
   createFolder(folderName: string) {
@@ -160,14 +160,5 @@ export class EditComponent implements OnInit {
 
   getFilesByParent(parent: FileNode): Array<FileNode> {
     return Array.from(this.nodeMap.values()).filter(node => node.parent === parent.path);
-  }
-
-  toggleDrawer() {
-    log('fds')
-    this.drawerVisible = !this.drawerVisible;
-  }
-
-  closeDrawer(): void {
-    this.drawerVisible = false;
   }
 }
