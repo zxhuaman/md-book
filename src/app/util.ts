@@ -10,7 +10,10 @@
   return null;
 }*/
 
-export default function download(content, type, name) {
+
+import Constant from './constants';
+
+function download(content, type, name) {
   let blob;
   if (typeof window.Blob === 'function') {
     blob = new Blob([content], {type: type});
@@ -40,3 +43,39 @@ export default function download(content, type, name) {
     location.href = blobUrl;
   }
 }
+
+
+function getWordCount(content: string): number {
+  let count = 0;
+  try {
+    content = content.replace(/(\r\n+|\s+|　+)/g, '龘');
+    content = content.replace(/[\x00-\xff]/g, 'm');
+    content = content.replace(/m+/g, '*');
+    content = content.replace(/龘+/g, '');
+    count = content.length;
+  } catch (e) {
+
+  }
+  return count;
+}
+
+function assembleHtml(title: string, content: string) {
+  return `<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>${title}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>${Constant.contents_css}</style>
+        <style>${Constant.highlight_css}</style>
+    </head>
+    <body>
+    <div class="content">
+      ${content}
+    </div>
+    </body>
+    </html>`;
+}
+
+export {download, getWordCount, assembleHtml};

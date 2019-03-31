@@ -3,6 +3,10 @@
     <img src="../../../assets/logo.svg" alt="logo">
     <a href="/">MdBook</a>
   </div>
+  <div class="extra" *ngIf="selectedFile">
+    <i class="save" title="保存" nz-icon type="save" theme="outline" (click)="save(selectedFile)"></i>
+    <span>字数{{wordCount}}</span>
+  </div>
   <div class="title" *ngIf="selectedFile">{{selectedFile.name.split('.md')[0]}}</div>
 </nz-header>
 <div class="main-container">
@@ -48,6 +52,7 @@
 <ng-template #folderTemplate>
   <ul class="context-menu" nz-menu nzInDropDown>
     <li nz-menu-item (click)="close('create_file')">创建文件</li>
+    <li nz-menu-item (click)="close('delete_folder')">删除</li>
   </ul>
 </ng-template>
 <ng-template #fileTemplate>

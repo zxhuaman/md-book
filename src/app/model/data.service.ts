@@ -133,6 +133,10 @@ export class DataService {
     }).pipe(map(() => true));
   }
 
+  deleteFolder(folder: FileNode): Observable<boolean> {
+    return this.deleteFile(folder);
+  }
+
   setToken(token: string) {
     this.tokenSubject.next(token);
     this.token = token;

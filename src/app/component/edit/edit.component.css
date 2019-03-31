@@ -81,4 +81,15 @@ nz-header {
   font-size: 1.4rem;
 }
 
+.extra {
+  width: 200px;
+  height: 100%;
+  text-align: center;
+  float: right;
+  font-size: .8rem;
+}
+
+.save {
+  font-size: 1.2rem;
+}
 

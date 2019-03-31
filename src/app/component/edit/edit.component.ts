@@ -3,14 +3,15 @@ import * as Editor from 'tui-editor';
 import {NzDropdownContextComponent, NzDropdownService, NzMessageService, NzModalService, NzTreeComponent} from 'ng-zorro-antd';
 import {FileNode, Type} from '../../model/entity/file-node';
 import {DataService} from '../../model/data.service';
-import download from '../../util';
+import {download, getWordCount, assembleHtml} from '../../util';
 
 export enum Operation {
   CREATE_FOLDER = 'create_folder',
   CREATE_FILE = 'create_file',
   DOWNLOAD_HTML = 'download_html',
   DOWNLOAD_MARKDOWN = 'download_markdown',
-  DELETE_FILE = 'delete_file'
+  DELETE_FILE = 'delete_file',
+  DELETE_FOLDER = 'delete_folder',
 }
 
 @Component({
@@ -29,6 +30,7 @@ export class EditComponent implements OnInit {
   isFolderModalVisible: boolean;
   isFileModalVisible: boolean;
   nodeMap: Map<string, FileNode>;
+  wordCount = 0;
 
   constructor(private data: DataService,
               private message: NzMessageService,
@@ -43,12 +45,14 @@ export class EditComponent implements OnInit {
       el: document.querySelector('#edit'),
       initialEditType: 'markdown',
       previewStyle: 'tab',
-      height: `${window.innerHeight - 64}px`
+      height: `${window.innerHeight - 64}px`,
+      language: 'zh',
     });
 
     this.editor.addHook('change', () => {
       this.selectedFile.content = this.editor.getMarkdown();
       this.nodeMap.get(this.selectedFile.path).content = this.selectedFile.content;
+      this.wordCount = getWordCount(this.selectedFile.content);
     });
 
     this.data.tree().subscribe(res => {
@@ -97,10 +101,17 @@ export class EditComponent implements OnInit {
         this.isFileModalVisible = true;
         break;
       case Operation.DELETE_FILE:
-        this.nzModalService.create({
+        this.nzModalService.confirm({
           nzTitle: '<i>确定删除文件吗?</i>',
-          nzContent: '<b>Some descriptions</b>',
+          nzOkType: 'danger',
           nzOnOk: () => this.deleteFile(this.curNode)
+        });
+        break;
+      case Operation.DELETE_FOLDER:
+        this.nzModalService.confirm({
+          nzTitle: '确定删除这个文件夹吗?',
+          nzOkType: 'danger',
+          nzOnOk: () => this.deleteFolder(this.curNode),
         });
         break;
       case Operation.DOWNLOAD_HTML:
@@ -122,6 +133,7 @@ export class EditComponent implements OnInit {
     this.data.fetchFile(this.selectedFile.sha).subscribe(content => {
       this.editor.setMarkdown(content);
       this.selectedFile.content = content;
+      this.wordCount = getWordCount(this.selectedFile.content);
     });
 
     this.isCollapsed = false;
@@ -142,6 +154,10 @@ export class EditComponent implements OnInit {
     this.data.deleteFile(file).subscribe(() => this.nodeMap.delete(file.path));
   }
 
+  deleteFolder(folder: FileNode) {
+    this.data.deleteFolder(folder).subscribe(() => this.nodeMap.delete(folder.path));
+  }
+
   downMarkdown(file: FileNode) {
     this.data.fetchFile(file.sha).subscribe(content => {
       download(content, 'text/plain', file.name);
@@ -149,7 +165,9 @@ export class EditComponent implements OnInit {
   }
 
   downHtml(file: FileNode) {
-    // todo
+    const bodyContent = this.editor.preview.convertor.toHTMLWithCodeHightlight(file.content);
+    const fileName = file.name.split('.md')[0];
+    download(assembleHtml(fileName, bodyContent), 'text/plain', fileName + '.html');
   }
 
   getFolders(map: Map<string, FileNode>): Array<FileNode> {
