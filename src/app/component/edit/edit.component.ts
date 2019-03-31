@@ -4,7 +4,6 @@ import {NzDropdownContextComponent, NzDropdownService, NzMessageService, NzModal
 import {FileNode, Type} from '../../model/entity/file-node';
 import {DataService} from '../../model/data.service';
 import download from '../../util';
-import {log} from 'util';
 
 export enum Operation {
   CREATE_FOLDER = 'create_folder',
@@ -23,7 +22,6 @@ export class EditComponent implements OnInit {
   @ViewChild('treeCom') treeCom: NzTreeComponent;
   private editor;
   isCollapsed = false;
-  triggerTemplate = null;
   @ViewChild('trigger') customTrigger: TemplateRef<void>;
   selectedFile: FileNode;
   private dropdown: NzDropdownContextComponent;
@@ -45,8 +43,7 @@ export class EditComponent implements OnInit {
       el: document.querySelector('#edit'),
       initialEditType: 'markdown',
       previewStyle: 'tab',
-      height: `${window.innerHeight - 48}px`,
-      width: `${window.innerWidth - 100}px`
+      height: `${window.innerHeight - 64}px`
     });
 
     this.editor.addHook('change', () => {
@@ -126,6 +123,8 @@ export class EditComponent implements OnInit {
       this.editor.setMarkdown(content);
       this.selectedFile.content = content;
     });
+
+    this.isCollapsed = false;
   }
 
   createFolder(folderName: string) {

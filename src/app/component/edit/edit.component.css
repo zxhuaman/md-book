@@ -27,4 +27,43 @@
   font-size: .8rem;
 }
 
+nz-header {
+  height: 64px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 2px 8px #f0f1f2;
+  z-index: 1;
+}
+
+.main-container {
+  display: flex;
+}
+
+.documents-wrapper {
+  flex: 1;
+  padding-left: 4rem;
+  padding-top: 2rem;
+}
+
+.edit-wrapper {
+  flex: 2;
+}
+
+.anchor-wrapper {
+  flex: 1;
+  padding-top: 2rem;
+  padding-left: 1rem;
+}
+
+.logo {
+  width: 120px;
+  height: 31px;
+  float: left;
+  color: black;
+}
+
+.title {
+  color: black;
+}
+
 

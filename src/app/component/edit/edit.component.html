@@ -1,45 +1,39 @@
-<nz-layout style="height: 100%;overflow-y: hidden">
-  <nz-header>
-    <div class="logo">
-      <i nz-icon type="book" theme="fill"></i>
-      {{isCollapsed ? '' : 'Mdbook'}}
-    </div>
-  </nz-header>
-  <nz-layout>
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate"
-              style="overflow-y: auto;background-color: white">
-      <ul class="documents" nz-menu nzMode="inline" nzInlineIndent="12">
-        <li nz-submenu>
-          <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">文档</span>
-          <ul>
-            <li nz-submenu *ngFor="let node of getFolders(nodeMap)">
+<!--
+&lt;!&ndash;
+<nz-layout>
+  <nz-drawer [nzClosable]="false" [nzVisible]="isCollapsed" nzPlacement="left" nzTitle="Mdbook"
+             (nzOnClose)="isCollapsed =!isCollapsed">
+    <ul class="documents" nz-menu nzMode="inline" nzInlineIndent="12">
+      <li nz-submenu>
+        <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">文档</span>
+        <ul>
+          <li nz-submenu *ngFor="let node of getFolders(nodeMap)">
         <span title (contextmenu)="contextMenu($event, folderTemplate, node)" style="display: block">
           <i nz-icon type="folder"></i>{{node.name}}
         </span>
-              <ul>
-                <li nz-menu-item *ngFor="let child of getFilesByParent(node)"
-                    (click)="selectFile(child)">
+            <ul>
+              <li nz-menu-item *ngFor="let child of getFilesByParent(node)"
+                  (click)="selectFile(child)">
                 <span title (contextmenu)="contextMenu($event, fileTemplate, child)" style="display: block">
                   <i nz-icon type="file-markdown"></i>{{child.name}}
                 </span>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </nz-sider>
-    <nz-layout style="height: 100%;overflow-y: hidden;background-color: white">
-      <!--<div>-->
-      <!--<i class="trigger" nz-icon [type]="isCollapsed?'menu-unfold':'menu-fold'"-->
-      <!--(click)="isCollapsed=!isCollapsed"></i>-->
-      <!--<i class="save" *ngIf="selectedFile" nz-icon type="save" style="float: right"-->
-      <!--(click)="save(selectedFile)"></i>-->
-      <!--</div>-->
-      <nz-content>
-        <div id="edit" style="height: 100%;"></div>
-      </nz-content>
-    </nz-layout>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-drawer>
+  <nz-layout style="height: 100%;overflow-y: hidden;background-color: #f9f9f9">
+    <div>
+      <i class="trigger" nz-icon [type]="isCollapsed?'menu-unfold':'menu-fold'"
+         (click)="isCollapsed=!isCollapsed"></i>
+      <i class="save" *ngIf="selectedFile" nz-icon type="save" style="float: right"
+         (click)="save(selectedFile)"></i>
+    </div>
+    <nz-content>
+      <div id="edit" style="height: 100%;width:874px;margin: auto;"></div>
+    </nz-content>
   </nz-layout>
 </nz-layout>
 
@@ -76,3 +70,100 @@
           (nzOnOk)="createFolder(folderInput.value)">
   <input #folderInput type="text" placeholder="文件夹" style="border: none;outline: none;color: black">
 </nz-modal>
+&ndash;&gt;
+
+<nz-layout style="height: 100%">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" nzWidth="348" style="background-color: white">
+    &lt;!&ndash;<ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu>
+        <span title><i nz-icon type="user"></i><span class="nav-text">User</span></span>
+        <ul>
+          <li nz-menu-item>Tom</li>
+          <li nz-menu-item>Bill</li>
+          <li nz-menu-item>Alex</li>
+        </ul>
+      </li>
+      <li nz-submenu>
+        <span title><i nz-icon type="team"></i><span class="nav-text">Team</span></span>
+        <ul>
+          <li nz-menu-item>Team 1</li>
+          <li nz-menu-item>Team 2</li>
+        </ul>
+      </li>
+      <li nz-menu-item><span><i nz-icon type="file"></i><span class="nav-text">File</span></span></li>
+    </ul>&ndash;&gt;
+    <ul class="documents" nz-menu nzMode="inline" nzInlineIndent="12">
+      <li nz-submenu>
+        <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">文档</span>
+        <ul>
+          <li nz-submenu *ngFor="let node of getFolders(nodeMap)">
+        <span title (contextmenu)="contextMenu($event, folderTemplate, node)" style="display: block">
+          <i nz-icon type="folder"></i>{{node.name}}
+        </span>
+            <ul>
+              <li nz-menu-item *ngFor="let child of getFilesByParent(node)"
+                  (click)="selectFile(child)">
+                <span title (contextmenu)="contextMenu($event, fileTemplate, child)" style="display: block">
+                  <i nz-icon type="file-markdown"></i>{{child.name}}
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header style="background: #fff;height: 48px">
+    </nz-header>
+    <nz-content style="display: flex">
+      <div id="edit" style="height: 100%;width:874px;"></div>
+      <nz-anchor style="flex: 1;margin-top: 4rem;">
+        <nz-link nzHref="#components-anchor-demo-basic" nzTitle="Basic demo"></nz-link>
+        <nz-link nzHref="#components-anchor-demo-static" nzTitle="Static demo"></nz-link>
+        <nz-link nzHref="#api" nzTitle="API"></nz-link>
+      </nz-anchor>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+-->
+
+
+<nz-header>
+  <div class="logo"><span>MdBook</span></div>
+  <div id="title" *ngIf="selectedFile"><span>{{selectedFile.name}}</span></div>
+</nz-header>
+<div class="main-container">
+  <div class="documents-wrapper">
+    <ul class="documents" nz-menu nzMode="inline" nzInlineIndent="12">
+      <li nz-submenu>
+        <span title (contextmenu)="contextMenu($event, rootTemplate, null)" style="display: block">文档</span>
+        <ul>
+          <li nz-submenu *ngFor="let node of getFolders(nodeMap)">
+        <span title (contextmenu)="contextMenu($event, folderTemplate, node)" style="display: block">
+          <i nz-icon type="folder"></i>{{node.name}}
+        </span>
+            <ul>
+              <li nz-menu-item *ngFor="let child of getFilesByParent(node)"
+                  (click)="selectFile(child)">
+                <span title (contextmenu)="contextMenu($event, fileTemplate, child)" style="display: block">
+                  <i nz-icon type="file-markdown"></i>{{child.name}}
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="edit-wrapper">
+    <div id="edit"></div>
+  </div>
+  <div class="anchor-wrapper">
+    <nz-anchor>
+      <nz-link nzHref="#components-anchor-demo-basic" nzTitle="Basic demo"></nz-link>
+      <nz-link nzHref="#components-anchor-demo-static" nzTitle="Static demo"></nz-link>
+      <nz-link nzHref="#api" nzTitle="API"></nz-link>
+    </nz-anchor>
+  </div>
+</div>
