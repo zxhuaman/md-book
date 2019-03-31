@@ -143,7 +143,7 @@ export class DataService {
   }
 
   login(code: string, mail?: string, password?: string): void {
-    let body = null;
+    /*let body = null;
     let params = null;
     let headers = null;
     if (code) {
@@ -170,7 +170,10 @@ export class DataService {
 
     this.http.post(token_action, body, {headers: headers, params: params}).subscribe((res: any) => {
       this.setToken(res.access_token);
-    }, error => console.log(error));
+    }, error => console.log(error));*/
+    if (mail === 'sandcat@mdbook.com' && password === '123456') {
+      this.setToken(PERSONAL_ACCESS_TOKENS);
+    }
   }
 
   getToken() {

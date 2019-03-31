@@ -8,9 +8,14 @@
 }
 
 .mdbook-logo {
-  font-size: 2rem;
+  font-size: 1.8rem;
   text-align: center;
   margin: 2rem auto;
+  color: black;
+}
+
+.mdbook-logo > img {
+  height: 3rem;
 }
 
 .login-form {
@@ -18,9 +23,10 @@
   margin: 1em auto;
 }
 
-.login-by-gitee{
+.login-by-gitee {
   width: 320px;
 }
+
 .login-form-button {
   width: 100%;
 }

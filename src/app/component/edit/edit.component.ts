@@ -71,6 +71,9 @@ export class EditComponent implements OnInit {
 
   save(node: FileNode, notify: boolean = true) {
     node = this.nodeMap.get(node.path);
+    if (!node) {
+      return;
+    }
     this.data.updateFile(node.path, node.content, node.sha)
       .subscribe(
         value => {
@@ -146,6 +149,9 @@ export class EditComponent implements OnInit {
 
   createFile(fileName: string) {
     this.isFileModalVisible = false;
+    if (!fileName.endsWith('.md')) {
+      fileName += '.md';
+    }
     this.data.createFile(this.curNode.path + '/' + fileName)
       .subscribe(node => this.nodeMap.set(node.path, node));
   }
