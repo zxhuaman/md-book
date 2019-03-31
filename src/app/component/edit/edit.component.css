@@ -56,14 +56,29 @@ nz-header {
 }
 
 .logo {
-  width: 120px;
-  height: 31px;
+  width: 200px;
+  height: 100%;
+  text-align: center;
   float: left;
+}
+
+.logo > img {
+  height: 40px;
+}
+
+.logo > a {
+  text-decoration: none;
   color: black;
+  margin-left: 0.5rem;
+  font-weight: 500;
 }
 
 .title {
   color: black;
+  width: 30%;
+  text-align: center;
+  margin: auto;
+  font-size: 1.4rem;
 }
 
 
