@@ -7,13 +7,17 @@ MdBook全称是markdown book，是一个管理、编辑markdown文件，并可�
 网址：https://sandcat.gitee.io/mdbook/login
 
 ## 功能
-- 编辑、管理markdown文档
-- 下载markdown文档
-- 导出html
-- 在线存储
+- [X] 编辑、管理markdown文档
+- [X] 下载markdown文档
+- [X] 导出html
+- [X] 在线存储
+- [ ] 文件/文件夹重命名
+- [ ] 默认打开最近编辑的文档
+- [ ] 文本锚点
+- [ ] gitee token登陆
 
 ## Power By
 - [Angular](https://github.com/angular/angular)
 - [tui.editor](https://github.com/nhnent/tui.editor)
 - [NG-ZORRO](https://github.com/NG-ZORRO/ng-zorro-antd)
-
+- [gitee](https://gitee.com)
