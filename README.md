@@ -1,27 +1,20 @@
-# Mdbook
+<h1 align="center">Ant Design Pro</h1>
+mdbook全称是markdown book，是一个管理、编辑markdown文件，并可以生成便于阅读的在线书籍的工具。
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.0.
+<div align="center">
+  ![edit](https://raw.githubusercontent.com/zxhuaman/mdbook/master/docs/edit.png)
+</div>
 
-## Development server
+网址：https://sandcat.gitee.io/mdbook/login
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## 功能
+- 编辑、管理markdown文档
+- 下载markdown文档
+- 导出html
+- 在线存储
 
-## Code scaffolding
+## Power By
+- [Angular](https://github.com/angular/angular)
+- [tui.editor](https://github.com/nhnent/tui.editor)
+- [NG-ZORRO](https://github.com/NG-ZORRO/ng-zorro-antd)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
