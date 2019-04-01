@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {FileNode, Type} from './entity/file-node';
@@ -22,11 +22,9 @@ export const gitee_code_action = `https://gitee.com/oauth/authorize?client_id=${
   providedIn: 'root'
 })
 export class DataService {
-  private token = PERSONAL_ACCESS_TOKENS;
-  private tokenSubject: Subject<string>;
+  private token;
 
   constructor(private http: HttpClient) {
-    this.tokenSubject = new Subject();
   }
 
   /**
@@ -138,11 +136,10 @@ export class DataService {
   }
 
   setToken(token: string) {
-    this.tokenSubject.next(token);
     this.token = token;
   }
 
-  login(code: string, mail?: string, password?: string): void {
+  login(code: string, mail?: string, password?: string): Observable<boolean> {
     /*let body = null;
     let params = null;
     let headers = null;
@@ -173,10 +170,12 @@ export class DataService {
     }, error => console.log(error));*/
     if (mail === 'sandcat@mdbook.com' && password === '123456') {
       this.setToken(PERSONAL_ACCESS_TOKENS);
+      return of(true);
     }
+    return of(false);
   }
 
   getToken() {
-    return this.tokenSubject;
+    return this.token;
   }
 }

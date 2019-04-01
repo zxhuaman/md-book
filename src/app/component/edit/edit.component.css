@@ -49,6 +49,11 @@ nz-header {
   flex: 2;
 }
 
+#edit {
+  max-width: 872px;
+  min-width: 572px;
+}
+
 .anchor-wrapper {
   flex: 1;
   padding-top: 2rem;

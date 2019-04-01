@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DataService, gitee_code_action} from '../../model/data.service';
+import {DataService} from '../../model/data.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -10,7 +10,6 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  readonly giteeCodeAction = gitee_code_action;
 
   constructor(private data: DataService,
               private fb: FormBuilder,
@@ -32,7 +31,12 @@ export class LoginComponent implements OnInit {
     }
     if (this.loginForm.get('userName').value &&
       this.loginForm.get('password').value) {
-      this.data.login(null, this.loginForm.get('userName').value, this.loginForm.get('password').value);
+      this.data.login(null, this.loginForm.get('userName').value, this.loginForm.get('password').value)
+        .subscribe(res => {
+          if (res) {
+            this.router.navigate(['edit']);
+          }
+        });
     }
     $event.preventDefault();
   }
