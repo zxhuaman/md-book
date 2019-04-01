@@ -1,9 +1,8 @@
 <h1 align="center">Ant Design Pro</h1>
 mdbook全称是markdown book，是一个管理、编辑markdown文件，并可以生成便于阅读的在线书籍的工具。
+<br><br>
 
-<div align="center">
-  ![](https://raw.githubusercontent.com/zxhuaman/mdbook/master/docs/edit.png)
-</div>
+![](https://raw.githubusercontent.com/zxhuaman/mdbook/master/docs/edit.png)
 
 网址：https://sandcat.gitee.io/mdbook/login
 
