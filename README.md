@@ -1,5 +1,5 @@
-<h1 align="center">Mdbook</h1>
-Mdbook全称是markdown book，是一个管理、编辑markdown文件，并可以生成便于阅读的在线书籍的工具。
+<h1 align="center">MdBook</h1>
+MdBook全称是markdown book，是一个管理、编辑markdown文件，并可以生成便于阅读的在线书籍的工具。
 <br><br>
 
 ![](https://raw.githubusercontent.com/zxhuaman/mdbook/master/docs/edit.png)
