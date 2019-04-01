@@ -38,3 +38,17 @@
   top: 0;
 }
 
+.login-type {
+  width: 320px;
+  text-align: center;
+  margin: auto;
+}
+
+.login-type-group{
+  width: 100%;
+}
+
+.login-type label{
+  width: 50%;
+}
+
